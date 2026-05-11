@@ -143,7 +143,7 @@
 
   /* HERO */
   .hero {
-    padding: 70px 32px 32px;
+    padding: 56px 32px 56px;
     max-width: 1200px; margin: 0 auto;
     text-align: center; position: relative;
   }
@@ -172,23 +172,25 @@
   }
   .hero .cta-row { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 56px; }
 
-  /* HERO VIDEO (above the fold) */
-  .hero-video {
-    max-width: 1100px; margin: 0 auto 0;
-    padding: 0 32px;
+  /* HERO TWO-COLUMN SPLIT */
+  .hero-inner {
+    display: grid; grid-template-columns: 1fr 1.15fr;
+    gap: 48px; align-items: center; text-align: left;
   }
-  .hero-video .video-frame {
+  .hero-inner .subtitle { margin-left: 0; margin-right: 0; }
+  .hero-inner .cta-row { justify-content: flex-start; margin-bottom: 0; }
+  .hero-media .video-frame {
     position: relative; width: 100%; padding-bottom: 56.25%;
     border: 1.5px solid var(--ink); box-shadow: 12px 12px 0 var(--ink);
     background: #000; overflow: hidden;
   }
-  .hero-video .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-  .hero-video .video-caption {
+  .hero-media .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+  .hero-media .video-caption {
     margin-top: 14px;
     font-family: 'JetBrains Mono', monospace; font-size: 11px;
     text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); text-align: center;
   }
-  .hero-video .video-caption strong { color: var(--accent); font-weight: 700; }
+  .hero-media .video-caption strong { color: var(--accent); font-weight: 700; }
 
   .btn-primary, .btn-secondary {
     display: inline-flex; align-items: center; gap: 10px;
@@ -744,12 +746,13 @@
     .nav { padding: 12px 20px; }
     .nav-links { gap: 14px; font-size: 10px; }
     .nav-links a:not(.install-btn) { display: none; }
-    .hero { padding: 50px 20px 28px; }
+    .hero { padding: 40px 20px 40px; }
     .hero::before { width: 280px; height: 280px; top: 20px; right: -60px; opacity: 0.08; }
     .hero-side { display: none; }
-    .hero .cta-row { margin-bottom: 36px; }
-    .hero-video { padding: 0 20px; }
-    .hero-video .video-frame { box-shadow: 6px 6px 0 var(--ink); }
+    .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+    .hero-inner .subtitle { margin-left: auto; margin-right: auto; }
+    .hero-inner .cta-row { justify-content: center; margin-bottom: 0; }
+    .hero-media .video-frame { box-shadow: 6px 6px 0 var(--ink); }
     .hero-screenshot { padding: 0 20px; margin: 60px auto 60px; }
     .hero-screenshot .frame { box-shadow: 6px 6px 0 var(--ink); }
     .manifesto { padding: 70px 20px; }
@@ -817,37 +820,40 @@
     <span class="hero-side left">Product Pelican / Native App Co</span>
     <span class="hero-side right">The Shopify-native PIM · 2026</span>
 
-    <span class="eyebrow">For Shopify merchants serious about product data</span>
-    <h1>
-      Good product data is the<br>
-      <span class="italic">only</span> <span class="underline">long-term bet.</span>
-    </h1>
-    <p class="subtitle">
-      Product Pelican is the Shopify-native PIM for the agentic commerce era. Audit, enrich, stitch and govern your product data — without ever leaving Shopify, and without spreadsheets.
-    </p>
-    <div class="cta-row">
-      <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
-        Install on Shopify <span class="arrow">→</span>
-      </a>
-      <button class="btn-secondary" data-video="gjxQ9lKDHpc" data-start="0" data-title="Product Pelican — overview">
-        Open in fullscreen <span class="arrow">▸</span>
-      </button>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">For Shopify merchants serious about product data</span>
+        <h1>
+          Good product data is the<br>
+          <span class="italic">only</span> <span class="underline">long-term bet.</span>
+        </h1>
+        <p class="subtitle">
+          Product Pelican is the Shopify-native PIM for the agentic commerce era. Audit, enrich, stitch and govern your product data — without ever leaving Shopify, and without spreadsheets.
+        </p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
+            Install on Shopify <span class="arrow">→</span>
+          </a>
+          <button class="btn-secondary" data-video="E0sJ0IKWsOI" data-start="0" data-title="Product Pelican — overview">
+            Open in fullscreen <span class="arrow">▸</span>
+          </button>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="video-frame">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/E0sJ0IKWsOI?rel=0&modestbranding=1"
+            title="Product Pelican — The Shopify-native PIM overview"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-caption">↑ <strong>See Pelican in action</strong></p>
+      </div>
     </div>
   </header>
-
-  <section class="hero-video">
-    <div class="video-frame">
-      <iframe 
-        src="https://www.youtube-nocookie.com/embed/gjxQ9lKDHpc?rel=0&amp;modestbranding=1" 
-        title="Product Pelican — The Shopify-native PIM overview" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-      </iframe>
-    </div>
-    <p class="video-caption">↑ <strong>2 minutes</strong> · See Pelican in action</p>
-  </section>
 
   <section class="hero-screenshot">
     <div class="frame">
