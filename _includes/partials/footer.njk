@@ -1,0 +1,16 @@
+<footer>
+  <div class="footer-col">
+    <div><span class="footer-brand">{{ site.name }}</span> &nbsp;·&nbsp; A <a href="https://nativeappco.com" target="_blank" rel="noopener">Native App Co</a> product</div>
+    <div class="footer-native-apps">
+      <span>More from Native App Co:</span>
+      {%- for app in site.footerApps %}
+      <a href="{{ app.href }}" target="_blank" rel="noopener"><img src="{{ app.img }}" alt="{{ app.label }}">{{ app.label }}</a>
+      {%- endfor %}
+    </div>
+  </div>
+  <div class="footer-right-links">
+    {%- for item in site.social %}
+    <a href="{{ item.href }}" target="_blank" rel="noopener">{{ item.label }}</a>{% if not loop.last %} &nbsp;·&nbsp;{% endif %}
+    {%- endfor %}
+  </div>
+</footer>

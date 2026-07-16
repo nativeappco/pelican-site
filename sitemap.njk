@@ -1,0 +1,16 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for item in collections.all %}
+{%- set loc = item.url %}
+{%- if loc and not loc.endsWith(".xml") and not loc.endsWith(".txt") %}
+  <url>
+    <loc>{{ site.url }}{{ loc }}</loc>
+    <lastmod>{{ item.date | isoDate }}</lastmod>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

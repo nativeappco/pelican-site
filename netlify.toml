@@ -1,0 +1,30 @@
+[build]
+  command = "npm run build"
+  publish = "_site"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Pages now build to clean-URL directories (e.g. /glossary/). Netlify serves
+# /glossary and /glossary/ natively from _site/glossary/index.html. These 301s
+# preserve any inbound links to the old .html paths.
+[[redirects]]
+  from = "/free-audit.html"
+  to = "/free-audit"
+  status = 301
+
+[[redirects]]
+  from = "/glossary.html"
+  to = "/glossary"
+  status = 301
+
+[[redirects]]
+  from = "/addtocart.html"
+  to = "/addtocart"
+  status = 301
+
+[[redirects]]
+  from = "/product-faq-builder.html"
+  to = "/product-faq-builder"
+  status = 301

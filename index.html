@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product Pelican | The Shopify-Native PIM for Agentic Commerce</title>
-<meta name="description" content="Product Pelican is the Shopify-native PIM designed for the agentic commerce era. Audit, enrich, stitch, and govern your product data—without ever leaving Shopify.">
+---
+title: "Product Pelican | The Shopify-Native PIM for Agentic Commerce"
+description: "Product Pelican is the Shopify-native PIM designed for the agentic commerce era. Audit, enrich, stitch, and govern your product data—without ever leaving Shopify."
+ogTitle: "Product Pelican | The Shopify-Native PIM"
+ogDesc: "Audit, enrich, stitch, and govern your product data natively within Shopify. Built for AI agents and Generative Engine Optimization (GEO)."
+permalink: /
+---
+{% extends "base.njk" %}
+
+{% block extrahead %}
 <meta name="keywords" content="Shopify PIM, Product Information Management, Shopify product data, agentic commerce, AI product enrichment, Shopify taxonomy, Native App Co">
-<meta name="author" content="Native App Co">
-
-<meta property="og:title" content="Product Pelican | The Shopify-Native PIM">
-<meta property="og:description" content="Audit, enrich, stitch, and govern your product data natively within Shopify. Built for AI agents and Generative Engine Optimization (GEO).">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://productpelican.com">
-<meta property="og:image" content="https://cdn.heymantle.com/orgs/26a47f7d-a3b9-42a0-97fc-a4835cc43fbe/docs-pages/video-frames/2c9501fa-e137-4f93-812c-c3f1b2e22b6d/frame_001.jpg">
-<meta name="twitter:card" content="summary_large_image">
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -25,14 +19,14 @@
   "description": "Product Pelican is a Shopify-native PIM (Product Information Management) app. It allows merchants to audit, enrich, stitch, and govern product data directly within the Shopify admin interface, optimizing catalogs for AI search and agentic commerce.",
   "offers": {
     "@type": "Offer",
-    "price": "0",
+    "price": "29",
     "priceCurrency": "USD",
     "description": "Free plan available"
   },
   "creator": {
     "@type": "Organization",
     "name": "Native App Co",
-    "url": "https://nativeappco.com"
+    "url": "https://apps.nativeappco.com"
   },
   "featureList": [
     "Native Shopify taxonomy categorization",
@@ -43,810 +37,61 @@
   ]
 }
 </script>
+{% endblock %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #0E1116;
-    --paper: #F4EFE6;
-    --paper-deep: #EAE2D2;
-    --paper-dim: #E8E1D2;
-    --accent: #C2410C;
-    --accent-soft: #E07A4F;
-    --highlight: #FFE177;
-    --muted: #5A5751;
-    --rule: rgba(14, 17, 22, 0.15);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Inter Tight', sans-serif;
-    font-size: 16px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    pointer-events: none;
-    mix-blend-mode: multiply;
-    z-index: 1;
-  }
-
-  main { position: relative; z-index: 2; }
-  a { color: inherit; text-decoration: none; }
-
-  /* NAV */
-  .nav {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(244, 239, 230, 0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--ink);
-    padding: 14px 32px;
-    display: flex; justify-content: space-between; align-items: center; gap: 24px;
-  }
-  .nav-brand { display: flex; align-items: center; gap: 10px;
-    font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px; letter-spacing: -0.01em; }
-  .nav-brand img { width: 28px; height: 28px; object-fit: contain; }
-  .nav-links {
-    display: flex; gap: 28px; align-items: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em;
-  }
-  .nav-links a { transition: color 0.15s ease; }
-  .nav-links a:hover { color: var(--accent); }
-
-  .install-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 9px 14px;
-    background: var(--accent); color: var(--paper);
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    border: 1px solid var(--accent);
-    transition: all 0.15s ease;
-  }
-  .install-btn:hover { background: var(--ink); border-color: var(--ink); transform: translateY(-1px); }
-  .install-btn .arrow { font-size: 13px; line-height: 1; }
-
-  /* PELICAN — flying watermark in hero background */
-  .hero {
-    position: relative;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    right: -60px;
-    width: 520px;
-    height: 520px;
-    background-image: url('pelican-flying.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    opacity: 0.09;
-    pointer-events: none;
-    z-index: 0;
-    transform: rotate(-6deg);
-  }
-  .hero > * { position: relative; z-index: 1; }
-
-  /* HERO */
-  .hero {
-    padding: 56px 32px 56px;
-    max-width: 1200px; margin: 0 auto;
-    text-align: center; position: relative;
-  }
-  .hero .eyebrow {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent);
-    margin-bottom: 28px; padding: 6px 14px;
-    border: 1px solid var(--accent); background: rgba(194, 65, 12, 0.06);
-  }
-  .hero h1 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(48px, 7.5vw, 108px); line-height: 0.94; letter-spacing: -0.03em;
-    font-variation-settings: "SOFT" 50; margin-bottom: 24px;
-  }
-  .hero h1 .italic { font-style: italic; font-weight: 300; color: var(--accent); }
-  .hero h1 .underline { position: relative; display: inline-block; }
-  .hero h1 .underline::after {
-    content: ''; position: absolute; left: 0; right: 0; bottom: 0.08em;
-    height: 0.28em; background: var(--highlight); z-index: -1; transform: skew(-3deg);
-  }
-  .hero .subtitle {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
-    font-size: clamp(19px, 2.2vw, 24px); line-height: 1.35; color: var(--muted);
-    max-width: 760px; margin: 0 auto 32px;
-  }
-  .hero .cta-row { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 56px; }
-
-  /* HERO TWO-COLUMN SPLIT */
-  .hero-inner {
-    display: grid; grid-template-columns: 1fr 1.15fr;
-    gap: 48px; align-items: center; text-align: left;
-  }
-  .hero-inner .subtitle { margin-left: 0; margin-right: 0; }
-  .hero-inner .cta-row { justify-content: flex-start; margin-bottom: 0; }
-  .hero-media .video-frame {
-    position: relative; width: 100%; padding-bottom: 56.25%;
-    border: 1.5px solid var(--ink); box-shadow: 12px 12px 0 var(--ink);
-    background: #000; overflow: hidden;
-  }
-  .hero-media .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-  .hero-media .video-caption {
-    margin-top: 14px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); text-align: center;
-  }
-  .hero-media .video-caption strong { color: var(--accent); font-weight: 700; }
-
-  .btn-primary, .btn-secondary {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 14px 22px;
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    border: 1.5px solid var(--ink); transition: all 0.15s ease; cursor: pointer;
-  }
-  .btn-primary { background: var(--ink); color: var(--paper); }
-  .btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--ink); }
-  .btn-secondary { background: var(--paper); color: var(--ink); }
-  .btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--accent); }
-  .btn-primary .arrow, .btn-secondary .arrow { font-size: 14px; }
-
-  .hero-side {
-    position: absolute; top: 50%;
-    transform: translateY(-50%) rotate(-90deg); transform-origin: center;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.3em; color: var(--muted);
-  }
-  .hero-side.left { left: -90px; }
-  .hero-side.right { right: -90px; transform: translateY(-50%) rotate(90deg); }
-
-  /* HERO SCREENSHOT */
-  .hero-screenshot { margin: 100px auto 80px; max-width: 1100px; padding: 0 32px; }
-  .hero-screenshot .frame {
-    border: 1.5px solid var(--ink); box-shadow: 12px 12px 0 var(--ink);
-    overflow: hidden; background: var(--paper-deep);
-  }
-  .hero-screenshot img { display: block; width: 100%; height: auto; }
-  .hero-screenshot .caption {
-    margin-top: 14px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--muted); text-align: center;
-  }
-  .hero-screenshot .caption strong { color: var(--accent); font-weight: 700; }
-
-  /* MANIFESTO */
-  .manifesto {
-    background: var(--ink); color: var(--paper);
-    padding: 100px 32px;
-    border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
-    position: relative; overflow: hidden;
-  }
-  .manifesto::before {
-    content: ''; position: absolute; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-    pointer-events: none; mix-blend-mode: screen;
-  }
-  .manifesto-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
-  .manifesto-eyebrow {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent-soft);
-    margin-bottom: 28px; display: flex; align-items: center; gap: 16px;
-  }
-  .manifesto-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--accent-soft); opacity: 0.4; }
-  .manifesto h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(36px, 5.5vw, 76px); line-height: 1.05; letter-spacing: -0.025em;
-    margin-bottom: 36px; max-width: 1000px;
-  }
-  .manifesto h2 em { font-style: italic; font-weight: 300; color: var(--accent-soft); }
-  .manifesto-body {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
-    font-size: 22px; line-height: 1.45; color: var(--paper); opacity: 0.9;
-    max-width: 880px;
-  }
-  .pull-quote { margin: 48px 0 0; padding: 28px 0 28px 32px; border-left: 3px solid var(--accent-soft); max-width: 780px; }
-  .pull-quote p {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
-    font-size: clamp(20px, 2.4vw, 26px); line-height: 1.35;
-    color: var(--paper); margin-bottom: 16px;
-  }
-  .pull-quote cite {
-    font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-soft);
-  }
-  .pull-quote cite strong { color: var(--paper); font-weight: 700; }
-
-  /* STAT BAND */
-  .stat-band {
-    background: var(--paper-deep);
-    border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
-    padding: 60px 32px;
-  }
-  .stat-band-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-  .stat-cell { padding: 0 24px; border-right: 1px solid rgba(14, 17, 22, 0.2); text-align: center; }
-  .stat-cell:last-child { border-right: none; }
-  .stat-cell .stat-num {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(48px, 6vw, 80px); line-height: 1; letter-spacing: -0.025em;
-    color: var(--ink); display: block;
-  }
-  .stat-cell .stat-num em { font-style: italic; font-weight: 300; color: var(--accent); }
-  .stat-cell .stat-label {
-    margin-top: 12px;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); line-height: 1.5;
-  }
-  .stat-band-source {
-    margin-top: 36px; text-align: center;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
-  }
-  .stat-band-source strong { color: var(--ink); font-weight: 700; }
-
-  /* SECTION HEAD */
-  .section-head {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding-bottom: 14px; border-bottom: 1.5px solid var(--ink);
-    margin-bottom: 48px; gap: 24px;
-  }
-  .section-head .lhs { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
-  .section-head .label {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em;
-  }
-  .section-head .num { color: var(--accent); }
-  .section-head h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(32px, 4.5vw, 52px); line-height: 1; letter-spacing: -0.02em;
-  }
-  .section-head h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .section-head .kicker {
-    font-family: 'Fraunces', serif; font-style: italic;
-    font-size: 16px; color: var(--muted); max-width: 320px; text-align: right;
-  }
-
-  .section { padding: 100px 32px; max-width: 1200px; margin: 0 auto; }
-
-  /* WHAT'S NEW */
-  .new-band { background: var(--paper); padding: 80px 32px 100px; border-bottom: 1.5px solid var(--ink); }
-  .new-band-inner { max-width: 1200px; margin: 0 auto; }
-  .new-eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent);
-    margin-bottom: 18px;
-    padding: 6px 12px; background: rgba(194, 65, 12, 0.08);
-    border: 1px solid var(--accent);
-  }
-  .new-eyebrow .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
-    animation: pulse 1.6s ease-in-out infinite; }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.4); }
-  }
-  .new-band h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(36px, 5vw, 64px); line-height: 1; letter-spacing: -0.025em;
-    margin-bottom: 14px; max-width: 920px;
-  }
-  .new-band h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .new-band > .new-band-inner > p {
-    font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; color: var(--muted);
-    margin-bottom: 56px; max-width: 700px;
-  }
-  .new-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-    border-left: 1px solid var(--rule); border-top: 1px solid var(--rule);
-  }
-  .new-card {
-    padding: 32px 28px;
-    border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-    display: flex; flex-direction: column; gap: 14px;
-    position: relative; min-height: 280px;
-  }
-  .new-card .stamp {
-    position: absolute; top: 16px; right: 16px;
-    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.16em;
-    color: var(--paper); background: var(--accent);
-    padding: 3px 7px;
-  }
-  .new-card .new-num {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    color: var(--muted); letter-spacing: 0.14em;
-  }
-  .new-card h3 {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: 26px; line-height: 1.1; letter-spacing: -0.015em;
-  }
-  .new-card h3 em { font-style: italic; font-weight: 300; color: var(--accent); }
-  .new-card p { font-size: 14.5px; line-height: 1.55; color: #1a1d24; }
-  .new-card .builder-note {
-    margin-top: auto; padding-top: 14px;
-    border-top: 1px dashed var(--rule);
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
-    font-style: italic;
-  }
-  .new-card .builder-note strong { color: var(--accent); font-weight: 700; }
-
-  /* USE CASES */
-  .use-cases {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-    border-left: 1px solid var(--rule); border-top: 1px solid var(--rule);
-  }
-  .use-case {
-    padding: 36px 32px;
-    border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-    display: flex; flex-direction: column; gap: 14px;
-    position: relative; transition: background 0.2s ease;
-  }
-  .use-case:hover { background: var(--paper-deep); }
-  .use-case .uc-tag {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent);
-  }
-  .use-case h3 {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: clamp(24px, 2.6vw, 32px); line-height: 1.1; letter-spacing: -0.015em;
-  }
-  .use-case h3 em { font-style: italic; font-weight: 300; color: var(--accent); }
-  .use-case .uc-body { font-size: 15px; line-height: 1.55; color: #1a1d24; }
-  .use-case .uc-stat {
-    margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--rule);
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
-  }
-  .use-case .uc-stat strong { color: var(--accent); font-weight: 700; }
-  .use-case .play-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    margin-top: 6px; padding: 8px 12px;
-    background: var(--ink); color: var(--paper); border: none; cursor: pointer;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    align-self: flex-start; transition: all 0.15s ease;
-  }
-  .use-case .play-btn:hover { background: var(--accent); transform: translateY(-1px); }
-  .use-case .play-btn .triangle {
-    width: 0; height: 0; border-style: solid;
-    border-width: 5px 0 5px 8px;
-    border-color: transparent transparent transparent var(--paper);
-  }
-  .use-case .play-btn .timestamp { color: var(--accent-soft); font-weight: 500; }
-  .use-case .play-btn:hover .timestamp { color: var(--paper); }
-
-  /* SHOWCASE rows */
-  .showcase { padding: 100px 32px; max-width: 1200px; margin: 0 auto; }
-  .showcase-row {
-    display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px;
-    align-items: center; margin-bottom: 100px;
-  }
-  .showcase-row:last-child { margin-bottom: 0; }
-  .showcase-row.reverse { grid-template-columns: 1.3fr 1fr; }
-  .showcase-row.reverse .showcase-text { order: 2; }
-  .showcase-row.reverse .showcase-img { order: 1; }
-
-  .showcase-text .uc-tag {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent);
-    margin-bottom: 16px; display: block;
-  }
-  .showcase-text h3 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(32px, 4vw, 52px); line-height: 1; letter-spacing: -0.02em;
-    margin-bottom: 22px;
-  }
-  .showcase-text h3 em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .showcase-text p { font-size: 17px; line-height: 1.6; margin-bottom: 16px; }
-  .showcase-text p strong { color: var(--ink); font-weight: 600; }
-
-  .showcase-img {
-    border: 1.5px solid var(--ink); box-shadow: 10px 10px 0 var(--ink);
-    overflow: hidden; background: var(--paper-deep);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .showcase-img:hover { transform: translate(-3px, -3px); box-shadow: 14px 14px 0 var(--ink); }
-  .showcase-img img { display: block; width: 100%; height: auto; }
-  .showcase-img.placeholder {
-    aspect-ratio: 16 / 10;
-    display: flex; align-items: center; justify-content: center;
-    background: repeating-linear-gradient(
-      45deg, var(--paper-deep) 0px, var(--paper-deep) 10px,
-      var(--paper-dim) 10px, var(--paper-dim) 20px);
-    text-align: center; padding: 24px;
-  }
-  .showcase-img.placeholder .ph-content {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink);
-    background: var(--paper); padding: 14px 18px;
-    border: 1.5px dashed var(--ink);
-  }
-  .showcase-img.placeholder .ph-content strong { color: var(--accent); display: block; margin-bottom: 4px; }
-
-  /* GUARD RAILS */
-  .guard-rails {
-    background: var(--paper-deep);
-    border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
-    padding: 100px 32px;
-  }
-  .guard-rails-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-  }
-  .guard-rails-text .gr-eyebrow {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent);
-    margin-bottom: 18px; display: block;
-  }
-  .guard-rails-text h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(36px, 5vw, 60px); line-height: 1; letter-spacing: -0.025em;
-    margin-bottom: 24px;
-  }
-  .guard-rails-text h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .guard-rails-text p { font-size: 17px; line-height: 1.6; margin-bottom: 14px; }
-  .guard-rails-text ul { list-style: none; padding: 0; margin: 24px 0; }
-  .guard-rails-text ul li {
-    padding: 10px 0; border-bottom: 1px solid var(--rule);
-    display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: baseline;
-    font-size: 15px;
-  }
-  .guard-rails-text ul li:last-child { border-bottom: none; }
-  .guard-rails-text ul li .lbl {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);
-  }
-  .guard-rails-img {
-    border: 1.5px solid var(--ink); box-shadow: 10px 10px 0 var(--ink);
-    overflow: hidden; background: var(--paper);
-  }
-  .guard-rails-img img { display: block; width: 100%; height: auto; }
-
-  /* PILLARS */
-  .pillars-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-    border-left: 1px solid var(--rule); border-top: 1px solid var(--rule);
-  }
-  .pillar {
-    padding: 32px 26px;
-    border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-    display: flex; flex-direction: column; gap: 12px; min-height: 220px;
-  }
-  .pillar .p-num {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
-    color: var(--accent); letter-spacing: 0.14em;
-  }
-  .pillar h3 {
-    font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px; line-height: 1.05;
-    letter-spacing: -0.015em;
-    display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
-  }
-  .pillar h3 em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .pillar .soon {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--paper); background: var(--ink);
-    padding: 2px 6px; vertical-align: 4px;
-  }
-  .pillar p { font-size: 14px; line-height: 1.5; color: #1a1d24; }
-
-  /* PLAYBOOK */
-  .playbook-section { background: var(--paper-deep); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
-  .playbook-inner {
-    display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center;
-    max-width: 1200px; margin: 0 auto; padding: 100px 32px;
-  }
-  .playbook-text h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(32px, 4.5vw, 56px); line-height: 1; letter-spacing: -0.025em; margin-bottom: 24px;
-  }
-  .playbook-text h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
-  .playbook-text .pb-eyebrow {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent);
-    margin-bottom: 20px; display: block;
-  }
-  .playbook-text p { font-size: 16px; line-height: 1.6; margin-bottom: 14px; }
-  .playbook-card {
-    background: var(--paper); border: 1.5px solid var(--ink);
-    box-shadow: 8px 8px 0 var(--ink);
-    padding: 32px; position: relative;
-    transition: all 0.2s ease;
-  }
-  .playbook-card:hover { transform: translate(-2px, -2px); box-shadow: 12px 12px 0 var(--ink); }
-  .playbook-card .pb-tag {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
-    margin-bottom: 16px; display: flex; justify-content: space-between;
-  }
-  .playbook-card .pb-tag .source { color: var(--accent); }
-  .playbook-card h3 {
-    font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; line-height: 1.15;
-    letter-spacing: -0.015em; margin-bottom: 16px;
-  }
-  .playbook-card .pb-excerpt {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
-    font-size: 17px; line-height: 1.45; color: var(--muted); margin-bottom: 24px;
-  }
-  .playbook-card .pb-link {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent);
-    border-bottom: 2px solid var(--accent); padding-bottom: 4px; transition: gap 0.15s ease;
-  }
-  .playbook-card .pb-link:hover { gap: 14px; }
-
-  /* ROADMAP */
-  .roadmap-list { border-top: 1px solid var(--ink); }
-  .roadmap-row {
-    display: grid; grid-template-columns: 120px 200px 1fr; gap: 32px;
-    padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
-  }
-  .roadmap-row .when {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
-  }
-  .roadmap-row .when.now { color: var(--accent); }
-  .roadmap-row .name {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
-    font-size: 28px; line-height: 1; letter-spacing: -0.015em;
-  }
-  .roadmap-row .desc { font-size: 15px; line-height: 1.55; color: #1a1d24; }
-
-  /* STORY */
-  .story-section {
-    padding: 100px 32px;
-    max-width: 1100px;
-    margin: 0 auto;
-    position: relative;
-  }
-  .story-section::after {
-    content: '';
-    position: absolute;
-    bottom: 60px;
-    right: 4%;
-    width: 240px;
-    height: 240px;
-    background-image: url('pelican-standing.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    opacity: 0.85;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .story-section > * { position: relative; z-index: 1; }
-  .story-section .story-body { max-width: 760px; }
-  .story-section .quote-mark {
-    font-family: 'Fraunces', serif; font-size: 200px; line-height: 0.6;
-    color: var(--accent); font-style: italic; display: block; margin-bottom: -10px;
-  }
-  .story-section .story-body {
-    font-family: 'Fraunces', serif; font-weight: 300;
-    font-size: clamp(22px, 2.6vw, 32px); line-height: 1.4; letter-spacing: -0.01em;
-    margin-bottom: 32px; max-width: 920px;
-  }
-  .story-section .story-body em { font-style: italic; }
-  .story-section .story-body .key { background: var(--highlight); padding: 1px 6px; font-weight: 500; }
-  .story-section .story-body .accent { color: var(--accent); font-style: italic; }
-  .story-attribution {
-    display: flex; align-items: center; gap: 14px;
-    margin-top: 24px; padding-top: 24px;
-    border-top: 1px solid var(--rule); max-width: 920px;
-  }
-  .story-attribution .avatar {
-    width: 48px; height: 48px; border-radius: 50%;
-    background: var(--ink); color: var(--paper);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px;
-  }
-  .story-attribution .name {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-  }
-  .story-attribution .name strong { color: var(--ink); font-weight: 700; }
-  .story-attribution .name span { color: var(--muted); }
-
-  /* FINAL CTA */
-  .final-cta {
-    background: var(--ink); color: var(--paper);
-    padding: 100px 32px; text-align: center; border-top: 1.5px solid var(--ink);
-  }
-  .final-cta h2 {
-    font-family: 'Fraunces', serif; font-weight: 400;
-    font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.025em;
-    margin-bottom: 24px; max-width: 1000px; margin-left: auto; margin-right: auto;
-  }
-  .final-cta h2 em { font-style: italic; color: var(--accent-soft); font-weight: 300; }
-  .final-cta p {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
-    font-size: 22px; color: var(--paper); opacity: 0.85;
-    margin-bottom: 40px; max-width: 640px; margin-left: auto; margin-right: auto;
-  }
-  .final-cta .btn-primary {
-    background: var(--accent); border-color: var(--accent); color: var(--paper);
-  }
-  .final-cta .btn-primary:hover {
-    background: var(--paper); color: var(--ink); border-color: var(--paper);
-    box-shadow: 4px 4px 0 var(--accent);
-  }
-
-  /* MODIFIED FOOTER FOR NATIVE APP CO LINKS */
-  footer {
-    padding: 48px 32px; background: var(--paper);
-    border-top: 1px solid var(--ink);
-    display: flex; justify-content: space-between; align-items: flex-start;
-    flex-wrap: wrap; gap: 32px;
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
-  }
-  footer a { transition: color 0.15s ease; }
-  footer a:hover { color: var(--accent); }
-  .footer-col { display: flex; flex-direction: column; gap: 8px; }
-  .footer-brand { color: var(--ink); font-weight: 700; }
-  .footer-native-apps {
-    margin-top: 12px; display: flex; flex-direction: column; gap: 8px;
-    border-left: 2px solid var(--accent-soft); padding-left: 12px;
-  }
-  .footer-native-apps span { color: var(--ink); font-weight: 700; }
-  .footer-right-links { display: flex; gap: 18px; flex-wrap: wrap; }
-
-  /* MODAL */
-  .modal {
-    position: fixed; inset: 0;
-    background: rgba(14, 17, 22, 0.88);
-    display: none; align-items: center; justify-content: center;
-    z-index: 1000; padding: 24px; backdrop-filter: blur(6px);
-    animation: fadeIn 0.2s ease;
-  }
-  .modal.open { display: flex; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .modal-inner {
-    width: 100%; max-width: 1100px;
-    background: var(--ink); border: 1.5px solid var(--paper);
-    box-shadow: 12px 12px 0 var(--accent);
-  }
-  .modal-head {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 18px; border-bottom: 1px solid rgba(244, 239, 230, 0.2);
-    color: var(--paper);
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-  }
-  .modal-head .title { color: var(--accent-soft); }
-  .modal-close {
-    background: none; border: 1px solid var(--paper); color: var(--paper);
-    width: 28px; height: 28px; cursor: pointer;
-    font-family: 'JetBrains Mono', monospace; font-size: 16px; line-height: 1;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s ease;
-  }
-  .modal-close:hover { background: var(--paper); color: var(--ink); }
-  .modal-video { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; }
-  .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
-  /* RESPONSIVE */
-  @media (max-width: 980px) {
-    .nav { padding: 12px 20px; }
-    .nav-links { gap: 14px; font-size: 10px; }
-    .nav-links a:not(.install-btn) { display: none; }
-    .hero { padding: 40px 20px 40px; }
-    .hero::before { width: 280px; height: 280px; top: 20px; right: -60px; opacity: 0.08; }
-    .hero-side { display: none; }
-    .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
-    .hero-inner .subtitle { margin-left: auto; margin-right: auto; }
-    .hero-inner .cta-row { justify-content: center; margin-bottom: 0; }
-    .hero-media .video-frame { box-shadow: 6px 6px 0 var(--ink); }
-    .hero-screenshot { padding: 0 20px; margin: 60px auto 60px; }
-    .hero-screenshot .frame { box-shadow: 6px 6px 0 var(--ink); }
-    .manifesto { padding: 70px 20px; }
-    .section { padding: 70px 20px; }
-    .new-band { padding: 60px 20px 70px; }
-    .new-grid { grid-template-columns: 1fr; }
-    .use-cases { grid-template-columns: 1fr; }
-    .pillars-grid { grid-template-columns: 1fr 1fr; }
-    .stat-band-inner { grid-template-columns: 1fr 1fr; gap: 28px 0; }
-    .stat-cell:nth-child(2) { border-right: none; }
-    .stat-cell:nth-child(1), .stat-cell:nth-child(2) {
-      padding-bottom: 24px; border-bottom: 1px solid rgba(14, 17, 22, 0.2);
-    }
-    .playbook-inner { grid-template-columns: 1fr; gap: 36px; padding: 70px 20px; }
-    .roadmap-row { grid-template-columns: 1fr; gap: 6px; padding: 22px 0; }
-    .story-section { padding: 70px 20px; }
-    .story-section::after { display: none; }
-    .story-section .quote-mark { font-size: 120px; }
-    .final-cta { padding: 70px 20px; }
-    .section-head { flex-direction: column; align-items: flex-start; }
-    .section-head .kicker { text-align: left; max-width: none; }
-    .showcase { padding: 70px 20px; }
-    .showcase-row { grid-template-columns: 1fr !important; gap: 28px; margin-bottom: 70px; }
-    .showcase-row.reverse .showcase-text { order: 1; }
-    .showcase-row.reverse .showcase-img { order: 2; }
-    .showcase-img { box-shadow: 6px 6px 0 var(--ink); }
-    .guard-rails { padding: 70px 20px; }
-    .guard-rails-inner { grid-template-columns: 1fr; gap: 36px; }
-    .guard-rails-img { box-shadow: 6px 6px 0 var(--ink); }
-  }
-  @media (max-width: 560px) {
-    footer { flex-direction: column; gap: 32px; }
-    .pillars-grid { grid-template-columns: 1fr; }
-    .stat-band-inner { grid-template-columns: 1fr; }
-    .stat-cell {
-      border-right: none !important;
-      border-bottom: 1px solid rgba(14, 17, 22, 0.2);
-      padding: 24px 0 !important;
-    }
-    .stat-cell:last-child { border-bottom: none; }
-  }
-</style>
-</head>
-<body>
-
-<nav class="nav" aria-label="Main Navigation">
-  <a href="#top" class="nav-brand">
-    <img src="https://cdn.shopify.com/s/files/1/0987/8267/5232/files/pelican-200.png?v=1776037749" alt="Product Pelican Logo">
-    <span>Product Pelican</span>
-  </a>
-  <div class="nav-links">
-    <a href="#whats-new">What's new</a>
-    <a href="#use-cases">Use cases</a>
-    <a href="#playbook">Playbook</a>
-    <a href="#roadmap">Roadmap</a>
-    <a class="install-btn" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
-      <span>Install</span><span class="arrow">→</span>
-    </a>
-  </div>
-</nav>
+{% block content %}
+<div class="pelican-flock" aria-hidden="true">
+  <div class="bird" style="--w:58px;--t:8%;--o:0.12;--anim:bp1;--dur:13s;--delay:0s"></div>
+  <div class="bird" style="--w:38px;--t:22%;--o:0.09;--anim:bp2;--dur:17s;--delay:-5s"></div>
+  <div class="bird" style="--w:50px;--t:35%;--o:0.11;--anim:bp3;--dur:14s;--delay:-9s"></div>
+  <div class="bird" style="--w:34px;--t:55%;--o:0.08;--anim:bp4;--dur:19s;--delay:-3s"></div>
+  <div class="bird" style="--w:65px;--t:68%;--o:0.13;--anim:bp1;--dur:11s;--delay:-13s"></div>
+  <div class="bird" style="--w:43px;--t:14%;--o:0.10;--anim:bp2;--dur:21s;--delay:-7s"></div>
+  <div class="bird" style="--w:52px;--t:44%;--o:0.10;--anim:bp5;--dur:15s;--delay:-2s"></div>
+  <div class="bird" style="--w:36px;--t:62%;--o:0.08;--anim:bp3;--dur:18s;--delay:-16s"></div>
+  <div class="bird" style="--w:60px;--t:28%;--o:0.12;--anim:bp4;--dur:12s;--delay:-10s"></div>
+  <div class="bird" style="--w:40px;--t:78%;--o:0.09;--anim:bp2;--dur:16s;--delay:-4s"></div>
+  <div class="bird" style="--w:30px;--t:5%;--o:0.07;--anim:bp5;--dur:24s;--delay:-12s"></div>
+  <div class="bird" style="--w:55px;--t:88%;--o:0.10;--anim:bp1;--dur:10s;--delay:-6s"></div>
+  <div class="bird" style="--w:44px;--t:50%;--o:0.11;--anim:bp3;--dur:20s;--delay:-8s"></div>
+  <div class="bird" style="--w:33px;--t:72%;--o:0.08;--anim:bp4;--dur:22s;--delay:-14s"></div>
+  <div class="bird" style="--w:68px;--t:18%;--o:0.13;--anim:bp5;--dur:9s;--delay:-1s"></div>
+</div>
 
 <main id="top">
 
   <header class="hero">
-    <span class="hero-side left">Product Pelican / Native App Co</span>
-    <span class="hero-side right">The Shopify-native PIM · 2026</span>
 
     <div class="hero-inner">
       <div class="hero-text">
-        <span class="eyebrow">For Shopify merchants serious about product data</span>
-        <h1>
-          Good product data is the<br>
-          <span class="italic">only</span> <span class="underline">long-term bet.</span>
-        </h1>
+        <h1 class="eyebrow">Product Pelican - native PIM for Shopify</h1>
+        <h2>
+          Good product data is <br>
+          <span class="italic">good</span> <span class="underline">business.</span>
+        </h2>
         <p class="subtitle">
-          Product Pelican is the Shopify-native PIM for the agentic commerce era. Audit, enrich, stitch and govern your product data — without ever leaving Shopify, and without spreadsheets.
+          Product Pelican is the Shopify-native PIM for the agentic commerce era. 
+          <ul class="subtitle">
+            <li>Audit, enrich and automate your product data</li><li>Merchandise & Optimize your Collections</li><li>Lives 100% in Shopify</li><li>No spreadsheets required.</li>
+          </ul>
         </p>
         <div class="cta-row">
           <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
             Install on Shopify <span class="arrow">→</span>
           </a>
-          <button class="btn-secondary" data-video="E0sJ0IKWsOI" data-start="0" data-title="Product Pelican — overview">
-            Open in fullscreen <span class="arrow">▸</span>
-          </button>
+<!-- Calendly link widget begin -->
+<a class="btn-secondary" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Demo</a>
+<!-- Calendly link widget end -->
+
+
         </div>
       </div>
       <div class="hero-media">
-        <div class="video-frame">
+        <div class="video-embed">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/E0sJ0IKWsOI?rel=0&modestbranding=1"
-            title="Product Pelican — The Shopify-native PIM overview"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
+            src="https://www.youtube-nocookie.com/embed/E0sJ0IKWsOI?autoplay=1&mute=1&loop=1&playlist=E0sJ0IKWsOI&rel=0&modestbranding=1&controls=1"
+            title="Product Pelican overview"
+            allow="autoplay; encrypted-media; picture-in-picture"
             allowfullscreen>
           </iframe>
         </div>
@@ -855,61 +100,356 @@
     </div>
   </header>
 
-  <section class="hero-screenshot">
-    <div class="frame">
-      <img src="https://cdn.heymantle.com/orgs/26a47f7d-a3b9-42a0-97fc-a4835cc43fbe/docs-pages/video-frames/2c9501fa-e137-4f93-812c-c3f1b2e22b6d/frame_001.jpg" alt="Product Pelican Product Health dashboard showing audit checks across the catalogue" loading="lazy">
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Catalogue Health Dashboard<span class="m-dot">◆</span></span>
+      <span class="marquee-item">AI Alt Text Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Shopify Taxonomy Categorisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Bulk Title &amp; Description Rewrites<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Category Metafields in Bulk<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Product Stitching<span class="m-dot">◆</span></span>
+      <span class="marquee-item">GEO Score &amp; Agent Readiness<span class="m-dot">◆</span></span>
+      <span class="marquee-item">FAQ Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Gap Fixes — SKUs, Barcodes, Images<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Custom AI Prompts<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Native to Shopify<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Colour Group Detection<span class="m-dot">◆</span></span>
+      <span class="marquee-item">12 Audit Checks<span class="m-dot">◆</span></span>
+      <span class="marquee-item">No Spreadsheets Required<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Catalogue Health Dashboard<span class="m-dot">◆</span></span>
+      <span class="marquee-item">AI Alt Text Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Shopify Taxonomy Categorisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Bulk Title &amp; Description Rewrites<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Category Metafields in Bulk<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Product Stitching<span class="m-dot">◆</span></span>
+      <span class="marquee-item">GEO Score &amp; Agent Readiness<span class="m-dot">◆</span></span>
+      <span class="marquee-item">FAQ Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Gap Fixes — SKUs, Barcodes, Images<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Custom AI Prompts<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Native to Shopify<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Colour Group Detection<span class="m-dot">◆</span></span>
+      <span class="marquee-item">No Spreadsheets Required<span class="m-dot">◆</span></span>
     </div>
-    <p class="caption">↑ <strong>Product Health dashboard.</strong> Twelve audit checks, every product, in seconds.</p>
+  </div>
+
+  <section class="reviews" aria-label="Merchant reviews" id="reviews">
+    <div class="reviews-inner">
+      <div class="reviews-header">
+        <div>
+          <h2 class="reviews-heading">What Shopify stores <em>are saying.</em></h2>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-carousel">
+      <div class="reviews-track">
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote class="review-body">"Awesome app, has saved so much time enriching alt text and category metafields. The audit makes it super easy to spot gaps and quickly action without the manual effort. Dev team are great too, super responsive and easy to work with."</blockquote>
+          <div class="review-footer">
+            <div class="review-shop-info">
+              <span class="review-shop">The Body Shop</span>
+              <span class="review-location">Australia · June 2026</span>
+            </div>
+            <span class="review-verified">✓ Verified</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote class="review-body">"The AI-powered audit quickly highlights gaps in product listings and provides clear, actionable suggestions to optimise content for better visibility across different Geo Targeted search results. It's a great tool if you're looking to enhance discoverability and reach a wider audience without spending hours on manual updates. Also the developer is fantastic to work with. Responsive, knowledgeable."</blockquote>
+          <div class="review-footer">
+            <div class="review-shop-info">
+              <span class="review-shop">KAS Australia</span>
+              <span class="review-location">Australia · April 2026</span>
+            </div>
+            <span class="review-verified">✓ Verified</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote class="review-body">"Awesome app and saved me so much time updating alt tags and other product attributes. Highly recommend!"</blockquote>
+          <div class="review-footer">
+            <div class="review-shop-info">
+              <span class="review-shop">Vittoria Coffee</span>
+              <span class="review-location">Australia · May 2026</span>
+            </div>
+            <span class="review-verified">✓ Verified</span>
+          </div>
+        </article>
+
+        <!-- duplicated for seamless loop -->
+        <article class="review-card" aria-hidden="true">
+          <div class="review-stars">★★★★★</div>
+          <blockquote class="review-body">"Awesome app, has saved so much time enriching alt text and category metafields. The audit makes it super easy to spot gaps and quickly action without the manual effort. Dev team are great too, super responsive and easy to work with."</blockquote>
+          <div class="review-footer">
+            <div class="review-shop-info">
+              <span class="review-shop">The Body Shop</span>
+              <span class="review-location">Australia · June 2026</span>
+            </div>
+            <span class="review-verified">✓ Verified</span>
+          </div>
+        </article>
+
+        <article class="review-card" aria-hidden="true">
+          <div class="review-stars">★★★★★</div>
+          <blockquote class="review-body">"The AI-powered audit quickly highlights gaps in product listings and provides clear, actionable suggestions ... It's a great tool if you're looking to enhance discoverability and reach a wider audience without spending hours on manual updates."</blockquote>
+          <div class="review-footer">
+            <div class="review-shop-info">
+              <span class="review-shop">KAS Australia</span>
+              <span class="review-location">Australia · April 2026</span>
+            </div>
+            <span class="review-verified">✓ Verified</span>
+          </div>
+        </article>
+
+        <article class="review-card" aria-hidden="true">
+          <div class="review-stars">★★★★★</div>
+          <blockquote class="review-body">"Awesome app and saved me so much time updating alt tags and other product attributes. Highly recommend!"</blockquote>
+          <div class="review-footer">
+            <div class="review-shop-info">
+              <span class="review-shop">Vittoria Coffee</span>
+              <span class="review-location">Australia · May 2026</span>
+            </div>
+            <span class="review-verified">✓ Verified</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+    <div class="reviews-inner">
+    </div>
   </section>
 
   <section class="manifesto">
-    <div class="manifesto-inner">
-      <div class="manifesto-eyebrow"><span>The thesis</span></div>
-      <h2>The model isn't the differentiator. <em>Your data is.</em></h2>
-      <p class="manifesto-body">
-        Agentic commerce isn't coming — it's here. AI-driven traffic up 8×. AI-powered orders up 13×. New buyer conversion running 2× above every other channel. The merchants who win this decade have one thing in common: clean, structured, well-attributed product data. Pelican gets you there.
-      </p>
+    <div class="manifesto-inner with-wire">
 
-      <div class="pull-quote">
-        <p>"Catalog-powered AI search converts 2× higher than general AI. The actual moat is what the agent is pulling from. The model isn't the differentiator. Your data is."</p>
-        <cite><strong>Khalid Chao</strong> &nbsp;·&nbsp; Senior Solutions Engineer @ Shopify</cite>
+      <div class="thesis-col">
+        <div class="manifesto-eyebrow"><span>The thesis</span></div>
+        <h2>The model doesn't move the needle. <br /><em>Your data does.</em></h2>
+        <p class="manifesto-body">
+          Agentic commerce isn't coming — it's here. The merchants who win this decade will have one thing in common: clean, structured, well-attributed product data. <em>Pelican gets you there</em>.
+        </p>
+
+        <div class="pull-quote">
+          <p>"Catalog-powered AI search converts 2× higher than general AI. The actual moat is what the agent is pulling from. The model isn't the differentiator. Your data is."</p>
+          <cite><a href="https://www.linkedin.com/posts/khalid-chao-115b59221_shopify-aicommerce-agenticcommerce-share-7458093046740557824-0HQB/" target="_blank" rel="noopener noreferrer"><strong>Khalid Chao</strong> &nbsp;·&nbsp; Senior Solutions Engineer @ Shopify</a></cite>
+        </div>
       </div>
+
+      <div class="wire-col">
+        <div class="wire-cap">
+          <span><em>You can update these manually</em> &nbsp;·&nbsp; or let Pelican do it on autopilot</span>
+          <span class="pill"><span class="pulse"></span>Live</span>
+        </div>
+
+        <div class="adm" id="wire" aria-label="Product editor mockup — fields Pelican touches">
+          <div class="adm-topbar">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="url">admin · <b>products / edit</b> · the-merchant-store.example</span>
+          </div>
+
+          <div class="adm-body">
+            <nav class="adm-rail" aria-label="Admin nav">
+              <div class="group">Catalog</div>
+                            <div class="item"><span class="ic"></span>Orders</div>
+              <div class="item"><span class="ic"></span>Customers</div>
+              <div class="item"><span class="ic"></span>Analytics</div>
+
+              <div class="item on"><span class="ic"></span>Products</div>
+              <div class="item"><span class="ic"></span>Collections</div>
+              <div class="item"><span class="ic"></span>Inventory</div>
+              <div class="item"><span class="ic"></span>Transfers</div>
+              <div class="group">Apps</div>
+              <div class="item brand"><span class="ic"></span>Product Pelican</div>
+            </nav>
+
+            <div class="adm-main">
+              <div class="adm-crumbs">← <a>Products</a> &nbsp;·&nbsp; Mohair Crew · Heather Oat</div>
+              <div class="adm-page-head">
+                <h3>Edit product</h3>
+                <div class="actions">
+                  <button class="adm-btn">Cancel</button>
+                  <button class="adm-btn primary">Save</button>
+                </div>
+              </div>
+
+              <!-- TITLE -->
+              <div class="adm-card magic" data-anchor="title">
+                <span class="pelican-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2 M19 8H21 M16.5 5.5 L18 4"/><path d="M14 6 L4 16 L8 20 L18 10 Z"/></svg>
+                  Pelican
+                </span>
+                <div class="field-label"><span>Title</span><span class="field-meta">required</span></div>
+                <div class="adm-input">Mohair Crewneck Sweater · Heather Oat</div>
+              </div>
+
+              <!-- DESCRIPTION -->
+              <div class="adm-card magic" data-anchor="desc">
+                <span class="pelican-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2 M19 8H21 M16.5 5.5 L18 4"/><path d="M14 6 L4 16 L8 20 L18 10 Z"/></svg>
+                  Pelican
+                </span>
+                <div class="field-label"><span>Description</span><span class="field-meta">Rich text</span></div>
+                <div class="adm-input textarea">Soft-hand mohair blend in a relaxed crewneck silhouette. Ribbed cuffs and hem. Free shipping over $150 + 30 day returns.<span class="ln med"></span><span class="ln med"></span><span class="ln short"></span></div>
+              </div>
+
+              <!-- MEDIA -->
+              <div class="adm-card" data-anchor="media">
+                <div class="field-label"><span>Media</span><span class="field-meta">4 of 8</span></div>
+                <div class="adm-media">
+                  <div class="adm-thumb">img</div>
+                  <div class="adm-thumb">img</div>
+                  <div class="adm-thumb">img</div>
+                  <div class="adm-thumb add">+</div>
+                </div>
+              </div>
+
+              <!-- PRICING + INVENTORY -->
+              <div class="adm-row-2">
+                <div class="adm-card"><div class="field-label"><span>Pricing</span><span class="field-meta">USD</span></div><div class="adm-input">$148.00</div></div>
+                <div class="adm-card"><div class="field-label"><span>Inventory</span><span class="field-meta">24 in stock</span></div><div class="adm-input">SKU · MCS-HOAT-M</div></div>
+              </div>
+
+              <!-- CATEGORY -->
+              <div class="adm-card magic" data-anchor="cat">
+                <span class="pelican-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2 M19 8H21 M16.5 5.5 L18 4"/><path d="M14 6 L4 16 L8 20 L18 10 Z"/></svg>
+                  Pelican
+                </span>
+                <div class="field-label"><span>Category</span><span class="field-meta">Shopify taxonomy</span></div>
+                <div class="adm-input">Apparel &amp; Accessories › Clothing › Sweaters › Crewnecks</div>
+              </div>
+
+              <!-- CATEGORY METAFIELDS -->
+              <div class="adm-card magic" data-anchor="meta">
+                <span class="pelican-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2 M19 8H21 M16.5 5.5 L18 4"/><path d="M14 6 L4 16 L8 20 L18 10 Z"/></svg>
+                  Pelican
+                </span>
+                <div class="field-label"><span>Category metafields</span><span class="field-meta">12 fields</span></div>
+                <div class="adm-meta-grid">
+                  <div class="adm-meta-row"><span class="k">Material</span><span class="v">Mohair / wool</span></div>
+                  <div class="adm-meta-row"><span class="k">Fit</span><span class="v">Relaxed</span></div>
+                  <div class="adm-meta-row"><span class="k">Neckline</span><span class="v">Crew</span></div>
+                  <div class="adm-meta-row"><span class="k">Sleeve length</span><span class="v">Long</span></div>
+                  <div class="adm-meta-row"><span class="k">Care</span><span class="v">Hand wash cold</span></div>
+                  <div class="adm-meta-row"><span class="k">Pattern</span><span class="v">Solid</span></div>
+                  <div class="adm-meta-row"><span class="k">Age group</span><span class="v">Adult</span></div>
+                  <div class="adm-meta-row"><span class="k">Gender</span><span class="v">Unisex</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <section class="stat-band" aria-label="Key Statistics">
-    <div class="stat-band-inner">
-      <div class="stat-cell">
-        <span class="stat-num"><em>8×</em></span>
-        <div class="stat-label">AI-driven traffic<br>year over year</div>
+
+
+  <section class="showcase">
+
+    <article class="showcase-row">
+      <div class="showcase-text">
+        <span class="uc-tag">Workflow · Alt text</span>
+        <h3>Generate, review, apply — <em>in bulk</em>.</h3>
+        <p>Generate image ALT text, product titles & descriptions. Edit the suggestions in place.</p>
+        <p>Hit <strong>Generate All</strong> for bulk suggestions. Hit <strong>Save All</strong> when you're confident. The whole thing is built around merchant control — Pelican never changes anything you haven't approved.</p>
       </div>
-      <div class="stat-cell">
-        <span class="stat-num"><em>13×</em></span>
-        <div class="stat-label">AI-powered<br>orders</div>
+      <div class="showcase-img">
+        <img src="alt-text.gif" alt="Missing alt text workflow with AI suggestions" loading="lazy">
       </div>
-      <div class="stat-cell">
-        <span class="stat-num"><em>2×</em></span>
-        <div class="stat-label">Conversion vs.<br>every other channel</div>
+    </article>
+
+    <article class="showcase-row reverse">
+      <div class="showcase-img">
+        <img src="category.gif" alt="Shopify category suggestions with confidence levels" loading="lazy">
       </div>
-      <div class="stat-cell">
-        <span class="stat-num">12<em>+</em></span>
-        <div class="stat-label">Audit checks<br>built into Pelican</div>
+      <div class="showcase-text">
+        <span class="uc-tag">Workflow · Categories</span>
+        <h3>Confidence, <em>not guesswork</em>.</h3>
+        <p>Every category suggestion comes with a confidence rating — <strong>High</strong>, <strong>Medium</strong>, or worth-a-second-look. Run <strong>Suggest All</strong> across all your products in one go.</p>
+        <p>The job that used to take a week takes less than an hour.</p>
       </div>
-    </div>
-    <p class="stat-band-source"><strong>Source:</strong> Shopify Q1 '26 earnings · Pelican is built for the catalogues that win on these surfaces.</p>
+    </article>
+
+    <article class="showcase-row">
+      <div class="showcase-text">
+        <span class="uc-tag">New · Stitching</span>
+        <h3>Relationships <em>your merchandiser would build</em>.</h3>
+        <p>Colour options grouped. "Pair it with" pairs surfaced. "Complete the set" sets stitched. Pelican reads your catalogue's signals — names, SKUs, attributes, taxonomy — and builds the relationships natively in Shopify.</p>
+        <p>Better cross-sell, better upsell, better discoverability. Native to the platform, not bolted on through a recommendation widget that breaks the moment your theme changes.</p>
+      </div>
+      <div class="showcase-img">
+        <img src="stitching.png" alt="Automate product relationships with AI" loading="lazy">
+      </div>
+    </article>
+
+
+    <article class="showcase-row reverse">
+      <div class="showcase-text">
+        <span class="uc-tag">FAQ Automation · Gold for LLMs</span>
+        <h3>Generate and Manage Product FAQs — <em>in bulk</em>.</h3>
+        <p>Your customers are asking ChatGPT, Claude & Gemini about your products.</p>
+        <p>Generate <strong>the answers</strong> so the <strong>LLMs</strong> recommend your products.</p>
+      </div>
+      <div class="showcase-img">
+        <img src="faq-demo.gif" alt="FAQ automation with AI and Product Pelican" loading="lazy">
+      </div>
+    </article>
+
+    <article class="showcase-row">
+      <div class="showcase-img">
+        <video autoplay loop muted playsinline style="width:100%; height:auto; display:block;">
+          <source src="tshirt.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </div>
+      <div class="showcase-text">
+        <span class="uc-tag">New · Gap fixes</span>
+        <h3>The data debt, <em>finally paid off</em>.</h3>
+        <p>Missing SKUs. Missing barcodes. Missing images. The kind of stuff that sits quietly broken in every catalogue until ChatGPT recommends a competitor's product instead of yours.</p>
+        <p>Pelican spots the gaps, suggests sensible fixes — pulled from product data, vendor data, variant data — and applies them in bulk. The boring work, automated.</p>
+      </div>
+    </article>
+
   </section>
+
 
   <section class="new-band" id="whats-new">
     <div class="new-band-inner">
-      <span class="new-eyebrow"><span class="pulse"></span><span>Shipped this week</span></span>
-      <h2>Three new things <em>that genuinely change the game.</em></h2>
+      <div class="new-card">
+      <h2>New features <em>shipping every week.</em></h2>
       <p>This is the bit that gets us excited. Native Shopify automation that nobody else can ship — because nobody else lives where the data lives.</p>
-
+</div>
       <div class="new-grid">
 
         <article class="new-card">
           <span class="stamp">New</span>
-          <span class="new-num">/ 01</span>
+          <h3>Merchandising <em>rules</em>.</h3>
+          <p>Merchandise Rulesets sort your products by what matters, promote your featured tags, push out-of-stock and image-less products to the bottom, then re-sort automatically every few hours. Every ruleset is stored as a native Shopify metaobject, so the rules live in your store, not ours.</p>
+          <p class="builder-note"><strong>Native unlock.</strong> A merchandiser that never sleeps.</p>
+        </article>
+
+        <article class="new-card">
+          <span class="stamp">New</span>
+          <h3>Collection <em>audits</em>.</h3>
+          <p>You've been auditing products. Now Pelican audits the collections too. Empty collections. Thin collections. Missing descriptions. Missing images. The stuff that quietly tanks a campaign and that nobody notices until a customer does. Every problem, one screen, fix it before it goes live.</p>
+          <p class="builder-note"><strong>Same workflow.</strong> Now one level up.</p>
+        </article>
+
+        <article class="new-card">
+          <span class="stamp">New</span>
+          <h3>Collection content, <em>populated</em>.</h3>
+          <p>Sixty collections and eight have a description? Pelican writes the other fifty-two in one pass, on brand, with your shipping and USP rules baked in, SEO and metafields included. The collection-level content gaps your audit just found, filled in bulk. No spreadsheet. No copywriter queue.</p>
+          <p class="builder-note"><strong>The boring work.</strong> Automated, again.</p>
+        </article>
+
+        <article class="new-card">
+          <span class="stamp">New</span>
           <h3>Product <em>stitching</em>.</h3>
           <p>Automatically link related products — colour options, "pair it with", "complete the set". Pelican reads your catalogue and builds the relationships for you, the way a good merchandiser would. Cross-sells, upsells and discoverability without a single manual link.</p>
           <p class="builder-note"><strong>Native unlock.</strong> Shopify product relationships, automated.</p>
@@ -917,15 +457,13 @@
 
         <article class="new-card">
           <span class="stamp">New</span>
-          <span class="new-num">/ 02</span>
           <h3>Category <em>metafields</em> in bulk.</h3>
           <p>Shopify's product taxonomy is incredible — but the category metafields underneath it are a minefield. Pelican now populates them automatically in bulk, perfectly aligned with the official taxonomy. Better filters, better search, better Shop, better Google integration. All native.</p>
-          <p class="builder-note"><strong>Mat built this overnight.</strong> Apparently it was supposed to be hard.</p>
+          <p class="builder-note"><strong>Headache avoided.</strong> Using AI the way it's meant to be used.</p>
         </article>
 
         <article class="new-card">
           <span class="stamp">New</span>
-          <span class="new-num">/ 03</span>
           <h3>Bulk <em>gap fixes</em>.</h3>
           <p>Missing SKUs. Missing barcodes. Missing images. The data debt every catalogue carries quietly until something breaks. Pelican now finds the gaps, suggests the fixes, and applies them at scale. Less spreadsheet archaeology, more shipping.</p>
           <p class="builder-note"><strong>Three audits.</strong> One workflow. Done.</p>
@@ -933,7 +471,7 @@
 
       </div>
     </div>
-  </section>
+  <!-- </section>
 
   <section class="section" id="use-cases">
     <div class="section-head">
@@ -987,70 +525,161 @@
       </article>
 
     </div>
+  </section> -->
+
+  <section class="timeback" id="time-saved">
+    <div class="timeback-inner">
+      <span class="new-eyebrow"><span class="pulse"></span>Time back</span>
+      <h2>How this <em>actually</em> saves you time.</h2>
+      <p class="tb-sub">Not vibes. Specifics.</p>
+
+      <div class="timeback-grid">
+
+        <article class="tb-card">
+          <h3>Collection descriptions for the whole store.</h3>
+          <p>You've got 60 collections and a handful have copy. Writing the rest by hand is a day you'll never actually schedule, so it never happens. Pelican flags every empty one and writes them all in a single pass, on brand, shipping and USPs included.</p>
+          <p class="tb-payoff"><strong>A day's work.</strong> Done over a coffee.</p>
+        </article>
+
+        <article class="tb-card">
+          <h3>Re-merchandising that doesn't need re-doing.</h3>
+          <p>Sorting a collection by hand lasts until the next restock, then it's wrong again. Set a Merchandise Ruleset once - in-stock up, sold-out down, featured promoted - and it holds every time inventory moves. You stop babysitting the grid.</p>
+          <p class="tb-payoff"><strong>Set it once.</strong> Stop touching it.</p>
+        </article>
+
+        <article class="tb-card">
+          <h3>The pre-campaign check, in seconds.</h3>
+          <p>Before a sale you'd click through every collection hunting for broken bits: empty grids, missing images, thin copy. Collection Audits lists all of it on one screen, so you fix the campaign before launch instead of after the first complaint email.</p>
+          <p class="tb-payoff"><strong>An afternoon of clicking.</strong> Now one screen.</p>
+        </article>
+
+      </div>
+    </div>
   </section>
 
-  <section class="showcase">
+  <section class="manifesto" id="merch-thesis">
+    <div class="manifesto-inner with-wire">
 
-    <article class="showcase-row">
-      <div class="showcase-text">
-        <span class="uc-tag">Workflow · Alt text</span>
-        <h3>Generate, review, apply — <em>or save all</em>.</h3>
-        <p>Each image card shows the product, the filename, the current issue, the AI suggestion, and a character count. Edit the suggestion in place, accept it, regenerate it, or copy it.</p>
-        <p>Hit <strong>Generate All</strong> for bulk suggestions. Hit <strong>Save All</strong> when you're confident. The whole thing is built around merchant control — Pelican never changes anything you haven't approved.</p>
-      </div>
-      <div class="showcase-img">
-        <img src="https://cdn.heymantle.com/orgs/26a47f7d-a3b9-42a0-97fc-a4835cc43fbe/docs-pages/video-frames/759a6501-4fec-4e94-b4eb-6172004d7685/frame_004.jpg" alt="Missing alt text workflow with AI suggestions" loading="lazy">
-      </div>
-    </article>
+      <div class="thesis-col">
+        <div class="manifesto-eyebrow"><span>The merchandising thesis</span></div>
+        <h2>Your collections are merchandised by <em>accident.</em></h2>
+        <p class="manifesto-body">
+          Default Shopify sorting drops sold-out products, image-less products and yesterday's leftovers right where shoppers land. A merchandiser would fix it every morning. Nobody has time to fix it every morning.
+        </p>
+        <p class="manifesto-body" style="margin-top:24px;">
+          So Merchandise Rulesets do it for you: sort, promote, demote, bury the dead stock, and re-sort on a schedule. Native to Shopify, stored as a metaobject you own. Set the rule once. The grid sorts itself, forever.
+        </p>
 
-    <article class="showcase-row reverse">
-      <div class="showcase-img">
-        <img src="https://cdn.heymantle.com/orgs/26a47f7d-a3b9-42a0-97fc-a4835cc43fbe/docs-pages/video-frames/2e0a574c-9238-408c-9629-d81b499aaf5c/frame_002.jpg" alt="Shopify category suggestions with confidence levels" loading="lazy">
-      </div>
-      <div class="showcase-text">
-        <span class="uc-tag">Workflow · Categories</span>
-        <h3>Confidence, <em>not guesswork</em>.</h3>
-        <p>Every category suggestion comes with a confidence rating — <strong>High</strong>, <strong>Medium</strong>, or worth-a-second-look. Run <strong>Suggest All</strong> across thousands of products in one go.</p>
-        <p>The high-confidence ones can be applied in bulk without a glance. The medium ones get a quick review. The job that used to take a week takes an afternoon.</p>
-      </div>
-    </article>
-
-    <article class="showcase-row">
-      <div class="showcase-text">
-        <span class="uc-tag">New · Stitching</span>
-        <h3>Relationships <em>your merchandiser would build</em>.</h3>
-        <p>Colour options grouped. "Pair it with" pairs surfaced. "Complete the set" sets stitched. Pelican reads your catalogue's signals — names, SKUs, attributes, taxonomy — and builds the relationships natively in Shopify.</p>
-        <p>Better cross-sell, better upsell, better discoverability. Native to the platform, not bolted on through a recommendation widget that breaks the moment your theme changes.</p>
-      </div>
-      <div class="showcase-img placeholder">
-        <div class="ph-content">
-          <strong>Screenshot slot</strong>
-          Product stitching · relationship builder
+        <div class="pull-quote">
+          <p>"Sort order is a merchandising decision. You're either making it, or leaving it to a date field."</p>
         </div>
       </div>
-    </article>
 
-    <article class="showcase-row reverse">
-      <div class="showcase-img placeholder">
-        <div class="ph-content">
-          <strong>Screenshot slot</strong>
-          Bulk gap fixes · SKUs / barcodes / images
+      <div class="wire-col">
+        <div class="wire-cap">
+          <span><em>You could sort every collection by hand</em> &nbsp;·&nbsp; or set a ruleset once</span>
+          <span class="pill"><span class="pulse"></span>Live</span>
+        </div>
+
+        <div class="adm" id="wire-merch" aria-label="Merchandise Ruleset setup mockup">
+          <div class="adm-topbar">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="url">admin · <b>product pelican / merchandise rulesets</b> · the-merchant-store.example</span>
+          </div>
+
+          <div class="adm-body">
+            <nav class="adm-rail" aria-label="Admin nav">
+              <div class="group">Catalog</div>
+              <div class="item"><span class="ic"></span>Orders</div>
+              <div class="item"><span class="ic"></span>Customers</div>
+              <div class="item"><span class="ic"></span>Products</div>
+              <div class="item"><span class="ic"></span>Collections</div>
+              <div class="item"><span class="ic"></span>Inventory</div>
+              <div class="group">Apps</div>
+              <div class="item brand on"><span class="ic"></span>Product Pelican</div>
+            </nav>
+
+            <div class="adm-main">
+              <div class="adm-crumbs">← <a>Merchandise Rulesets</a> &nbsp;·&nbsp; New ruleset</div>
+              <div class="adm-page-head">
+                <h3>New ruleset</h3>
+                <div class="actions">
+                  <button class="adm-btn">Cancel</button>
+                  <button class="adm-btn primary" data-mr="savebtn">Save Ruleset</button>
+                </div>
+              </div>
+
+              <!-- NAME -->
+              <div class="adm-card">
+                <div class="field-label"><span>Ruleset name</span></div>
+                <div class="adm-input is-empty" data-mr="name"></div>
+              </div>
+
+              <!-- SORT -->
+              <div class="adm-card">
+                <div class="adm-section-label">Sort</div>
+                <div class="field-label"><span>Sort by</span></div>
+                <div class="adm-select placeholder" data-mr="sortby"><span data-mr="sortby-val">No sort rule</span><span class="chev">▾</span></div>
+                <div data-mr="direction-wrap" style="display:none; margin-top:10px;">
+                  <div class="field-label"><span>Direction</span></div>
+                  <div class="adm-select set"><span>Newest first</span><span class="chev">▾</span></div>
+                </div>
+              </div>
+
+              <!-- PROMOTE & DEMOTE -->
+              <div class="adm-card">
+                <div class="adm-section-label">Promote &amp; demote</div>
+                <div class="adm-emptyrule" data-mr="promote-empty">No rules added yet &nbsp;·&nbsp; + Add rule</div>
+                <div class="adm-rulechip" data-mr="promote-chip">Promote by tag <span class="tagval">featured</span></div>
+              </div>
+
+              <!-- STOCK & VISIBILITY -->
+              <div class="adm-card">
+                <div class="adm-section-label">Stock &amp; visibility</div>
+                <div class="adm-toggle-row"><span>Push out of stock to bottom</span><span class="adm-switch" data-mr="t1"></span></div>
+                <div class="adm-toggle-row"><span>Push products without images to bottom</span><span class="adm-switch" data-mr="t2"></span></div>
+              </div>
+
+              <!-- SCHEDULE + COLLECTIONS -->
+              <div class="adm-row-2">
+                <div class="adm-card">
+                  <div class="adm-section-label">Schedule</div>
+                  <div class="adm-select" data-mr="sched-sel"><span data-mr="schedule">Manual</span><span class="chev">▾</span></div>
+                </div>
+                <div class="adm-card">
+                  <div class="adm-section-label">Collections &nbsp;·&nbsp; <span data-mr="selcount">0 selected</span></div>
+                  <div class="adm-coll-row"><span class="adm-check" data-mr="coll"></span><span>New In</span><span class="count">142 products</span></div>
+                </div>
+              </div>
+
+              <!-- PAYOFF: storefront re-sort -->
+              <div class="adm-store">
+                <div class="adm-store-head"><span>Storefront · New In</span><span data-mr="sortstate">Sort: Date created</span></div>
+                <div class="adm-store-grid" id="merch-grid">
+                  <div class="adm-tile" data-rank="7"><div class="swatch" style="background:#7C8B99"><span class="badge dead">Sold out</span>$58</div><div class="meta">Linen Shirt</div></div>
+                  <div class="adm-tile" data-rank="1"><div class="swatch" style="background:#0369A1"><span class="badge feat">Featured</span>$92</div><div class="meta">Wool Coat</div></div>
+                  <div class="adm-tile" data-rank="3"><div class="swatch" style="background:#C2724F">$44</div><div class="meta">Cotton Tee</div></div>
+                  <div class="adm-tile" data-rank="6"><div class="swatch noimg">no image</div><div class="meta">Canvas Tote</div></div>
+                  <div class="adm-tile" data-rank="2"><div class="swatch" style="background:#1A1A1A"><span class="badge feat">Featured</span>$128</div><div class="meta">Suede Boot</div></div>
+                  <div class="adm-tile" data-rank="4"><div class="swatch" style="background:#5B8C5A">$36</div><div class="meta">Knit Beanie</div></div>
+                  <div class="adm-tile" data-rank="8"><div class="swatch" style="background:#7C8B99"><span class="badge dead">Sold out</span>$74</div><div class="meta">Denim Jacket</div></div>
+                  <div class="adm-tile" data-rank="5"><div class="swatch" style="background:#A35C7A">$52</div><div class="meta">Silk Scarf</div></div>
+                </div>
+              </div>
+
+              <div class="adm-saved" data-mr="saved"><span class="tick">✓</span> Saved</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="showcase-text">
-        <span class="uc-tag">New · Gap fixes</span>
-        <h3>The data debt, <em>finally paid off</em>.</h3>
-        <p>Missing SKUs. Missing barcodes. Missing images. The kind of stuff that sits quietly broken in every catalogue until ChatGPT recommends a competitor's product instead of yours.</p>
-        <p>Pelican spots the gaps, suggests sensible fixes — pulled from product data, vendor data, variant data — and applies them in bulk. The boring work, automated.</p>
-      </div>
-    </article>
 
+    </div>
   </section>
 
   <section class="guard-rails">
     <div class="guard-rails-inner">
       <div class="guard-rails-text">
-        <span class="gr-eyebrow">/ 02 AI Prompts</span>
+        <span class="gr-eyebrow">AI Prompts</span>
         <h2>You write the rules. <em>Pelican follows them.</em></h2>
         <p>Pelican's AI isn't a black box. Every prompt — for titles, descriptions, alt text, categories — is yours to edit. Add brand voice. Add shipping messaging. Add merchandising rules. Add what to never say.</p>
         <ul>
@@ -1062,15 +691,15 @@
         <p>Update the prompt, regenerate the suggestions, ship. Reset to defaults whenever you want.</p>
       </div>
       <div class="guard-rails-img">
-        <img src="https://cdn.heymantle.com/orgs/26a47f7d-a3b9-42a0-97fc-a4835cc43fbe/docs-pages/video-frames/890aca8c-3b75-4d03-ae97-0061ca4d4919/frame_007.jpg" alt="AI Prompts page with editable instructions" loading="lazy">
+        <img src="ai-prompts.png" alt="AI Prompts page with editable instructions" loading="lazy">
       </div>
     </div>
   </section>
-
+<!-- 
   <section class="section" id="pillars">
     <div class="section-head">
       <div class="lhs">
-        <span class="label"><span class="num">/ 03</span> Four pillars</span>
+        <span class="label"><span class="num"></span> Four pillars</span>
         <h2>How Pelican <em>works.</em></h2>
       </div>
       <div class="kicker">Audit. Enrich. Stitch. Govern.</div>
@@ -1098,33 +727,13 @@
         <p>Workflows that scale: roles, approvals, scheduled changes, audit logs, multi-store, multi-locale. The PIM layer the platform's been missing.</p>
       </article>
     </div>
-  </section>
+  </section> -->
 
-  <section class="playbook-section" id="playbook">
-    <div class="playbook-inner">
-      <div class="playbook-text">
-        <span class="pb-eyebrow">/ 04 The Playbook</span>
-        <h2>Lots of opinions. <em>One consensus.</em></h2>
-        <p>GEO. UCP. ACP. AEO. SEO. The acronyms are multiplying weekly, and every free scanner gives a different score on the same store.</p>
-        <p>Underneath all of it, every scoring tool is measuring the same thing: <strong>is your product data rich, accurate, structured, and honest?</strong></p>
-        <p>Protocols come and go. Great product data outlasts all of it. That's the only long-term bet — and the playbook below is how we think about getting there.</p>
-      </div>
-      <a href="https://theshopifyappshow.substack.com/p/the-score-doesnt-matter-what-you" target="_blank" rel="noopener" class="playbook-card">
-        <div class="pb-tag">
-          <span class="source">The Shopify App Show</span>
-          <span>Apr 24, 2026</span>
-        </div>
-        <h3>The score doesn't matter. What you do next does.</h3>
-        <p class="pb-excerpt">"AI readiness tools are popping up everywhere. But what does it actually mean for your Shopify store? And how do you prioritise what to do?"</p>
-        <span class="pb-link">Read the playbook <span>→</span></span>
-      </a>
-    </div>
-  </section>
 
   <section class="story-section">
     <div class="section-head">
       <div class="lhs">
-        <span class="label"><span class="num">/ 05</span> The story</span>
+        <span class="label"> The story</span>
         <h2>How <em>this</em> got built.</h2>
       </div>
     </div>
@@ -1134,26 +743,44 @@
       I didn't set out to build a PIM. I was vibe-coding a few product audits for Shopify merchants — completeness checks, taxonomy gaps, SEO holes. Then I added AI to fix what the audits found. Then bulk actions. Then stitching. Then governance.
     </p>
     <p class="story-body">
-      One day I looked at it and went: <span class="key">oh shit, I've accidentally built a PIM</span> — and it lives <span class="accent">100% inside Shopify</span>.
+      One day I realised: <span class="key">oh shit, I've accidentally built a PIM</span> — and it lives <span class="accent">100% inside Shopify</span>.
     </p>
     <p class="story-body">
       Turns out the right way to build one was never to build a separate system. It was to build it where the data already lives — with proper AI guard rails, and ultimate control left in the merchant's hands.
     </p>
     <div class="story-attribution">
-      <div class="avatar">M</div>
       <div class="name">
-        <strong>Martin Cox</strong> &nbsp;·&nbsp; <span>Founder, Native App Co</span>
+        <strong>Martin Cox</strong> &nbsp;·&nbsp; <span>Co-Founder, Native App Co</span>
       </div>
     </div>
   </section>
 
-  <section class="section" id="roadmap" style="padding-top: 0;">
+
+  <section class="playbook-section" id="playbook">
+    <div class="playbook-inner">
+      <div class="playbook-text">
+        <span class="pb-eyebrow">The Playbook</span>
+        <h2>Lots of opinions. <em>One consensus.</em></h2>
+        <p>GEO. UCP. ACP. AEO. SEO. The acronyms are multiplying weekly, and every free scanner gives a different score on the same store.</p>
+        <p>Underneath all of it, every scoring tool is measuring the same thing: <strong>is your product data rich, accurate, structured, and honest?</strong></p>
+        <p>Protocols come and go. Great product data outlasts all of it. That's the only long-term bet — and the playbook below is how we think about getting there.</p>
+      </div>
+      <a href="https://theshopifyappshow.substack.com/p/the-score-doesnt-matter-what-you" target="_blank" rel="noopener" class="playbook-card">
+        <h3>The score doesn't matter.<br />What you do next does.</h3>
+        <img src="playbook.png" alt="Playbook article thumbnail" loading="lazy">
+        <p class="pb-excerpt">"AI readiness tools are popping up everywhere. But what does it actually mean for your Shopify store? And how do you prioritise what to do?"</p>
+        <span class="pb-link">Read the playbook <span>→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="roadmap">
     <div class="section-head">
       <div class="lhs">
-        <span class="label"><span class="num">/ 06</span> Roadmap</span>
-        <h2>Where this is <em>going.</em></h2>
+        <span class="label">Roadmap</span>
+        <h2>Where are we <em>going.</em></h2>
       </div>
-      <div class="kicker">Built with friendly merchants first. Public &amp; honest.</div>
+      <div class="kicker">Public &amp; honest.</div>
     </div>
 
     <div class="roadmap-list">
@@ -1193,24 +820,223 @@
     </a>
   </section>
 
+  
 </main>
 
-<footer>
-  <div class="footer-col">
-    <div><span class="footer-brand">Product Pelican</span> &nbsp;·&nbsp; A <a href="https://nativeappco.com" target="_blank" rel="noopener">Native App Co</a> product</div>
-    <div class="footer-native-apps">
-      <span>More from Native App Co:</span>
-      <a href="https://apps.shopify.com/fish-wishlist" target="_blank" rel="noopener">Fish Wishlist & Quote Request</a>
-      <a href="https://apps.shopify.com/omnibus-price-radar" target="_blank" rel="noopener">Omnibus Owl Price Tracker</a>
-      <a href="https://apps.shopify.com/stork-credit" target="_blank" rel="noopener">Stork: Store Credit & Rewards</a>
-    </div>
-  </div>
-  <div class="footer-right-links">
-    <a href="https://theshopifyappshow.substack.com/" target="_blank" rel="noopener">The Shopify App Show</a> &nbsp;·&nbsp;
-    <a href="https://www.linkedin.com/in/martincox100/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp;
-    <a href="https://x.com/martincox100" target="_blank" rel="noopener">X</a>
-  </div>
-</footer>
+{% endblock %}
+
+{% block afterfooter %}
+<div class="footer-mascots">
+  <img src="footer-mascots.jpg" alt="Native App Co — Apps that don't feel like apps">
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Admin wireframe — populate animation
+  (function () {
+    const FILLS = {
+      title: 'Mohair Crewneck Sweater · Heather Oat',
+      desc:  'Soft-hand mohair blend in a relaxed crewneck silhouette. Ribbed cuffs and hem.',
+      cat:   'Apparel & Accessories › Clothing › Sweaters › Crewnecks'
+    };
+    const META = [
+      ['Material','Mohair / wool'], ['Fit','Relaxed'], ['Neckline','Crew'], ['Sleeve length','Long'],
+      ['Care','Hand wash cold'], ['Pattern','Solid'], ['Age group','Adult'], ['Gender','Unisex']
+    ];
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const fld = (a) => document.querySelector('.adm-card[data-anchor="' + a + '"]');
+    const inp = (a) => { const f = fld(a); return f ? f.querySelector('.adm-input') : null; };
+
+    function clearAll() {
+      ['title','desc','cat'].forEach(a => {
+        const i = inp(a); if (!i) return;
+        i.classList.add('is-empty'); i.textContent = '';
+      });
+      const grid = document.querySelector('.adm-card[data-anchor="meta"] .adm-meta-grid');
+      if (grid) grid.querySelectorAll('.adm-meta-row').forEach(r => r.classList.remove('shown'));
+      const m = document.querySelector('.adm-media');
+      if (m) m.querySelectorAll('.adm-thumb').forEach(t => t.classList.remove('shown'));
+      document.querySelectorAll('.adm-card.magic').forEach(f => f.classList.remove('active','just-done'));
+    }
+
+    async function typeInto(el, text, perChar) {
+      perChar = perChar || 15;
+      el.classList.remove('is-empty'); el.textContent = '';
+      const caret = document.createElement('span'); caret.className = 'adm-caret';
+      el.appendChild(caret);
+      for (let i = 0; i < text.length; i++) {
+        caret.insertAdjacentText('beforebegin', text[i]);
+        const ch = text[i];
+        const j = (ch === ' ' || ch === '›') ? perChar * 1.4 : perChar + (Math.random()*8 - 4);
+        await sleep(j);
+      }
+      await sleep(120); caret.remove();
+    }
+
+    async function animField(a) {
+      const f = fld(a); if (!f) return;
+      f.classList.add('active'); await sleep(200);
+      const i = inp(a); i.classList.remove('is-empty');
+      await typeInto(i, FILLS[a]);
+      if (a === 'desc') {
+        for (const cls of ['med','med','short']) {
+          await sleep(110);
+          const ln = document.createElement('span'); ln.className = 'ln ' + cls;
+          i.appendChild(ln);
+        }
+      }
+      f.classList.remove('active'); f.classList.add('just-done');
+      await sleep(180); f.classList.remove('just-done');
+    }
+
+    async function animMedia() {
+      const m = document.querySelector('.adm-media'); if (!m) return;
+      for (const t of m.querySelectorAll('.adm-thumb')) { t.classList.add('shown'); await sleep(110); }
+    }
+
+    async function animMeta() {
+      const f = fld('meta'); if (!f) return;
+      f.classList.add('active');
+      const rows = f.querySelectorAll('.adm-meta-row');
+      rows.forEach((r, i) => { const v = r.querySelector('.v'); if (META[i]) v.textContent = META[i][1]; });
+      for (const r of rows) { r.classList.add('shown'); await sleep(95); }
+      f.classList.remove('active'); f.classList.add('just-done');
+      await sleep(180); f.classList.remove('just-done');
+    }
+
+    let running = false;
+    async function run() {
+      if (running) return;
+      running = true; clearAll(); await sleep(380);
+      await animField('title'); await sleep(150);
+      await animField('desc');  await sleep(140);
+      await animMedia();        await sleep(140);
+      await animField('cat');   await sleep(140);
+      await animMeta();
+      running = false;
+    }
+
+    const wire = document.getElementById('wire');
+    if (wire) {
+      let triggered = false;
+      const io = new IntersectionObserver((es) => {
+        es.forEach(e => { if (e.isIntersecting && !triggered) { triggered = true; run(); } });
+      }, { threshold: 0.25 });
+      io.observe(wire);
+    }
+  })();
+</script>
+
+<script>
+  // Merchandise Ruleset setup + storefront re-sort payoff (Task 5)
+  (function () {
+    const root = document.getElementById('wire-merch');
+    if (!root) return;
+    const grid = document.getElementById('merch-grid');
+    const mr = (name) => root.querySelector('[data-mr="' + name + '"]');
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tiles = Array.from(grid.children);
+    const byRank = () => tiles.slice().sort((a, b) => (+a.dataset.rank) - (+b.dataset.rank));
+
+    async function typeInto(el, text) {
+      el.classList.remove('is-empty'); el.textContent = '';
+      const caret = document.createElement('span'); caret.className = 'adm-caret';
+      el.appendChild(caret);
+      for (let i = 0; i < text.length; i++) {
+        caret.insertAdjacentText('beforebegin', text[i]);
+        await sleep(text[i] === ' ' ? 40 : 28 + (Math.random() * 8 - 4));
+      }
+      await sleep(140); caret.remove();
+    }
+
+    // FLIP reflow of the storefront grid
+    function reflow() {
+      const first = new Map();
+      tiles.forEach(t => first.set(t, t.getBoundingClientRect()));
+      byRank().forEach(t => grid.appendChild(t));
+      tiles.forEach(t => {
+        const last = t.getBoundingClientRect();
+        const f = first.get(t);
+        const dx = f.left - last.left, dy = f.top - last.top;
+        if (dx || dy) {
+          t.style.transition = 'none';
+          t.style.transform = `translate(${dx}px,${dy}px)`;
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            t.style.transition = '';
+            t.style.transform = '';
+          }));
+        }
+      });
+      tiles.forEach(t => { if (+t.dataset.rank >= 6) t.classList.add('dim'); });
+    }
+
+    function setFinalState() {
+      mr('name').classList.remove('is-empty'); mr('name').textContent = 'New In - In Stock First';
+      mr('sortby').classList.remove('placeholder'); mr('sortby').classList.add('set');
+      mr('sortby-val').textContent = 'Publish date';
+      mr('direction-wrap').style.display = '';
+      mr('promote-empty').style.display = 'none'; mr('promote-chip').classList.add('shown');
+      mr('t1').classList.add('on'); mr('t2').classList.add('on');
+      mr('schedule').textContent = 'Every 6 hours';
+      mr('coll').classList.add('on'); mr('selcount').textContent = '1 selected';
+      mr('sortstate').textContent = 'Sort: Pelican ruleset';
+      byRank().forEach(t => grid.appendChild(t));
+      tiles.forEach(t => { if (+t.dataset.rank >= 6) t.classList.add('dim'); });
+    }
+
+    function resetState() {
+      const n = mr('name'); n.classList.add('is-empty'); n.textContent = '';
+      const sb = mr('sortby'); sb.classList.add('placeholder'); sb.classList.remove('set');
+      mr('sortby-val').textContent = 'No sort rule';
+      mr('direction-wrap').style.display = 'none';
+      mr('promote-empty').style.display = ''; mr('promote-chip').classList.remove('shown');
+      mr('t1').classList.remove('on'); mr('t2').classList.remove('on');
+      mr('schedule').textContent = 'Manual';
+      mr('coll').classList.remove('on'); mr('selcount').textContent = '0 selected';
+      mr('sortstate').textContent = 'Sort: Date created';
+      mr('saved').classList.remove('show');
+      tiles.forEach(t => { t.classList.remove('dim'); t.style.transition = 'none'; t.style.transform = ''; });
+      tiles.forEach(t => grid.appendChild(t));
+      requestAnimationFrame(() => tiles.forEach(t => { t.style.transition = ''; }));
+    }
+
+    let running = false;
+    async function run() {
+      if (running) return; running = true;
+      resetState(); await sleep(520);
+      await typeInto(mr('name'), 'New In - In Stock First'); await sleep(260);
+      const sb = mr('sortby'); sb.classList.remove('placeholder'); sb.classList.add('set');
+      mr('sortby-val').textContent = 'Publish date'; await sleep(320);
+      mr('direction-wrap').style.display = ''; await sleep(460);
+      mr('promote-empty').style.display = 'none'; mr('promote-chip').classList.add('shown'); await sleep(520);
+      mr('t1').classList.add('on'); await sleep(360);
+      mr('t2').classList.add('on'); await sleep(420);
+      mr('schedule').textContent = 'Every 6 hours'; await sleep(420);
+      mr('coll').classList.add('on'); mr('selcount').textContent = '1 selected'; await sleep(480);
+      mr('saved').classList.add('show'); await sleep(950);
+      mr('saved').classList.remove('show'); await sleep(320);
+      mr('sortstate').textContent = 'Sort: Pelican ruleset';
+      reflow(); await sleep(2800);
+      running = false;
+      setTimeout(run, 700);
+    }
+
+    if (reduce) { setFinalState(); return; }
+
+    let triggered = false;
+    const io = new IntersectionObserver((es) => {
+      es.forEach(e => { if (e.isIntersecting && !triggered) { triggered = true; run(); } });
+    }, { threshold: 0.2 });
+    io.observe(root);
+  })();
+</script>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">×</button>
+  <div class="lightbox-inner" id="lightboxInner"></div>
+</div>
 
 <div class="modal" id="videoModal" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-inner">
@@ -1263,5 +1089,153 @@
   })();
 </script>
 
-</body>
-</html>
+<script>
+  (function () {
+    const lightbox = document.getElementById('lightbox');
+    const inner = document.getElementById('lightboxInner');
+    const closeBtn = document.getElementById('lightboxClose');
+
+    function openLightbox(el) {
+      inner.innerHTML = '';
+      let content;
+      if (el.tagName === 'VIDEO') {
+        const source = el.querySelector('source');
+        content = document.createElement('video');
+        content.src = source ? source.src : el.currentSrc;
+        content.controls = true;
+        content.autoplay = true;
+      } else {
+        content = document.createElement('img');
+        content.src = el.src;
+        content.alt = el.alt;
+      }
+      inner.appendChild(content);
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const vid = inner.querySelector('video');
+      if (vid) vid.pause();
+      inner.innerHTML = '';
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.showcase-img img, .showcase-img video').forEach(el => {
+      el.addEventListener('click', () => openLightbox(el));
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
+  })();
+</script>
+<script
+  async
+  src="https://cdn.heymantle.com/mantle-help-desk-widget.js"
+  data-widget-id="941695dd-a0bd-4a21-8d28-8c8d6a67ae40"
+></script>
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
+<script>
+(function () {
+  const flock = document.querySelector('.pelican-flock');
+  if (!flock) return;
+  const els = Array.from(flock.querySelectorAll('.bird'));
+  if (!els.length) return;
+
+  const REPEL_R   = 160;   // px — cursor influence radius
+  const REPEL_STR = 26000; // force magnitude
+
+  let mouseX = -9999, mouseY = -9999;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  const birds = els.map(el => {
+    const w       = rnd(28, 72);
+    const baseVx  = rnd(36, 80);
+    const opacity = rnd(0.07, 0.15);
+    // Kill CSS animation; reset to top-left origin for transform-based positioning
+    el.style.cssText = `width:${w}px;height:${w}px;opacity:${opacity};top:0;left:0;animation:none;`;
+    return {
+      el, w, baseVx,
+      x:    rnd(-w * 2, window.innerWidth * 1.2),
+      y:    rnd(0, window.innerHeight),
+      baseY: rnd(0, window.innerHeight),
+      vx: baseVx, vy: 0,
+      // size pulse — unique phase + speed per bird
+      pulsePhase: rnd(0, Math.PI * 2),
+      pulseSpeed: rnd(0.28, 1.4),
+      pulseMin:   rnd(0.70, 0.82),
+      pulseMax:   rnd(1.14, 1.30),
+      // vertical bob — separate from repulsion
+      bobPhase: rnd(0, Math.PI * 2),
+      bobSpeed: rnd(0.32, 0.85),
+      bobAmp:   rnd(10, 30),
+    };
+  });
+
+  let prev = null;
+  function tick(ts) {
+    if (!prev) { prev = ts; requestAnimationFrame(tick); return; }
+    const dt = Math.min((ts - prev) / 1000, 0.05); // cap at 50 ms
+    prev = ts;
+    const t = ts / 1000;
+
+    for (const b of birds) {
+      // ── Vertical: gentle sinusoidal bob ──────────────────────────────────
+      const targetY = b.baseY + Math.sin(t * b.bobSpeed + b.bobPhase) * b.bobAmp;
+      b.vy += (targetY - b.y) * 4 * dt;  // spring toward target
+      b.vy *= (1 - dt * 4.5);             // damp
+
+      // ── Mouse repulsion (squared falloff) ────────────────────────────────
+      const cx = b.x + b.w / 2, cy = b.y + b.w / 2;
+      const dx = cx - mouseX,    dy = cy - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < REPEL_R && dist > 1) {
+        const ratio = 1 - dist / REPEL_R;
+        const f = REPEL_STR * ratio * ratio * dt;
+        b.vx += (dx / dist) * f;
+        b.vy += (dy / dist) * f;
+      }
+
+      // ── Horizontal: ease back to cruise speed ────────────────────────────
+      b.vx += (b.baseVx - b.vx) * dt * 1.8;
+      b.vx  = Math.max(b.baseVx * 0.12, Math.min(b.baseVx * 5, b.vx));
+
+      // ── Integrate ────────────────────────────────────────────────────────
+      b.x += b.vx * dt;
+      b.y  = Math.max(-b.w, Math.min(window.innerHeight + b.w, b.y + b.vy * dt));
+
+      // ── Wrap: re-enter from left with fresh random altitude ──────────────
+      if (b.x > window.innerWidth + b.w * 2) {
+        b.x    = -b.w * 2;
+        b.baseY = rnd(0.05, 0.92) * window.innerHeight;
+        b.y    = b.baseY;
+        b.vy   = 0;
+      }
+
+      // ── Scale pulse ──────────────────────────────────────────────────────
+      const scale = b.pulseMin + (b.pulseMax - b.pulseMin) *
+        (0.5 + 0.5 * Math.sin(t * b.pulseSpeed + b.pulsePhase));
+
+      b.el.style.transform = `translate(${b.x}px,${b.y}px) scale(${scale})`;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+})();
+</script>
+
+{% endblock %}

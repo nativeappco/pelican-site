@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s -o /dev/null -w \"http=%{http_code}\\\\n\" -X POST http://localhost:8888/api/audit-enrich -H \"content-type: application/json\" -d '{\"domain\":\"x.myshopify.com\",\"exampleProduct\":{\"title\":\"Test Tee\",\"description\":\"<p>A tee</p>\",\"vendor\":\"Acme\",\"options\":[{\"name\":\"Color\",\"values\":[\"Red\",\"Blue\"]}]}}')",
+      "Bash(npm uninstall *)",
+      "Bash(node --check /private/tmp/claude-501/-Users-mc-Desktop-pelican-site/6986a14f-f092-4bda-b826-bd4426bc39cc/scratchpad/inline.js)",
+      "Bash(curl -s -X POST http://localhost:8888/api/audit -H \"content-type: application/json\" -d '{\"domain\":\"deathwishcoffee.myshopify.com\"}')",
+      "Bash(pkill -f \"netlify\")",
+      "Bash(npx playwright *)",
+      "Read(//Applications/**)",
+      "Bash(find ~/.npm/_npx -maxdepth 4 -type d -name 'playwright-core' 2>/dev/null | head; echo \"---\"; find ~/.npm/_npx -maxdepth 4 -type d -name 'playwright' 2>/dev/null | head)",
+      "Read(//Users/mc/.npm/_npx/**)",
+      "Bash(node /private/tmp/claude-501/-Users-mc-Desktop-pelican-site/7d2f7319-7397-47e6-9630-d92320052b1c/scratchpad/verify-audit.mjs)",
+      "Bash(PLAYWRIGHT_BROWSERS_PATH=/Users/mc/Library/Caches/ms-playwright node /private/tmp/claude-501/-Users-mc-Desktop-pelican-site/7d2f7319-7397-47e6-9630-d92320052b1c/scratchpad/verify-audit.mjs)",
+      "Bash(open product-faq-builder.html)"
+    ]
+  }
+}

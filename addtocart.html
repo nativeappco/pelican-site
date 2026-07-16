@@ -1,0 +1,299 @@
+---
+title: "Get 3 Months Free with ADDTOCART | Product Pelican"
+description: "Install Product Pelican and use code ADDTOCART to get 3 months free on the Standard plan. Optimise your products, collections and generate content that makes your Shopify store AI friendly."
+ogDesc: "Use code ADDTOCART to get 3 months free on the Standard plan. Try every feature to optimise your products, collections and generate AI-friendly content."
+permalink: /addtocart/
+---
+{% extends "base.njk" %}
+
+{% block extrahead %}
+<!-- Add to Cart promo page-specific styles -->
+<style>
+  .atc-main { position: relative; z-index: 2; }
+
+  /* HERO */
+  .atc-hero { position: relative; overflow: hidden; padding: 72px 32px 56px; max-width: none; margin: 0; text-align: center; }
+  .atc-hero-content { max-width: 900px; margin: 0 auto; }
+  .atc-eyebrow {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
+    margin-bottom: 22px; padding: 7px 14px;
+    border: 1px solid var(--accent); background: rgba(3,105,161,0.06); border-radius: 999px;
+  }
+  .atc-eyebrow .spark { color: var(--accent-soft); animation: sparkPulse 2.4s ease-in-out infinite; }
+  @keyframes sparkPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.25) rotate(20deg); } }
+
+  .atc-hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(36px, 6.4vw, 68px); line-height: 1.02; letter-spacing: -0.02em; margin-bottom: 22px; }
+  .atc-hero h1 .free { position: relative; white-space: nowrap; font-style: italic; font-weight: 300; color: var(--accent); }
+  .atc-hero h1 .free::after { content: ''; position: absolute; left: -2px; right: -2px; bottom: 0.08em; height: 0.28em; background: var(--highlight); z-index: -1; transform: skew(-3deg); }
+  .atc-hero .subtitle { font-size: clamp(16px, 2.2vw, 21px); color: var(--muted); max-width: 660px; margin: 0 auto 8px; line-height: 1.5; }
+  .atc-hero .subtitle strong { color: var(--ink); }
+
+  /* Discount code card */
+  .atc-code-card {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 14px;
+    margin: 36px auto 8px; padding: 26px 32px;
+    border: 1.5px solid var(--ink); border-radius: 16px;
+    background: rgba(255,255,255,0.55); box-shadow: 8px 8px 0 var(--ink);
+    max-width: 520px; width: 100%;
+  }
+  .atc-code-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .atc-code-row { display: flex; align-items: stretch; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .atc-code {
+    font-family: 'JetBrains Mono', monospace; font-size: clamp(24px, 5vw, 34px); font-weight: 700;
+    letter-spacing: 0.14em; color: var(--ink);
+    padding: 12px 22px; border: 2px dashed var(--accent); border-radius: 10px;
+    background: var(--highlight);
+  }
+  .atc-copy {
+    cursor: pointer; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper);
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0 18px; border-radius: 10px; transition: all 0.15s ease;
+  }
+  .atc-copy:hover { background: var(--accent); border-color: var(--accent); }
+  .atc-copy.copied { background: #15803d; border-color: #15803d; }
+
+  .atc-cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 30px auto 0; }
+  .atc-cta-row .btn-primary .arrow, .atc-cta-row .btn-secondary .arrow { transition: transform 0.18s ease; }
+  .atc-cta-row .btn-primary:hover .arrow { transform: translateX(4px); }
+  .atc-fineprint { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; color: var(--muted); margin-top: 18px; }
+
+  /* Section wrapper */
+  .atc-section { max-width: 1000px; margin: 0 auto; padding: 64px 32px; }
+  .atc-section-head { text-align: center; max-width: 680px; margin: 0 auto 40px; }
+  .atc-section-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); display: block; margin-bottom: 14px; }
+  .atc-section-head h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(30px, 4.5vw, 48px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .atc-section-head p { color: var(--muted); font-size: 17px; line-height: 1.55; }
+
+  /* How it works — steps */
+  .atc-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .atc-step {
+    border: 1.5px solid var(--ink); border-radius: 14px; padding: 24px 22px;
+    background: rgba(255,255,255,0.55); transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .atc-step:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--ink); }
+  .atc-step-num { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; color: var(--accent); line-height: 1; margin-bottom: 12px; }
+  .atc-step h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; margin-bottom: 8px; }
+  .atc-step p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .atc-step code { font-family: 'JetBrains Mono', monospace; font-weight: 700; background: var(--highlight); color: var(--ink); padding: 1px 7px; border-radius: 5px; }
+
+  /* Features grid */
+  .atc-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .atc-feature {
+    border: 1px solid var(--rule); border-radius: 14px; padding: 24px 22px;
+    background: rgba(255,255,255,0.5); transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  .atc-feature:hover { border-color: var(--accent-soft); transform: translateY(-3px); }
+  .atc-feature-icon { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: inline-flex; align-items: center; gap: 7px; }
+  .atc-feature-icon .dot { color: var(--accent-soft); }
+  .atc-feature h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 19px; margin-bottom: 8px; }
+  .atc-feature p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+
+  /* Podcast feature */
+  .atc-podcast { background: var(--ink); color: var(--paper); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 72px 32px; }
+  .atc-podcast-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+  .atc-podcast-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent-soft); display: block; margin-bottom: 16px; }
+  .atc-podcast h2 { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(28px, 4.5vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 12px; max-width: 760px; margin-left: auto; margin-right: auto; }
+  .atc-podcast p { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 19px; opacity: 0.85; margin-bottom: 32px; max-width: 620px; margin-left: auto; margin-right: auto; }
+  .atc-podcast-thumb {
+    display: block; position: relative; max-width: 820px; margin: 0 auto;
+    border: 1.5px solid var(--accent-soft); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 24px 60px -24px rgba(0,0,0,0.6); transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .atc-podcast-thumb:hover { transform: translateY(-4px); box-shadow: 0 30px 70px -24px rgba(0,0,0,0.7); }
+  .atc-podcast-thumb img { display: block; width: 100%; height: auto; }
+  .atc-podcast-thumb .play-overlay {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    background: rgba(10,25,41,0.18); opacity: 0; transition: opacity 0.2s ease;
+  }
+  .atc-podcast-thumb:hover .play-overlay { opacity: 1; }
+  .atc-podcast-thumb .play-overlay span {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink); background: var(--highlight); padding: 12px 22px; border-radius: 999px;
+  }
+  .atc-podcast-note { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; margin-top: 20px; font-style: normal; }
+  .atc-podcast-note a { color: var(--accent-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .atc-eyebrow .spark { animation: none; }
+    .atc-step, .atc-feature, .atc-podcast-thumb, .atc-cta-row .arrow { transition: none; }
+  }
+
+  @media (max-width: 820px) {
+    .atc-steps, .atc-features { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<main class="atc-main" id="top">
+
+  <!-- PODCAST -->
+  <section class="atc-podcast">
+      <span class="atc-podcast-eyebrow">◆ Are Shopify Apps Dead?net</span>
+      <h2>Watch Native App Co on the Add to Cart Podcast</h2>
+      <p>Co-founder Martin Cox on why the Shopify App Store is not dead — and what has changed for the apps that win from here.</p>
+      <a class="atc-podcast-thumb" href="https://addtocart.com.au/add-to-cart/the-shopify-app-store-is-not-dead-martin-cox-on-what-has-changed-643/" target="_blank" rel="noopener">
+        <img src="/add-to-cart.png" alt="Add to Cart Podcast — The Shopify App Store Is Not Dead. Martin Cox on What Has Changed | #643">
+        <span class="play-overlay"><span>▶ Play Episode</span></span>
+      </a>
+      <p class="atc-podcast-note">Listen on the <a href="https://addtocart.com.au/add-to-cart/the-shopify-app-store-is-not-dead-martin-cox-on-what-has-changed-643/" target="_blank" rel="noopener">Add to Cart Podcast · Episode #643 →</a></p>
+    </div>
+        <div class="atc-cta-row">
+      <a class="btn-secondary btn-outline" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">Install Product Pelican <span class="arrow">→</span></a>
+      <a class="btn-secondary" href="/free-audit">Run a Free Product Data Audit</a>
+
+  </section>
+
+  <section class="atc-hero">
+    <div class="atc-hero-content">
+      <span class="atc-eyebrow"><span class="spark">◆</span> Add to Cart Listener Offer · Standard Plan</span>
+      <h1>Get Product Pelican<br /><span class="free">3 months free</span> on the Standard plan</h1>
+      <p class="subtitle">Heard us on <strong>Add to Cart</strong>? Install Product Pelican and enter the code below to get <strong>3 months free</strong> on the Standard plan. Try every feature — optimise your products and collections, and generate content that makes your store <strong>AI friendly</strong>.</p>
+
+      <div class="atc-code-card">
+        <span class="atc-code-label">Your discount code</span>
+        <div class="atc-code-row">
+          <span class="atc-code" id="atc-code">ADDTOCART</span>
+          <button class="atc-copy" id="atc-copy" type="button" aria-label="Copy discount code">Copy</button>
+        </div>
+        <span class="atc-code-label">Apply on the billing page when you choose the Standard plan</span>
+      </div>
+
+      <div class="atc-cta-row">
+        <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">Install Product Pelican <span class="arrow">→</span></a>
+        <a class="btn-secondary" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Demo</a>
+      </div>
+      <p class="atc-fineprint">No card charged during your free months · Cancel anytime</p>
+    </div>
+  </section>
+
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">3 Months Free on Standard<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Code: ADDTOCART<span class="m-dot">◆</span></span>
+      <span class="marquee-item">AI Alt Text Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Bulk Title &amp; Description Rewrites<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Shopify Taxonomy Categorisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Collection Optimisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">FAQ Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">GEO Score &amp; Agent Readiness<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Make Your Store AI Friendly<span class="m-dot">◆</span></span>
+      <span class="marquee-item">3 Months Free on Standard<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Code: ADDTOCART<span class="m-dot">◆</span></span>
+      <span class="marquee-item">AI Alt Text Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Bulk Title &amp; Description Rewrites<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Shopify Taxonomy Categorisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Collection Optimisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">FAQ Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">GEO Score &amp; Agent Readiness<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Make Your Store AI Friendly<span class="m-dot">◆</span></span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="atc-section">
+    <div class="atc-section-head">
+      <span class="atc-section-eyebrow">How to claim it</span>
+      <h2>Three months free, three quick steps</h2>
+      <p>No sales call required. Install, apply the code, and start enriching your catalogue.</p>
+    </div>
+    <div class="atc-steps">
+      <div class="atc-step">
+        <div class="atc-step-num">01</div>
+        <h3>Install Product Pelican</h3>
+        <p>Add the app from the Shopify App Store. It installs natively — no theme edits, no spreadsheets.</p>
+      </div>
+      <div class="atc-step">
+        <div class="atc-step-num">02</div>
+        <h3>Choose the Standard plan</h3>
+        <p>Pick the Standard plan and enter the code <code>ADDTOCART</code> when prompted to apply the discount.</p>
+      </div>
+      <div class="atc-step">
+        <div class="atc-step-num">03</div>
+        <h3>Enjoy 3 months free</h3>
+        <p>Your Standard plan is free for the first three months. Explore every feature with your whole catalogue.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="atc-section" style="padding-top:0;">
+    <div class="atc-section-head">
+      <span class="atc-section-eyebrow">What you get to try</span>
+      <h2>Optimise everything, make it AI friendly</h2>
+      <p>Product Pelican reads the same signals AI shopping agents and search engines use — then fixes the gaps automatically.</p>
+    </div>
+    <div class="atc-features">
+      <div class="atc-feature">
+        <span class="atc-feature-icon"><span class="dot">◆</span> Products</span>
+        <h3>Optimise your products</h3>
+        <p>Bulk-rewrite titles and descriptions, generate AI alt text, assign Shopify taxonomy categories and fill gaps like SKUs and barcodes.</p>
+      </div>
+      <div class="atc-feature">
+        <span class="atc-feature-icon"><span class="dot">◆</span> Collections</span>
+        <h3>Optimise your collections</h3>
+        <p>Enrich collection titles, descriptions and metadata so both shoppers and agents understand how your catalogue is organised.</p>
+      </div>
+      <div class="atc-feature">
+        <span class="atc-feature-icon"><span class="dot">◆</span> AI Content</span>
+        <h3>Generate AI-friendly content</h3>
+        <p>Add structured data, product FAQs and clean, machine-readable content that makes your store easy for ChatGPT and shopping agents to read.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>3 months free is <em>waiting.</em></h2>
+    <p>Install Product Pelican, apply code ADDTOCART on the Standard plan, and make your whole catalogue AI friendly.</p>
+    <div class="cta-row" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">Install Product Pelican <span class="arrow">→</span></a>
+      <a class="btn-secondary" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Demo</a>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<div class="footer-mascots">
+  <img src="footer-mascots.jpg" alt="Native App Co — Apps that don't feel like apps">
+</div>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script>
+(function () {
+  var btn = document.getElementById('atc-copy');
+  var code = document.getElementById('atc-code');
+  if (!btn || !code) return;
+  btn.addEventListener('click', function () {
+    var text = code.textContent.trim();
+    var done = function () {
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallback(text, done); });
+    } else {
+      fallback(text, done);
+    }
+  });
+  function fallback(text, done) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta); done();
+    } catch (e) { /* no-op */ }
+  }
+})();
+</script>
+
+{% endblock %}

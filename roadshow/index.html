@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YRFJX7X5R6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YRFJX7X5R6');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Product Pelican Roadshow</title>
+<meta name="description" content="Every day this week, we're dropping a quick demo of a Product Pelican feature that helps Shopify merchants get their product data working harder — for search, for AI agents, and for the shoppers who actually buy.">
+<meta name="author" content="Native App Co">
+
+<meta property="og:title" content="The Product Pelican Roadshow">
+<meta property="og:description" content="Every day this week, we're dropping a quick demo of a Product Pelican feature that helps Shopify merchants get their product data working harder — for search, for AI agents, and for the shoppers who actually buy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://productpelican.nativeappco.com/roadshow">
+<!-- TODO: swap og:image for a dedicated Roadshow social card if available -->
+<meta property="og:image" content="video-thumb.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="/pelican-200.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+  --ink: #0A1929;
+  --paper: #d6f3ff;                                            /* fallback solid */
+  --paper-deep: #A5DFF5;
+  --paper-dim: #D4EEF9;
+  --accent: #0369A1;
+  --accent-soft: #38BDF8;
+  --highlight: #FDE047;
+  --red: #DC2626;
+  --muted: #475569;
+  --rule: rgba(10, 25, 41, 0.15);
+}
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  main { position: relative; z-index: 2; }
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--ink);
+    padding: 14px 32px;
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px; letter-spacing: -0.01em; }
+  .nav-brand img { width: 28px; height: 28px; object-fit: contain; }
+  .nav-links {
+    display: flex; gap: 28px; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .nav-links a { transition: color 0.15s ease; }
+  .nav-links a:hover { color: var(--accent); }
+
+.install-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 4px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border: 1px solid var(--accent);
+    transition: all 0.15s ease;
+}
+  .install-btn:hover { background: var(--ink); border-color: var(--ink); transform: translateY(-1px); }
+  .install-btn .arrow { font-size: 13px; line-height: 1; }
+
+  /* PELICAN — flying watermark in hero background */
+  .hero { position: relative; }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -16%;
+    width: 620px;
+    height: 620px;
+    background-image: url('pelican-flying.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.11;
+    pointer-events: none;
+    z-index: 0;
+    transform: rotate(-16deg);
+  }
+  .hero > * { position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    padding: 80px 100px 80px;
+    max-width: 1800px; margin: 40px auto;
+    text-align: center; position: relative;
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent);
+    margin-bottom: 28px; padding: 6px 14px;
+    border: 1px solid var(--accent); background: rgba(3, 105, 161, 0.06);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(32px, 7.5vw, 60px); line-height: 0.94; letter-spacing: -0.03em;
+    font-variation-settings: "SOFT" 50; margin-bottom: 24px;
+  }
+  .hero h1 .italic { font-style: italic; font-weight: 300; color: var(--accent); }
+  .hero h1 .underline { position: relative; display: inline-block; }
+  .hero h1 .underline::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0.08em;
+    height: 0.28em; background: var(--highlight); z-index: -1; transform: skew(-3deg);
+  }
+  .hero .subtitle {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(19px, 2.2vw, 24px); line-height: 1.35; color: var(--muted);
+    max-width: 760px; margin: 0 auto 32px;
+  }
+  .hero .cta-row { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 56px; }
+
+  /* HERO TWO-COLUMN SPLIT */
+  .hero-inner {
+    display: grid; grid-template-columns: 1fr 1.15fr;
+    gap: 80px; align-items: center; text-align: left;
+  }
+  .hero-inner .subtitle { margin-left: 0; margin-right: 0; }
+  .hero-inner .cta-row { justify-content: flex-start; margin-bottom: 0; }
+
+  /* HERO VIDEO PLAYER (MP4) */
+  .hero-media .video-frame {
+    position: relative; width: 100%; max-width: 600px; margin: auto;
+    border: 1.5px solid var(--ink); box-shadow: 12px 12px 0 var(--ink);
+    overflow: hidden; display: block; background: var(--ink);
+    aspect-ratio: 16 / 9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hero-media .video-frame:hover { transform: translate(-2px, -2px); box-shadow: 16px 16px 0 var(--ink); }
+  .hero-media .video-frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .hero-media .video-caption {
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); text-align: center;
+  }
+  .hero-media .video-caption strong { color: var(--accent); font-weight: 700; }
+
+  .btn-primary, .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 22px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    border: 1.5px solid var(--ink); transition: all 0.15s ease;
+  }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--ink); }
+  .btn-secondary { background: var(--paper); color: var(--ink); }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--accent); }
+  .btn-primary .arrow, .btn-secondary .arrow { font-size: 14px; }
+
+  /* SECTION HEAD */
+  .section { padding: 60px 32px 100px; max-width: 1200px; margin: 0 auto; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 14px; border-bottom: 1.5px solid var(--ink);
+    margin-bottom: 48px; gap: 24px;
+  }
+  .section-head .lhs { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .section-head .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em;
+  }
+  .section-head .num { color: var(--accent); }
+  .section-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(32px, 4.5vw, 52px); line-height: 1; letter-spacing: -0.02em;
+  }
+  .section-head h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
+  .section-head .kicker {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 16px; color: var(--muted); max-width: 320px; text-align: right;
+  }
+
+  /* EPISODE GRID */
+  .ep-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .ep-card {
+    display: flex; flex-direction: column;
+    background: var(--paper-dim);
+    border: 1.5px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .ep-card.live:hover { transform: translate(-3px, -3px); box-shadow: 12px 12px 0 var(--ink); }
+
+  .ep-thumb {
+    position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+    background: var(--ink); border-bottom: 1.5px solid var(--ink);
+  }
+  .ep-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* until a real thumbnail src is added, show the clean dark placeholder + play icon */
+  .ep-thumb img[src=""], .ep-thumb img:not([src]) { display: none; }
+  .ep-play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(10, 25, 41, 0.28); transition: background 0.2s ease;
+  }
+  .ep-card.live:hover .ep-play { background: rgba(10, 25, 41, 0.12); }
+  .ep-play svg {
+    width: 58px; height: 40px; color: var(--paper);
+    filter: drop-shadow(0 3px 14px rgba(0,0,0,0.55));
+    transition: transform 0.2s ease;
+  }
+  .ep-card.live:hover .ep-play svg { transform: scale(1.12); color: var(--accent-soft); }
+
+  /* day badge — pill over the thumbnail */
+  .ep-badge {
+    position: absolute; top: 12px; left: 12px; z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    padding: 5px 11px; border: 1.5px solid var(--ink);
+    background: var(--highlight); color: var(--ink);
+  }
+  .ep-badge.mon { background: var(--highlight); }   /* Monday — shared colour for the two-drop day */
+
+  .ep-body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .ep-body h3 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 24px; line-height: 1.08; letter-spacing: -0.02em;
+  }
+  .ep-body p { font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .ep-watch {
+    margin-top: auto; padding-top: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .ep-card.live:hover .ep-watch { color: var(--ink); }
+
+  /* coming-soon variant */
+  .ep-card.soon { opacity: 0.72; cursor: default; }
+  .ep-card.soon .ep-thumb { filter: grayscale(0.85); }
+  .ep-card.soon .ep-badge { background: var(--red); color: var(--paper); border-color: var(--ink); }
+  .ep-soon-label {
+    position: absolute; bottom: 12px; right: 12px; z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 4px 10px; background: var(--ink); color: var(--paper);
+  }
+
+  /* MODAL (video lightbox) */
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(14, 17, 22, 0.88);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1000; padding: 2%; backdrop-filter: blur(6px);
+    animation: fadeIn 0.2s ease;
+  }
+  .modal.open { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-inner {
+    width: 90vw; max-width: 90vw;
+    background: var(--ink); border: 1.5px solid var(--paper);
+    box-shadow: 12px 12px 0 var(--accent);
+  }
+  .modal-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; border-bottom: 1px solid rgba(244, 239, 230, 0.2);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .modal-head .title { color: var(--accent-soft); }
+  .modal-close {
+    background: none; border: 1px solid var(--paper); color: var(--paper);
+    width: 28px; height: 28px;
+    font-family: 'JetBrains Mono', monospace; font-size: 16px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .modal-close:hover { background: var(--paper); color: var(--ink); }
+  .modal-video { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; }
+  .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 32px; background: var(--paper);
+    border-top: 1px solid var(--ink);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 32px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
+  }
+  footer a { transition: color 0.15s ease; }
+  footer a:hover { color: var(--accent); }
+  .footer-col { display: flex; flex-direction: column; gap: 8px; }
+  .footer-brand { color: var(--ink); font-weight: 700; }
+  .footer-right-links { display: flex; gap: 18px; flex-wrap: wrap; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .ep-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  }
+  @media (max-width: 860px) {
+    .hero { padding: 56px 24px; margin: 16px auto; overflow: hidden; }   /* clip the oversized watermark */
+    /* video stacks above the copy on mobile via flex order */
+    .hero-inner { display: flex; flex-direction: column; gap: 40px; text-align: left; }
+    .hero-media { order: -1; }
+    .hero-media .video-frame { box-shadow: 6px 6px 0 var(--ink); }
+    .section { padding: 40px 20px 70px; }
+    .section-head { flex-direction: column; align-items: flex-start; }
+    .section-head .kicker { text-align: left; max-width: none; }
+  }
+  /* HEADER — declutter on smaller screens */
+  @media (max-width: 720px) {
+    .nav { padding: 10px 16px; gap: 12px; }
+    .nav-brand { font-size: 16px; }
+    .nav-links { gap: 12px; }
+    .nav-links a:not(.install-btn) { display: none; }   /* drop text links, keep the two CTAs */
+  }
+  @media (max-width: 560px) {
+    .ep-grid { grid-template-columns: 1fr; }
+    /* keep blocks + their offset shadow fully inside the viewport */
+    .hero-media .video-frame, .ep-card { box-shadow: 5px 5px 0 var(--ink); max-width: 100%; }
+    .section { padding: 40px 16px 70px; }
+    footer { flex-direction: column; gap: 32px; }
+    .modal-inner { width: 100%; max-width: 100%; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main Navigation">
+  <a href="/" class="nav-brand">
+    <img src="https://cdn.shopify.com/s/files/1/0987/8267/5232/files/pelican-200.png?v=1776037749" alt="Product Pelican Logo">
+    <span>Product Pelican</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Back to main site</a>
+    <a href="https://apps.nativeappco.com/product-pelican" target="_blank" rel="noopener">
+      <span>Docs</span><span class="arrow">→</span>
+    </a>
+    <a class="install-btn" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
+      <span>Install</span>
+    </a>
+    <a class="install-btn" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;"><span>Book Demo</span></a>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- ─────────────── HERO ─────────────── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">Product Pelican · On the road</span>
+        <h1>
+          The Product Pelican<br>
+          <span class="underline">Roadshow.</span>
+        </h1>
+        <p class="subtitle">
+          Every day this week, we're dropping a quick demo of a Product Pelican feature that
+          helps Shopify merchants get their product data working harder — for search, for AI
+          agents, and for the shoppers who actually buy.
+        </p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
+            Install on Shopify <span class="arrow">→</span>
+          </a>
+          <!-- Calendly link widget begin -->
+          <a class="btn-secondary" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Demo</a>
+          <!-- Calendly link widget end -->
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="video-frame">
+          <!-- TODO: add video src / swap poster image -->
+          <video controls preload="metadata" playsinline poster="video-thumb.jpg">
+            <source src="Product%20Pelican%20Roadshow.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <p class="video-caption"><strong>On the road</strong> — with Product Pelican</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─────────────── THE WEEK ─────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <div class="lhs">
+        <span class="label">
+        <h2>Quick demos</h2>
+      </div>
+      <p class="kicker">To create quick wins for your store.</p>
+    </div>
+
+    <div class="ep-grid">
+
+      <!-- MON · 1 — Product Categories -->
+      <a class="ep-card live reveal" href="https://youtu.be/tYrABgttA5c" target="_blank" rel="noopener" data-video="tYrABgttA5c" data-title="Product Categories">
+        <div class="ep-thumb">
+          <span class="ep-badge mon">Mon</span>
+          <!-- TODO: add thumbnail src for MON · Product Categories -->
+          <img src="thumb1.jpg" alt="Product Categories demo thumbnail">
+          <div class="ep-play" aria-hidden="true">
+            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="currentColor"/>
+              <path d="M45 24 27 14v20z" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <h3>Product Categories</h3>
+          <p>Get every product correctly classified in one go.</p>
+          <span class="ep-watch">Watch on YouTube <span aria-hidden="true">↗</span></span>
+        </div>
+      </a>
+
+      <!-- MON · 2 — Category Metafields -->
+      <a class="ep-card live reveal" href="https://youtu.be/IBaOxvfuclg" target="_blank" rel="noopener" data-video="IBaOxvfuclg" data-title="Category Metafields">
+        <div class="ep-thumb">
+          <span class="ep-badge mon">Mon</span>
+          <!-- TODO: add thumbnail src for MON · Category Metafields -->
+          <img src="thumb2.jpg" alt="Category Metafields demo thumbnail">
+          <div class="ep-play" aria-hidden="true">
+            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="currentColor"/>
+              <path d="M45 24 27 14v20z" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <h3>Category Metafields</h3>
+          <p>Unlock richer product data with category-specific metafields.</p>
+          <span class="ep-watch">Watch on YouTube <span aria-hidden="true">↗</span></span>
+        </div>
+      </a>
+
+      <!-- TUE — Product FAQs (coming soon) -->
+      <!-- TODO: add YouTube link for TUE — then change <div> to <a href> and swap classes soon→live -->
+      <a class="ep-card live reveal" href="https://youtu.be/Nigh-11Ik2s" target="_blank" rel="noopener" data-video="Nigh-11Ik2s" data-title="Product FAQs">
+        <div class="ep-thumb">
+          <span class="ep-badge mon">Tue</span>
+          <img src="thumb3.jpg" alt="Product FAQs demo thumbnail">
+          <div class="ep-play" aria-hidden="true">
+            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="currentColor"/>
+              <path d="M45 24 27 14v20z" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <h3>Product FAQs</h3>
+          <p>Create rich content & schema for humans and bots.</p>
+        </div>
+      </a>
+      <!-- WED — Image Alt Text (coming soon) -->
+      <!-- TODO: add YouTube link for WED — then change <div> to <a href> and swap classes soon→live -->
+      <a class="ep-card live reveal" href="https://youtu.be/u_Ph4fk51yA" target="_blank" rel="noopener" data-video="u_Ph4fk51yA" data-title="Image Alt Text">
+        <div class="ep-thumb">
+          <span class="ep-badge">Wed</span>
+          <!-- TODO: add thumbnail src for WED · Image Alt Text -->
+          <img src="thumb4.jpg" alt="Image Alt Text demo thumbnail (coming soon)">
+          <div class="ep-play" aria-hidden="true">
+            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="currentColor"/>
+              <path d="M45 24 27 14v20z" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <h3>Image Alt Text</h3>
+          <p>Boring but important, made easy.</p>
+        </div>
+      </a>
+      <!-- THU — Product Stitching (coming soon) -->
+      <!-- TODO: add YouTube link for THU — then change <div> to <a href> and swap classes soon→live -->
+      <div class="ep-card soon reveal" aria-disabled="true">
+        <div class="ep-thumb">
+          <span class="ep-badge">Thu</span>
+          <!-- TODO: add thumbnail src for THU · Product Stitching -->
+          <img src="thumb5.jpg" alt="Product Stitching demo thumbnail (coming soon)">
+          <div class="ep-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="11" width="16" height="9" rx="1.5"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+            </svg>
+          </div>
+          <span class="ep-soon-label">Coming soon</span>
+        </div>
+        <div class="ep-body">
+          <h3>Product Stitching</h3>
+          <p>Link related products without the headache.</p>
+        </div>
+      </div>
+
+      <!-- FRI — GEO Scores (coming soon) -->
+      <!-- TODO: add YouTube link for FRI — then change <div> to <a href> and swap classes soon→live -->
+      <div class="ep-card soon reveal" aria-disabled="true">
+        <div class="ep-thumb">
+          <span class="ep-badge">Fri</span>
+          <!-- TODO: add thumbnail src for FRI · GEO Scores -->
+          <img src="thumb6.jpg" alt="GEO Scores demo thumbnail (coming soon)">
+          <div class="ep-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="11" width="16" height="9" rx="1.5"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+            </svg>
+          </div>
+          <span class="ep-soon-label">Coming soon</span>
+        </div>
+        <div class="ep-body">
+          <h3>GEO Scores</h3>
+          <p>What it means and how to use them.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ─────────────── VIDEO LIGHTBOX ─────────────── -->
+<div class="modal" id="videoModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <span class="title" id="modalTitle">Product Pelican demo</span>
+      <button class="modal-close" id="modalClose" aria-label="Close video">×</button>
+    </div>
+    <div class="modal-video">
+      <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-col">
+    <div><span class="footer-brand">Product Pelican</span> &nbsp;·&nbsp; A <a href="https://nativeappco.com" target="_blank" rel="noopener">Native App Co</a> product</div>
+    <div>&copy; <span id="year">2026</span> Native App Co. All rights reserved.</div>
+  </div>
+  <div class="footer-right-links">
+    <a href="https://apps.nativeappco.com/product-pelican" target="_blank" rel="noopener">Docs</a> &nbsp;·&nbsp;
+    <a href="mailto:support@nativeappco.com">Support</a> &nbsp;·&nbsp;
+    <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Call</a>
+  </div>
+</footer>
+
+<script>
+  // current year in footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // lightweight scroll fade-in
+  (function () {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    els.forEach(e => io.observe(e));
+  })();
+
+  // video lightbox — open live episode cards in a modal instead of a new tab
+  (function () {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('modalIframe');
+    const titleEl = document.getElementById('modalTitle');
+    const closeBtn = document.getElementById('modalClose');
+
+    function openModal(videoId, title) {
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+      titleEl.textContent = title || 'Product Pelican demo';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      iframe.src = '';
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.ep-card.live[data-video]').forEach(card => {
+      card.addEventListener('click', (e) => {
+        // let modified clicks (new-tab, etc.) fall through to the href fallback
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+        e.preventDefault();
+        openModal(card.dataset.video, card.dataset.title);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+  })();
+</script>
+
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+</body>
+</html>

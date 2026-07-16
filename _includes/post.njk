@@ -1,0 +1,42 @@
+{% extends "base.njk" %}
+
+{% block extrahead %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {{ title | dump | safe }},
+    "description": {{ description | dump | safe }},
+    "datePublished": "{{ page.date | isoDate }}",
+    "author": { "@type": "Organization", "name": "Native App Co" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Product Pelican",
+      "logo": { "@type": "ImageObject", "url": "{{ site.logo }}" }
+    },
+    "mainEntityOfPage": "{{ site.url }}{{ page.url }}"
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main class="blog-post">
+  <article class="post">
+    <p class="post-back"><a href="/blog/">← All articles</a></p>
+    <header class="post-header">
+      <h1>{{ title }}</h1>
+      <p class="post-meta">
+        <time datetime="{{ page.date | isoDate }}">{{ page.date | postDate }}</time>
+        {% if tags %}{% for tag in tags %}{% if tag != "posts" %} · <span class="post-tag">{{ tag }}</span>{% endif %}{% endfor %}{% endif %}
+      </p>
+    </header>
+    <div class="post-body">
+      {{ content | safe }}
+    </div>
+    <footer class="post-cta">
+      <p>Product Pelican is the Shopify-native PIM for the agentic commerce era.</p>
+      <a class="install-btn" href="{{ site.cta.install }}" target="_blank" rel="noopener"><span>Install on Shopify</span></a>
+    </footer>
+  </article>
+</main>
+{% endblock %}

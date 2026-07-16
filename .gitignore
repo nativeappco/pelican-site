@@ -1,0 +1,8 @@
+# Local Netlify folder
+.netlify
+
+# Node
+node_modules
+
+# Eleventy build output
+_site

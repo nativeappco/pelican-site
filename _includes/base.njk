@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.gaId }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ site.gaId }}');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <meta name="author" content="Native App Co">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="{{ ogTitle or title }}">
+  <meta property="og:description" content="{{ ogDesc or description }}">
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ ogImage or site.defaultOgImage }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="/pelican-200.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared design system -->
+  <link rel="stylesheet" href="/global.css">
+
+  <!-- Calendly popup widget (Book Demo lives in the shared nav) -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
+  {% block extrahead %}{% endblock %}
+</head>
+<body{% if bodyAttr %} {{ bodyAttr | safe }}{% endif %}>
+
+{% include "partials/nav.njk" %}
+
+{% block content %}{{ content | safe }}{% endblock %}
+
+{% include "partials/footer.njk" %}
+
+{% block afterfooter %}{% endblock %}
+
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

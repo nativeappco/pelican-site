@@ -1,0 +1,18 @@
+<nav class="nav" aria-label="Main Navigation">
+  <a href="/" class="nav-brand">
+    <img src="{{ site.logo }}" alt="Product Pelican Logo">
+    <span>{{ site.name }}</span>
+  </a>
+  <div class="nav-links">
+    {%- for link in site.navLinks %}
+    <a href="{{ link.href }}">{{ link.label }}</a>
+    {%- endfor %}
+    <a href="{{ site.cta.docs }}" target="_blank" rel="noopener">
+      <span>Docs</span><span class="arrow">→</span>
+    </a>
+    <a class="install-btn" href="{{ site.cta.install }}" target="_blank" rel="noopener">
+      <span>Install</span>
+    </a>
+    <a class="install-btn" href="" onclick="Calendly.initPopupWidget({url: '{{ site.cta.calendly }}'});return false;"><span>Book Demo</span></a>
+  </div>
+</nav>

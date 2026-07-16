@@ -1,0 +1,7 @@
+{
+  "layout": "post.njk",
+  "tags": "posts",
+  "eleventyComputed": {
+    "permalink": "/blog/{{ page.fileSlug }}/index.html"
+  }
+}

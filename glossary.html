@@ -1,0 +1,672 @@
+---
+title: "The Agentic Commerce Glossary | Product Pelican"
+description: "The words and acronyms of agentic commerce, A to Z — GEO, UCP, MCP, agents.md, schema and more. Plain English, technical, or LinkedIn Brain definitions from Product Pelican."
+ogDesc: "Every agentic commerce term you keep hearing, explained. Plain English, technical, or LinkedIn Brain."
+permalink: /glossary/
+bodyAttr: 'data-mode="plain"'
+---
+{% extends "base.njk" %}
+
+{% block extrahead %}
+<!-- Glossary page-specific styles -->
+<style>
+  .glossary-main { position: relative; z-index: 2; }
+
+  /* ── Hero with scoped animated flock (half pelicans, half words) ── */
+  .glossary-hero {
+    position: relative; overflow: hidden;
+    padding: 72px 32px 44px; max-width: 1120px; margin: 32px auto 0;
+    text-align: center;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .glossary-hero .pelican-flock { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .glossary-hero > *:not(.pelican-flock) { position: relative; z-index: 1; }
+
+  /* word-chips that fly alongside the pelicans */
+  .bird.word {
+    background-image: none;
+    width: auto; height: auto;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    font-size: 15px; letter-spacing: 0.02em; color: var(--accent);
+    white-space: nowrap; line-height: 1;
+    display: inline-flex; align-items: center;
+  }
+  .bird.word::before { content: '{ '; opacity: 0.5; }
+  .bird.word::after  { content: ' }'; opacity: 0.5; }
+
+  .glossary-hero .eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent);
+    margin-bottom: 22px; padding: 6px 14px;
+    border: 1px solid var(--accent); background: rgba(3,105,161,0.06);
+  }
+  .glossary-hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(34px, 6.5vw, 66px); line-height: 1.0; letter-spacing: -0.025em;
+    font-variation-settings: "SOFT" 50; margin-bottom: 18px;
+  }
+  .glossary-hero h1 .italic { font-style: italic; font-weight: 300; color: var(--accent); }
+  .glossary-hero .dek {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(17px, 2.1vw, 21px); line-height: 1.4; color: var(--muted);
+    max-width: 640px; margin: 0 auto 30px;
+  }
+  .glossary-hero .dek a { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  /* ── Badges / category tags ── */
+  .badge {
+    display: inline-flex; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 4px 9px; border-radius: 999px; border: 1px solid;
+    white-space: nowrap;
+    color: var(--bc, var(--muted)); border-color: var(--bc, var(--muted));
+    background: color-mix(in srgb, var(--bc, var(--muted)) 8%, transparent);
+  }
+  .badge[data-cat="seo"]        { --bc: #0369A1; }
+  .badge[data-cat="structured"] { --bc: #0F766E; }
+  .badge[data-cat="shop-data"]  { --bc: #7C3AED; }
+  .badge[data-cat="shop-ai"]    { --bc: #0284C7; }
+  .badge[data-cat="protocol"]   { --bc: #B45309; }
+  .badge[data-cat="file"]       { --bc: #475569; }
+
+  /* ── Filter legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    max-width: 720px; margin: 0 auto 22px;
+  }
+  .badge.legend { cursor: pointer; transition: all 0.14s ease; }
+  .badge.legend:hover { transform: translateY(-1px); }
+  .badge.legend.selected { background: var(--bc, var(--accent)); color: #fff; border-color: var(--bc, var(--accent)); }
+  .clear-filters {
+    display: none; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted);
+    background: transparent; border: 1px dashed var(--rule); border-radius: 999px;
+    padding: 4px 9px;
+  }
+  .clear-filters:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* ── Definition-style switch ── */
+  .switch {
+    display: inline-flex; border: 1.5px solid var(--ink);
+    border-radius: 999px; overflow: hidden; background: var(--paper);
+  }
+  .mode-btn {
+    cursor: pointer; border: none; background: transparent; color: var(--ink);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 10px 18px; transition: all 0.14s ease; white-space: nowrap;
+  }
+  .mode-btn + .mode-btn { border-left: 1.5px solid var(--ink); }
+  .mode-btn:hover { background: var(--paper-deep); }
+  .mode-btn.active { background: var(--ink); color: var(--paper); }
+
+  /* ── Glossary list ── */
+  .glossary-list { max-width: 860px; margin: 48px auto 0; padding: 0 32px 40px; }
+  .term {
+    border: 1px solid var(--rule); border-radius: 14px;
+    padding: 22px 24px; margin-bottom: 16px;
+    background: rgba(255,255,255,0.55);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .term:hover { border-color: var(--ink); box-shadow: 6px 6px 0 var(--ink); transform: translate(-2px,-2px); }
+  .term-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 12px; margin-bottom: 12px; }
+  .term-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; letter-spacing: -0.01em; color: var(--ink); }
+  .term-expansion { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 16px; color: var(--muted); }
+  .term-head .badge { margin-left: auto; }
+
+  .definition { display: none; font-size: 15.5px; line-height: 1.62; color: #1a1d24; }
+  .definition.active { display: block; }
+
+  .ref {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);
+    border-bottom: 2px solid var(--accent); padding-bottom: 3px; transition: gap 0.15s ease;
+  }
+  .ref:hover { gap: 12px; }
+  /* In LinkedIn Brain mode the reference link would break the "post" illusion */
+  body[data-mode="linkedin"] .ref { display: none; }
+
+  /* ── LinkedIn Brain: render the definition as a real LinkedIn post ── */
+  .li-post {
+    max-width: 560px; margin-top: 6px;
+    background: #ffffff; border: 1px solid #e3e2df; border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter Tight', sans-serif;
+    color: #1b1f23; overflow: hidden;
+  }
+  .li-head { display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px 0; }
+  .li-avatar {
+    width: 48px; height: 48px; border-radius: 50%; flex: 0 0 auto;
+    object-fit: contain; background: #eef3f8; border: 1px solid #e3e2df;
+  }
+  .li-meta { flex: 1; min-width: 0; line-height: 1.25; }
+  .li-name { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #1b1f23; }
+  .li-name .li-dot { color: #8a8a8a; font-weight: 400; }
+  .li-name .li-conn { color: #8a8a8a; font-weight: 400; font-size: 12px; }
+  .li-topvoice {
+    font-size: 10px; font-weight: 700; color: #fff;
+    background: linear-gradient(90deg,#915907,#c98a2b); border-radius: 3px;
+    padding: 1px 5px; letter-spacing: 0.02em; white-space: nowrap;
+  }
+  .li-headline {
+    display: block; font-size: 12px; color: #5b5b5b; margin-top: 1px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .li-sub { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #5b5b5b; margin-top: 1px; }
+  .li-sub .li-globe { width: 12px; height: 12px; opacity: 0.7; }
+  .li-follow {
+    flex: 0 0 auto; align-self: flex-start; margin-left: 6px;
+    display: inline-flex; align-items: center; gap: 4px;
+    color: #0a66c2; font-weight: 600; font-size: 14px; cursor: pointer;
+    background: none; border: none; padding: 4px 6px; border-radius: 4px;
+  }
+  .li-follow:hover { background: #d0e1f4; }
+  .li-follow .plus { font-size: 17px; line-height: 1; }
+  .li-body { padding: 8px 14px 10px; font-size: 14px; line-height: 1.45; color: #1b1f23; }
+  .li-body .li-tag { color: #0a66c2; font-weight: 600; }
+  .li-stats {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 6px 14px; font-size: 12px; color: #5b5b5b;
+  }
+  .li-reactions { display: inline-flex; align-items: center; gap: 6px; }
+  .li-emojis { display: inline-flex; }
+  .li-emojis .li-emoji {
+    width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #fff;
+    display: inline-grid; place-items: center; font-size: 10px; margin-left: -5px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.3);
+  }
+  .li-emojis .li-emoji:first-child { margin-left: 0; }
+  .li-emojis .e-like { background: #378fe9; }
+  .li-emojis .e-heart { background: #df704d; }
+  .li-emojis .e-bulb { background: #f5bb5c; }
+  .li-divider { height: 1px; background: #e3e2df; margin: 0 12px; }
+  .li-actions { display: flex; padding: 4px 6px 6px; }
+  .li-action {
+    flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 10px 6px; background: none; border: none; cursor: pointer;
+    color: #5b5b5b; font-weight: 600; font-size: 13px; border-radius: 6px;
+    font-family: inherit;
+  }
+  .li-action:hover { background: #f3f2ef; }
+  .li-action svg { width: 18px; height: 18px; fill: none; stroke: #5b5b5b; stroke-width: 1.8; }
+  @media (max-width: 620px) {
+    .li-action span { display: none; }
+    .li-headline { white-space: normal; }
+  }
+
+  .glossary-empty {
+    display: none; text-align: center; color: var(--muted);
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; padding: 40px 0;
+  }
+
+  .glossary-foot {
+    max-width: 860px; margin: 0 auto; padding: 24px 32px 60px; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
+  }
+
+  @media (max-width: 620px) {
+    .glossary-hero { padding: 52px 20px 36px; margin-top: 16px; }
+    .glossary-list { padding: 0 20px 32px; }
+    .term-head .badge { margin-left: 0; }
+    .switch { flex-wrap: wrap; border-radius: 14px; }
+    .mode-btn + .mode-btn { border-left: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bird { display: none; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="glossary-main" id="top">
+
+  <header class="glossary-hero">
+    <!-- Animated flock: half flying pelicans, half glossary words -->
+    <div class="pelican-flock" aria-hidden="true">
+      <div class="bird"></div>
+      <div class="bird word">GEO</div>
+      <div class="bird"></div>
+      <div class="bird word">agents.md</div>
+      <div class="bird"></div>
+      <div class="bird word">MCP</div>
+      <div class="bird"></div>
+      <div class="bird word">UCP</div>
+      <div class="bird"></div>
+      <div class="bird word">llms.txt</div>
+      <div class="bird"></div>
+      <div class="bird word">Schema</div>
+      <div class="bird"></div>
+      <div class="bird word">AP2</div>
+      <div class="bird"></div>
+      <div class="bird word">JSON-LD</div>
+    </div>
+
+    <p class="eyebrow">Agentic Commerce Cheat Sheet</p>
+    <h1>The <span class="italic">Agentic Commerce</span> Glossary</h1>
+    <p class="dek">The words and acronyms you keep hearing, A to Z. Keep this handy. Suggest an update — email <a href="mailto:support@nativeappco.com">support@nativeappco.com</a></p>
+
+    <div class="legend">
+      <button type="button" class="badge legend" data-cat="seo" aria-pressed="false">SEO Family</button>
+      <button type="button" class="badge legend" data-cat="structured" aria-pressed="false">Structured Data</button>
+      <button type="button" class="badge legend" data-cat="shop-data" aria-pressed="false">Shopify Data</button>
+      <button type="button" class="badge legend" data-cat="shop-ai" aria-pressed="false">Shopify AI</button>
+      <button type="button" class="badge legend" data-cat="protocol" aria-pressed="false">Protocol</button>
+      <button type="button" class="badge legend" data-cat="file" aria-pressed="false">File Standard</button>
+      <button type="button" class="clear-filters">Clear filters</button>
+    </div>
+
+    <div class="switch" role="group" aria-label="Definition style">
+      <button class="mode-btn active" data-mode="plain">Plain English</button>
+      <button class="mode-btn" data-mode="technical">Technical</button>
+      <button class="mode-btn" data-mode="linkedin">LinkedIn Brain</button>
+    </div>
+  </header>
+
+  <div class="glossary-list">
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">A2A</span><span class="term-expansion">Agent2Agent Protocol</span><span class="badge" data-cat="protocol">Protocol</span></div>
+      <p class="definition active" data-for="plain">How one AI agent talks to another AI agent, like your shopping assistant handing off to a payment assistant to finish the job.</p>
+      <p class="definition" data-for="technical">Google's protocol for peer to peer communication and task delegation between autonomous agents, used alongside UCP and MCP in the broader commerce stack. Now governed by the Linux Foundation.</p>
+      <p class="definition" data-for="linkedin">I wasn't going to post this.<br><br>But my barista asked me what I do.<br><br>I said: "I help AI agents talk to other AI agents."<br><br>She stopped. Mid-pour. ☕<br><br>That's A2A. That's the whole game.<br>One agent shops. One agent pays. Nobody sleeps. Nobody unionizes.<br><br>Agree? 👇 #A2A #MultiAgent #Disruption #Blessed</p>
+      <a class="ref" href="https://a2a-protocol.org" target="_blank" rel="noopener">→ a2a-protocol.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">ACP</span><span class="term-expansion">Agentic Commerce Protocol</span><span class="badge" data-cat="protocol">Protocol</span></div>
+      <p class="definition active" data-for="plain">OpenAI and Stripe's version of "let AI agents buy stuff," specifically the one that lets a shopper check out directly inside ChatGPT.</p>
+      <p class="definition" data-for="technical">A protocol built by OpenAI and Stripe defining how an agent runs a complete checkout, cart through payment, inside a conversational surface like ChatGPT. Distinct from, but interoperable with, UCP.</p>
+      <p class="definition" data-for="linkedin">Plot twist nobody in your feed is ready for:<br><br>ACP already won.<br>UCP already won.<br>They BOTH won. 🤯<br><br>Let that sink in.<br><br>The checkout happened inside ChatGPT while you were asleep at the wheel, liking posts about the 4-day work week.<br><br>Wake up. 🚨 #ACP #AgenticCommerce #ThoughtLeadership #Grind</p>
+      <a class="ref" href="https://www.agenticcommerce.dev" target="_blank" rel="noopener">→ agenticcommerce.dev</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">AEO</span><span class="term-expansion">Answer Engine Optimisation</span><span class="badge" data-cat="seo">SEO Family</span></div>
+      <p class="definition active" data-for="plain">Making your content the exact answer AI gives to a specific question, like "what size should I get" or "is this vegan."</p>
+      <p class="definition" data-for="technical">Structuring content (FAQs, specs, policies) so it can be directly extracted and quoted as a precise answer by AI answer engines and voice assistants. Narrower than GEO, which targets broader brand visibility.</p>
+      <p class="definition" data-for="linkedin">My 5-year-old asked the smart speaker "is this vegan."<br><br>It answered instantly.<br><br>With my competitor's product. Not mine.<br><br>I cried in the pantry. 😢🥫<br><br>That is what AEO failure feels like, and no one prepares you for it.<br><br>Be. The. Answer.<br>♻️ Repost to save a founder from the pantry. #AEO #AnswerEngine #GirlDad #Resilience</p>
+      <a class="ref" href="https://www.semrush.com/blog/answer-engine-optimization/" target="_blank" rel="noopener">→ Semrush's AEO guide</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">agents.md</span><span class="badge" data-cat="file">File Standard</span></div>
+      <p class="definition active" data-for="plain">A newer file that's replaced llms.txt as the main way stores talk to AI. It tells agents both who you are and exactly how to buy from you.</p>
+      <p class="definition" data-for="technical">As of May 2026, the canonical AI discovery file on Shopify, combining brand and content context with operational instructions, UCP endpoints, checkout flow, rate limits, for transacting agents. llms.txt and llms-full.txt now redirect to it by default unless overridden.</p>
+      <p class="definition" data-for="linkedin">Unpopular opinion that will get me uninvited from dinner parties:<br><br>You have never opened your agents.md.<br>Not once.<br><br>It's just sitting there. Judging you. Like a treadmill. 🏃<br><br>Go open it. I'll wait.<br>Again.<br>Forever.<br><br>#AgentsMD #Shopify #BuildInPublic #Accountability</p>
+      <a class="ref" href="https://shopify.dev/docs/agents" target="_blank" rel="noopener">→ shopify.dev/docs/agents</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">AP2</span><span class="term-expansion">Agent Payments Protocol</span><span class="badge" data-cat="protocol">Protocol</span></div>
+      <p class="definition active" data-for="plain">The security layer that proves a human actually agreed to a purchase before an AI agent is allowed to spend their money.</p>
+      <p class="definition" data-for="technical">Google's payments protocol, which issues cryptographically signed "mandates" as proof of user consent for a specific transaction. Sits underneath UCP and is backed by major card networks.</p>
+      <p class="definition" data-for="linkedin">Trust isn't a feeling. 🔐<br><br>Trust is a cryptographically signed mandate.<br><br>I explained this to my toddler at breakfast.<br>She said "dada, no."<br><br>She's not ready for AP2.<br>Honestly? Most of you aren't either.<br><br>Comment 🔐 if you're finally ready to grow up. #AP2 #FinTech #TrustLayer #Mandates</p>
+      <a class="ref" href="https://ap2-protocol.org" target="_blank" rel="noopener">→ ap2-protocol.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">GEO</span><span class="term-expansion">Generative Engine Optimisation</span><span class="badge" data-cat="seo">SEO Family</span></div>
+      <p class="definition active" data-for="plain">Making sure AI tools like ChatGPT and Gemini actually mention your products when someone asks for recommendations.</p>
+      <p class="definition" data-for="technical">Optimising content and structured data so generative AI models cite, summarise, or recommend your brand directly in their responses, rather than just listing your page as a link.</p>
+      <p class="definition" data-for="linkedin">10 things optimizing for GEO taught me about being a better dog owner 🐕<br>A thread 🧵👇<br><br>1. Consistency compounds.<br>2. Nobody reads the fine print (or the schema).<br>3. If you're not in the results, you're at the dog park alone.<br>4. Sit. Stay. Get cited.<br>5. Fetch is just retrieval-augmented generation with extra steps.<br><br>The other 5 genuinely changed me as a father.<br>Comment "GOOD BOY" for the full carousel. 🦴 #GEO #Leadership #DogDad #Mindset</p>
+      <a class="ref" href="https://arxiv.org/abs/2311.09735" target="_blank" rel="noopener">→ the original GEO paper</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">JSON-LD</span><span class="term-expansion">JSON for Linked Data</span><span class="badge" data-cat="structured">Structured Data</span></div>
+      <p class="definition active" data-for="plain">The specific format most stores use to write that hidden "machine label" code. You'll basically never touch it yourself, your theme handles it.</p>
+      <p class="definition" data-for="technical">A JSON-based syntax for embedding Schema.org structured data into a page. Google's preferred format for Schema Markup because it sits separately from the visible HTML rather than tangled through it.</p>
+      <p class="definition" data-for="linkedin">Nobody claps for JSON-LD.<br><br>So today, I clapped. 👏<br>Alone.<br>In a Wingstop parking lot.<br>For clean markup. 👏<br><br>Be the person who claps for the invisible work that nobody sees but everybody depends on.<br><br>♻️ Repost the clap. #JSONLD #TechnicalSEO #Gratitude #UnsungHeroes</p>
+      <a class="ref" href="https://json-ld.org" target="_blank" rel="noopener">→ json-ld.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">llms-full.txt</span><span class="badge" data-cat="file">File Standard</span></div>
+      <p class="definition active" data-for="plain">Like llms.txt but the "whole book" version. It hands AI the full text of your key pages in one go instead of just links to them.</p>
+      <p class="definition" data-for="technical">A companion file to llms.txt that inlines the complete Markdown content of a site's most important pages, cutting the crawling and parsing an agent needs to do to ingest that content in full.</p>
+      <p class="definition" data-for="linkedin">🚨 I reverse-engineered the top 465 ways to optimize your llms-full.txt.<br><br>It became a 97-page playbook.<br><br>It cost me 3 years, 2 divorces, and 1 spiritual awakening in a WeWork phone booth. 📿<br><br>And I'm giving it away for FREE.<br><br>👉 Comment "llms-full.txt" below and I'll DM you all 97 pages.<br>(You have to follow me first. Obviously. The algorithm demands a blood sacrifice.)<br><br>#LLMsFullTxt #Playbook #ValueBomb #AgenticCommerce #Free</p>
+      <a class="ref" href="https://llmstxt.org" target="_blank" rel="noopener">→ llmstxt.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">llms.txt</span><span class="badge" data-cat="file">File Standard</span></div>
+      <p class="definition active" data-for="plain">A simple file that gives AI a quick table of contents for your site, so it doesn't have to wade through nav bars and pop-ups to work out what you sell.</p>
+      <p class="definition" data-for="technical">A proposed open standard, a Markdown file at the site root, providing a curated index of key pages for AI systems to consume efficiently. On Shopify it's now largely superseded by agents.md, which it redirects to by default.</p>
+      <p class="definition" data-for="linkedin">Cheapest infrastructure bet of 2026?<br><br>A text file.<br><br>That's it. That's the post.<br><br>Ship llms.txt today.<br>Thank me in 12 months.<br>Name your firstborn after me in 24. 🍼<br><br>I'm not joking. I've received the birth certificates.<br><br>Agree? 👇 #LLMsTxt #GEO #Founder #Legacy</p>
+      <a class="ref" href="https://llmstxt.org" target="_blank" rel="noopener">→ llmstxt.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">MCP</span><span class="term-expansion">Model Context Protocol</span><span class="badge" data-cat="protocol">Protocol</span></div>
+      <p class="definition active" data-for="plain">A way for AI models to safely fetch live info or take actions, like checking stock or building a cart, instead of just guessing from old training data.</p>
+      <p class="definition" data-for="technical">An open standard (originally from Anthropic, now under the Linux Foundation) defining how AI agents connect to external tools, data, and APIs. Forms the transport layer underneath most commerce protocols, including UCP.</p>
+      <p class="definition" data-for="linkedin">MCP is the plumbing. 🔧<br><br>You are the toilet.<br>The AI is the guest.<br>The data is… well.<br><br>I don't make the metaphors. I just live inside them, rent-free.<br><br>Respect the plumbers. They connected the tools while you were "ideating."<br><br>Tag a plumber. Emotionally. #MCP #Infrastructure #Humbled #Grateful</p>
+      <a class="ref" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">→ modelcontextprotocol.io</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">robots.txt</span><span class="badge" data-cat="file">File Standard</span></div>
+      <p class="definition active" data-for="plain">A file on every website that tells crawlers and bots which pages they're allowed to visit, including whether AI bots can read your site at all.</p>
+      <p class="definition" data-for="technical">A plain-text file at a site's root using the Robots Exclusion Protocol to allow or block specific user-agents, including AI crawlers like GPTBot, ClaudeBot, and PerplexityBot, from defined paths.</p>
+      <p class="definition" data-for="linkedin">Your robots.txt is either a red carpet 🎬 or a slammed door 🚪 for AI.<br><br>There is no in-between.<br>There is no therapy for it either. I checked. I asked. They laughed.<br><br>Go look at yours. Right now. In this meeting. Under the table.<br>I'll wait.<br><br>♻️ #RobotsTxt #AIVisibility #NoDaysOff #Hustle</p>
+      <a class="ref" href="https://www.robotstxt.org" target="_blank" rel="noopener">→ robotstxt.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Schema Markup</span><span class="badge" data-cat="structured">Structured Data</span></div>
+      <p class="definition active" data-for="plain">Hidden code on your product pages that tells search engines and AI exactly what's what, like "this is the price" and "this is in stock."</p>
+      <p class="definition" data-for="technical">A vocabulary (usually Schema.org) added to page code that explicitly labels content, Product, Price, Availability, Review, so machines can parse it without guessing.</p>
+      <p class="definition" data-for="linkedin">Schema Markup is the seating plan at the Taylor Swift &amp; Travis Kelce wedding. 💍<br><br>Invisible.<br>Ruthless.<br>It quietly decides who sits next to the algorithm and who sits by the bathrooms.<br><br>Validate your schema, or eat your dinner by the bathrooms while the AI toasts your competitor.<br><br>Drop your validator score 👇 Let's normalise this. #SchemaMarkup #TechnicalSEO #Eras #DataDriven</p>
+      <a class="ref" href="https://schema.org" target="_blank" rel="noopener">→ schema.org</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">SEO</span><span class="term-expansion">Search Engine Optimisation</span><span class="badge" data-cat="seo">SEO Family</span></div>
+      <p class="definition active" data-for="plain">Making your store show up when someone Googles what you sell.</p>
+      <p class="definition" data-for="technical">The practice of structuring content, site architecture, and backlinks so search engines rank your pages higher in organic (unpaid) results.</p>
+      <p class="definition" data-for="linkedin">SEO isn't dead. 💀<br><br>YOUR content strategy is dead.<br><br>I say this with love. And with zero remorse.<br><br>It's 2026 and you're still writing "Top 10 Tips" listicles like it's a cave painting.<br>(This post is a listicle. I contain multitudes.)<br><br>Be honest with yourself. 👇 #SEO #EEAT #GrowthMindset #ToughLove</p>
+      <a class="ref" href="https://developers.google.com/search/docs/essentials" target="_blank" rel="noopener">→ Google Search Essentials</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Shopify Agentic Storefronts</span><span class="badge" data-cat="shop-ai">Shopify AI</span></div>
+      <p class="definition active" data-for="plain">The Shopify feature that automatically lets your store be found and bought from inside ChatGPT, Gemini, and Copilot, no extra app needed.</p>
+      <p class="definition" data-for="technical">The sales channel in Shopify admin that syndicates a merchant's catalogue to connected AI platforms via UCP and Shopify Catalog, and reports on orders and sessions attributed to each AI surface.</p>
+      <p class="definition" data-for="linkedin">Your storefront is not a website anymore.<br><br>It's an API surface for a dozen AI agents you will NEVER meet, hug, or invoice. 🌐<br><br>Sit with that.<br>I did. For 6 hours.<br>In a Tesla.<br>Parked.<br>In the dark. 🚗<br><br>Welcome to Agentic Storefronts. Nothing will ever be the same. #Shopify #FutureOfCommerce #Agentic</p>
+      <a class="ref" href="https://www.shopify.com/blog/how-agentic-commerce-works" target="_blank" rel="noopener">→ Shopify's explainer</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Shopify Category Metafields</span><span class="badge" data-cat="shop-data">Shopify Data</span></div>
+      <p class="definition active" data-for="plain">Extra product details that automatically appear based on your product's category, like "sleeve length" for shirts or "battery life" for headphones.</p>
+      <p class="definition" data-for="technical">Standardised metafields Shopify auto-generates per Taxonomy category, giving merchants a consistent attribute set, no custom setup required, that AI and search systems can reliably read across the whole catalogue.</p>
+      <p class="definition" data-for="linkedin">Shopify did your data-enrichment homework FOR you.<br><br>Category Metafields. Auto-generated. Free. Waiting.<br><br>And you? You didn't even open the assignment. 📚<br><br>I'm not angry. I'm your teacher, and I'm disappointed, which is worse.<br><br>Comment "📚" to redeem yourself before parents' evening. #Shopify #ProductData #GEO #DoTheWork</p>
+      <a class="ref" href="https://help.shopify.com/en/manual/custom-data/metafields" target="_blank" rel="noopener">→ Shopify Help Center</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Shopify Global Catalog</span><span class="badge" data-cat="shop-ai">Shopify AI</span></div>
+      <p class="definition active" data-for="plain">A giant, shared library of every product from every Shopify store, cleaned up and organised so AI agents can search across all of it at once, like a Shopify-wide search engine built for AI.</p>
+      <p class="definition" data-for="technical">Shopify's cross-merchant product index, accessible via the Global Catalog MCP server, that standardises, enriches, and serves product data at platform scale, powering cross-merchant discovery and AI recommendations beyond a single storefront.</p>
+      <p class="definition" data-for="linkedin">Every Shopify store is now a single neuron in one giant AI-searchable brain. 🧠<br><br>You are either optimized for it…<br><br>…or you're the guy who still prints out his emails to read them.<br><br>Which one are you? Be honest. There's no wrong answer (there is one wrong answer). 👇<br><br>#GlobalCatalog #AgenticCommerce #NodeLife #ThinkBigger</p>
+      <a class="ref" href="https://shopify.dev/docs/agents" target="_blank" rel="noopener">→ shopify.dev/docs/agents</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Shopify Metafields</span><span class="badge" data-cat="shop-data">Shopify Data</span></div>
+      <p class="definition active" data-for="plain">Custom fields you can add to any product, page, or order to store extra info Shopify doesn't have a built-in box for.</p>
+      <p class="definition" data-for="technical">Shopify's native key-value custom data structure, attachable to almost any resource, used to extend the default data model without a third-party app or external database.</p>
+      <p class="definition" data-for="linkedin">The most underrated feature on all of Shopify?<br><br>Metafields.<br><br>You've never touched them.<br>I touch them daily. Sometimes twice. Sometimes I whisper to them. 😤<br><br>This is a MASSIVE missed opportunity and, frankly, a personal insult to me specifically.<br><br>♻️ Repost if you've been personally victimised by empty metafields. #Shopify #NoCode #Metafields</p>
+      <a class="ref" href="https://help.shopify.com/en/manual/custom-data/metafields" target="_blank" rel="noopener">→ Shopify Help Center</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Shopify Metaobjects</span><span class="badge" data-cat="shop-data">Shopify Data</span></div>
+      <p class="definition active" data-for="plain">Metafields' bigger sibling, custom mini-databases you can build inside Shopify for things like size guides, FAQs, or store locations, no external database needed.</p>
+      <p class="definition" data-for="technical">A flexible, schema-defined content model within Shopify that lets merchants create reusable, structured records with their own fields and relationships, referenceable across the store.</p>
+      <p class="definition" data-for="linkedin">If your app still ships with an external database in 2026…<br><br>we can't be friends.<br>We can't network.<br>Please don't even connect with me. 🚫<br><br>Metaobjects exist. Use them. Heal.<br><br>Setting this boundary was the most important architectural decision of my career and also my healing journey. #ShopifyDev #NativeCommerce #BoundariesAreSelfCare</p>
+      <a class="ref" href="https://help.shopify.com/en/manual/custom-data/metaobjects" target="_blank" rel="noopener">→ Shopify Help Center</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Shopify Taxonomy</span><span class="badge" data-cat="shop-data">Shopify Data</span></div>
+      <p class="definition active" data-for="plain">Shopify's official master list of product categories, a big filing system every product on the platform gets slotted into.</p>
+      <p class="definition" data-for="technical">Shopify's standardised category and attribute hierarchy, replacing free-text categorisation with a consistent structure used across Catalog, Search, and Markets.</p>
+      <p class="definition" data-for="linkedin">Your taxonomy is your foundation.<br><br>You built yours on sand. 🏖️<br>Then you wondered why all the shiny AI features sank into the sea.<br><br>I fixed my taxonomy last quarter and my lower back pain disappeared.<br>Coincidence? 🤔 I don't believe in those anymore.<br><br>Repeat after me. 👇 #ShopifyTaxonomy #BuildRight #Foundations #Wellness</p>
+      <a class="ref" href="https://shopify.github.io/product-taxonomy/" target="_blank" rel="noopener">→ shopify.github.io/product-taxonomy</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">Structured Data</span><span class="badge" data-cat="structured">Structured Data</span></div>
+      <p class="definition active" data-for="plain">The general idea of organising your info (prices, sizes, stock levels) in a clear, labelled way so machines can read it, not just humans.</p>
+      <p class="definition" data-for="technical">Data formatted to a standardised, machine-readable schema rather than free text, enabling accurate parsing by search engines, AI models, and other systems. Schema Markup is one implementation of it.</p>
+      <p class="definition" data-for="linkedin">Unstructured data is the silent killer of your AI visibility. 📉<br><br>If a bot can't parse it, it doesn't exist.<br><br>Like your gym membership.<br>Like my New Year's resolutions.<br>Like the boundaries I said I'd set this year.<br><br>Structure everything. Even your feelings.<br>ESPECIALLY your feelings. #StructuredData #AIReadiness #Mindset #Growth</p>
+      <a class="ref" href="https://developers.google.com/search/docs/appearance/structured-data/intro" target="_blank" rel="noopener">→ Google's structured data guide</a>
+    </div>
+
+    <div class="term">
+      <div class="term-head"><span class="term-name">UCP</span><span class="term-expansion">Universal Commerce Protocol</span><span class="badge" data-cat="protocol">Protocol</span></div>
+      <p class="definition active" data-for="plain">A shared rulebook, built by Google and Shopify with a lot of the industry behind it, so any AI agent can browse and buy from any store the same way, instead of every AI needing a custom setup per store.</p>
+      <p class="definition" data-for="technical">An open standard governing discovery, cart, checkout, and post-purchase interactions between AI agents and merchants. Composable with AP2 for payments and MCP or A2A for transport.</p>
+      <p class="definition" data-for="linkedin">UCP is the Taylor Swift &amp; Travis Kelce wedding of commerce protocols. 💍🏈<br><br>Everyone's invited.<br>Nobody knows the seating plan.<br>The entire industry RSVP'd "yes" anyway and showed up in white.<br><br>UCP is TCP/IP for commerce, and if you're not thinking in protocols yet, you're already sitting at the kids' table with a juice box.<br><br>Bookmark this post. You'll need it at the reception. 🌐 #UCP #OpenStandards #Eras #Protocols</p>
+      <a class="ref" href="https://ucp.dev" target="_blank" rel="noopener">→ ucp.dev</a>
+    </div>
+
+    <p class="glossary-empty" id="glossary-empty">No terms match those filters.</p>
+
+  </div>
+
+  <p class="glossary-foot">Product Pelican · Glossary correct as of July 2026 — this space moves fast, expect edits.</p>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<div class="footer-mascots">
+  <img src="footer-mascots.jpg" alt="Native App Co — Apps that don't feel like apps">
+</div>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+<!-- Turn each LinkedIn Brain definition into a fake LinkedIn post by Pete the Pelican -->
+<script>
+(function () {
+  const HEADLINE = 'Agentic Commerce Visionary 🦩 | Chief Pelican Officer @ Product Pelican | Turning Product Data into Poetry | Keynote Squawker | Girl Dad | Views = my own (and the flock’s)';
+  const TIMES = ['2h','5h','1d','7h','3h','23h','13h','2d','9h','4h','17h','1h','6h','8h','3d','11h','14h','19h','22h','16h','10h'];
+  const REACTS = [1247,892,2317,3401,764,5522,1188,9743,631,2044,1509,402,3376,888,1725,2561,1093,4820,977,6120,3050];
+  const COMMENTS = [318,205,512,740,96,1203,233,465,141,388,276,88,601,172,355,489,210,902,187,1150,540];
+  const REPOSTS = [42,31,88,120,17,260,39,97,22,61,44,12,130,28,55,76,33,190,29,240,84];
+
+  const GLOBE = '<svg class="li-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>';
+  const IC = {
+    like:'<svg viewBox="0 0 24 24"><path d="M7 10v10H4V10zM7 10l4-7c1.3 0 2 .9 2 2v3h5.2c1.1 0 1.9 1 1.6 2l-1.7 7c-.2.8-.9 1-1.6 1H7"/></svg>',
+    comment:'<svg viewBox="0 0 24 24"><path d="M21 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-5.4A8 8 0 1 1 21 11.5z"/></svg>',
+    repost:'<svg viewBox="0 0 24 24"><path d="M4 8l3-3 3 3M7 5v9a2 2 0 0 0 2 2h6M20 16l-3 3-3-3M17 19v-9a2 2 0 0 0-2-2H9"/></svg>',
+    send:'<svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>'
+  };
+  const fmt = n => n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/,'') + 'K' : String(n);
+
+  function tag(html) { return html.replace(/#([A-Za-z0-9]+)/g, '<span class="li-tag">#$1</span>'); }
+
+  document.querySelectorAll('.definition[data-for="linkedin"]').forEach((el, i) => {
+    const body = tag(el.innerHTML.trim());
+    const t = TIMES[i % TIMES.length];
+    const r = REACTS[i % REACTS.length];
+    const c = COMMENTS[i % COMMENTS.length];
+    const rp = REPOSTS[i % REPOSTS.length];
+
+    el.classList.add('li-post');
+    el.innerHTML =
+      '<div class="li-head">' +
+        '<img class="li-avatar" src="pelican-200.png" alt="Pete the Pelican">' +
+        '<div class="li-meta">' +
+          '<span class="li-name">Pete the Pelican <span class="li-topvoice">Top Voice</span> <span class="li-dot">·</span> <span class="li-conn">1st</span></span>' +
+          '<span class="li-headline">' + HEADLINE + '</span>' +
+          '<span class="li-sub">' + t + ' <span class="li-dot">·</span> Edited <span class="li-dot">·</span> ' + GLOBE + '</span>' +
+        '</div>' +
+        '<button class="li-follow" type="button"><span class="plus">+</span> Follow</button>' +
+      '</div>' +
+      '<div class="li-body">' + body + '</div>' +
+      '<div class="li-stats">' +
+        '<span class="li-reactions"><span class="li-emojis">' +
+          '<span class="li-emoji e-like">👍</span><span class="li-emoji e-heart">❤️</span><span class="li-emoji e-bulb">💡</span>' +
+        '</span> Pelican Andersen and ' + fmt(r) + ' others</span>' +
+        '<span>' + c + ' comments <span class="li-dot">·</span> ' + rp + ' reposts</span>' +
+      '</div>' +
+      '<div class="li-divider"></div>' +
+      '<div class="li-actions">' +
+        '<button class="li-action" type="button">' + IC.like + '<span>Like</span></button>' +
+        '<button class="li-action" type="button">' + IC.comment + '<span>Comment</span></button>' +
+        '<button class="li-action" type="button">' + IC.repost + '<span>Repost</span></button>' +
+        '<button class="li-action" type="button">' + IC.send + '<span>Send</span></button>' +
+      '</div>';
+  });
+})();
+</script>
+
+<!-- Definition-style switch + category filters -->
+<script>
+(function () {
+  const modeButtons = document.querySelectorAll('.mode-btn');
+  modeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      document.body.setAttribute('data-mode', mode);
+      modeButtons.forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.definition').forEach(def => {
+        def.classList.toggle('active', def.dataset.for === mode);
+      });
+    });
+  });
+
+  const filterButtons = document.querySelectorAll('.legend .badge');
+  const clearBtn = document.querySelector('.clear-filters');
+  const emptyMsg = document.getElementById('glossary-empty');
+  const activeFilters = new Set();
+
+  function applyFilters() {
+    let visible = 0;
+    document.querySelectorAll('.glossary-list .term').forEach(term => {
+      const cat = term.querySelector('.term-head .badge').dataset.cat;
+      const show = activeFilters.size === 0 || activeFilters.has(cat);
+      term.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    clearBtn.style.display = activeFilters.size ? 'inline-block' : 'none';
+    if (emptyMsg) emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat;
+      if (activeFilters.has(cat)) {
+        activeFilters.delete(cat);
+        btn.classList.remove('selected');
+        btn.setAttribute('aria-pressed', 'false');
+      } else {
+        activeFilters.add(cat);
+        btn.classList.add('selected');
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      applyFilters();
+    });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    activeFilters.clear();
+    filterButtons.forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
+    applyFilters();
+  });
+})();
+</script>
+
+<!-- Animated flock — adapted from the homepage, scoped to the glossary header -->
+<script>
+(function () {
+  const hero = document.querySelector('.glossary-hero');
+  const flock = hero && hero.querySelector('.pelican-flock');
+  if (!flock) return;
+  const els = Array.from(flock.querySelectorAll('.bird'));
+  if (!els.length) return;
+
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let FW = flock.clientWidth, FH = flock.clientHeight;
+  const REPEL_R = 150, REPEL_STR = 22000;
+  let mouseX = -9999, mouseY = -9999;
+
+  hero.addEventListener('mousemove', e => {
+    const r = flock.getBoundingClientRect();
+    mouseX = e.clientX - r.left; mouseY = e.clientY - r.top;
+  });
+  hero.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  const birds = els.map(el => {
+    const isWord = el.classList.contains('word');
+    const opacity = isWord ? rnd(0.28, 0.5) : rnd(0.08, 0.16);
+    if (isWord) {
+      el.style.cssText = `opacity:${opacity};top:0;left:0;animation:none;`;
+    } else {
+      const w = rnd(30, 66);
+      el.style.cssText = `width:${w}px;height:${w}px;opacity:${opacity};top:0;left:0;animation:none;`;
+    }
+    const w = isWord ? (el.offsetWidth || 90) : parseFloat(el.style.width);
+    const h = isWord ? (el.offsetHeight || 18) : w;
+    const baseVx = rnd(24, 58);
+    const baseY = rnd(0, Math.max(1, FH - h));
+    return {
+      el, isWord, w, h, baseVx,
+      x: rnd(-w * 2, FW * 1.1), y: baseY, baseY,
+      vx: baseVx, vy: 0,
+      pulsePhase: rnd(0, Math.PI * 2), pulseSpeed: rnd(0.28, 1.1),
+      pulseMin: isWord ? 0.92 : rnd(0.72, 0.82),
+      pulseMax: isWord ? 1.06 : rnd(1.12, 1.28),
+      bobPhase: rnd(0, Math.PI * 2), bobSpeed: rnd(0.3, 0.8), bobAmp: rnd(6, 20),
+    };
+  });
+
+  if (reduce) {
+    birds.forEach(b => { b.el.style.transform = `translate(${Math.max(0, Math.min(FW - b.w, b.x))}px,${b.baseY}px)`; });
+    return;
+  }
+
+  window.addEventListener('resize', () => { FW = flock.clientWidth; FH = flock.clientHeight; });
+
+  let prev = null;
+  function tick(ts) {
+    if (!prev) { prev = ts; requestAnimationFrame(tick); return; }
+    const dt = Math.min((ts - prev) / 1000, 0.05);
+    prev = ts;
+    const t = ts / 1000;
+
+    for (const b of birds) {
+      const targetY = b.baseY + Math.sin(t * b.bobSpeed + b.bobPhase) * b.bobAmp;
+      b.vy += (targetY - b.y) * 4 * dt;
+      b.vy *= (1 - dt * 4.5);
+
+      const cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+      const dx = cx - mouseX, dy = cy - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < REPEL_R && dist > 1) {
+        const ratio = 1 - dist / REPEL_R;
+        const f = REPEL_STR * ratio * ratio * dt;
+        b.vx += (dx / dist) * f;
+        b.vy += (dy / dist) * f;
+      }
+
+      b.vx += (b.baseVx - b.vx) * dt * 1.8;
+      b.vx = Math.max(b.baseVx * 0.12, Math.min(b.baseVx * 5, b.vx));
+
+      b.x += b.vx * dt;
+      b.y = Math.max(-b.h, Math.min(FH + b.h, b.y + b.vy * dt));
+
+      if (b.x > FW + b.w * 2) {
+        b.x = -b.w * 2;
+        b.baseY = rnd(0, Math.max(1, FH - b.h));
+        b.y = b.baseY;
+        b.vy = 0;
+      }
+
+      const scale = b.pulseMin + (b.pulseMax - b.pulseMin) *
+        (0.5 + 0.5 * Math.sin(t * b.pulseSpeed + b.pulsePhase));
+
+      b.el.style.transform = `translate(${b.x}px,${b.y}px) scale(${scale})`;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+})();
+</script>
+
+{% endblock %}

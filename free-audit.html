@@ -1,0 +1,1157 @@
+---
+title: "Free GEO Audit | Product Pelican"
+description: "Run a free GEO/SEO audit of your Shopify store in 90 seconds. See how ready your product catalogue is for AI shopping agents — no login, no card required."
+ogDesc: "See how ready your Shopify catalogue is for AI shopping agents. Free, no login, results in 90 seconds."
+permalink: /free-audit/
+---
+{% extends "base.njk" %}
+
+{% block extrahead %}
+<!-- Free Audit page-specific styles -->
+<style>
+  .audit-main { position: relative; z-index: 2; }
+
+  .audit-hero { position: relative; overflow: hidden; padding: 72px 32px 40px; max-width: none; margin: 0; text-align: center; }
+  .audit-hero .pelican-flock { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .audit-hero > *:not(.pelican-flock) { position: relative; z-index: 1; }
+  .audit-hero-content { max-width: 860px; margin: 0 auto; }
+
+  /* Credibility eyebrow pill */
+  .audit-eyebrow {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
+    margin-bottom: 22px; padding: 7px 14px;
+    border: 1px solid var(--accent); background: rgba(3,105,161,0.06); border-radius: 999px;
+  }
+  .audit-eyebrow .spark { color: var(--accent-soft); animation: sparkPulse 2.4s ease-in-out infinite; }
+  @keyframes sparkPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.25) rotate(20deg); } }
+
+  .audit-hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(34px, 6vw, 62px); line-height: 1.02; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .audit-hero h1 .italic { font-style: italic; }
+  .audit-hero h1 .underline { text-decoration: underline; text-decoration-color: var(--accent-soft); text-underline-offset: 6px; }
+  
+  /* Rotating terms animation */
+  .rotating-terms { position: relative; height: 1em; text-align: center; }
+  .rotating-terms .term { position: absolute; left: 50%; top: 0; transform: translateX(-50%); white-space: nowrap; opacity: 0; animation: rotateTerms 10s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; }
+  .rotating-terms .term:nth-child(1) { animation-delay: 0s; }
+  .rotating-terms .term:nth-child(2) { animation-delay: 2s; }
+  .rotating-terms .term:nth-child(3) { animation-delay: 4s; }
+  .rotating-terms .term:nth-child(4) { animation-delay: 6s; }
+  .rotating-terms .term:nth-child(5) { animation-delay: 8s; }
+  @keyframes rotateTerms {
+    0% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+    15% { opacity: 1; }
+    25% { opacity: 0; transform: translateX(-50%) scale(0.9) translateY(8px); }
+    26% { opacity: 0; transform: translateX(-50%) scale(1.1) translateY(-8px); }
+    100% { opacity: 0; transform: translateX(-50%) scale(1) translateY(0); }
+  }
+  .audit-hero .subtitle { font-size: clamp(16px, 2.2vw, 20px); color: var(--muted); max-width: 620px; margin: 84px auto 8px; }
+
+  /* Domain form */
+  .audit-form { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 36px auto 12px; max-width: 620px; }
+  .audit-input {
+    flex: 1 1 320px; min-width: 260px;
+    font-family: 'JetBrains Mono', monospace; font-size: 15px;
+    padding: 16px 18px; border: 1px solid var(--ink); border-radius: 10px;
+    background: rgba(255,255,255,0.65); color: var(--ink);
+  }
+  .audit-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(3,105,161,0.18); }
+  .audit-form .btn-primary { flex: 0 0 auto; cursor: pointer; border: none; }
+  .audit-hint { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-align: center; }
+  .audit-error { color: #b91c1c; font-size: 14px; text-align: center; margin-top: 10px; min-height: 20px; }
+  .audit-form .btn-primary .arrow { transition: transform 0.18s ease; }
+  .audit-form .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  /* "What we check" chip row */
+  .audit-checks { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 620px; margin: 18px auto 0; }
+  .audit-checks .chk {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); background: var(--paper-dim); border: 1px solid var(--rule);
+    padding: 5px 11px; border-radius: 999px;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.45s ease, transform 0.45s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .audit-checks .chk.show { opacity: 1; transform: none; }
+  .audit-checks .chk:hover { color: var(--accent); border-color: var(--accent-soft); background: var(--paper-deep); }
+  .audit-checks .chk.more { color: var(--accent); border-color: var(--accent-soft); }
+
+  /* Loading */
+  .audit-loading { display: none; text-align: center; padding: 60px 32px; max-width: 620px; margin: 0 auto; }
+  .audit-loading.show { display: block; }
+  .audit-loading img { width: 84px; height: 84px; object-fit: contain; animation: pelican-bob 1.6s ease-in-out infinite; }
+  @keyframes pelican-bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+  .audit-status { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-top: 22px; min-height: 20px; }
+  .audit-progress { width: 220px; height: 4px; background: var(--rule); border-radius: 4px; margin: 18px auto 0; overflow: hidden; }
+  .audit-progress span { display: block; height: 100%; width: 30%; background: var(--accent); border-radius: 4px; animation: audit-slide 1.4s ease-in-out infinite; }
+  @keyframes audit-slide { 0% { margin-left: -30%; } 100% { margin-left: 100%; } }
+
+  /* Live ticking checklist */
+  .audit-checklist { list-style: none; margin: 26px auto 0; padding: 0; max-width: 320px; text-align: left; }
+  .audit-checklist li {
+    display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: center;
+    padding: 8px 2px; font-size: 14px; color: var(--muted);
+    opacity: 0.5; transition: opacity 0.4s ease, color 0.4s ease;
+  }
+  .audit-checklist li .tick {
+    width: 20px; height: 20px; border-radius: 50%; flex: 0 0 auto;
+    border: 1.5px solid var(--rule); display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: transparent;
+    transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  }
+  .audit-checklist li.active { opacity: 1; color: var(--accent); }
+  .audit-checklist li.active .tick {
+    border-color: var(--rule); border-top-color: var(--accent);
+    animation: tickSpin 0.7s linear infinite;
+  }
+  @keyframes tickSpin { to { transform: rotate(360deg); } }
+  .audit-checklist li.done { opacity: 1; color: var(--ink); }
+  .audit-checklist li.done .tick { background: #15803d; border-color: #15803d; color: #fff; animation: none; transform: none; }
+  .audit-checklist li.done .tick::after { content: '\2713'; }
+
+  /* Rotating did-you-know tip */
+  .audit-tip {
+    max-width: 380px; margin: 24px auto 0; min-height: 40px;
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 15px;
+    line-height: 1.45; color: var(--muted); transition: opacity 0.4s ease; opacity: 0;
+  }
+  .audit-tip.show { opacity: 1; }
+  .audit-tip b { font-style: normal; font-weight: 600; color: var(--accent); }
+
+  /* Results */
+  .audit-results { display: none; max-width: 880px; margin: 0 auto; padding: 24px 32px 40px; }
+  .audit-results.show { display: block; }
+
+  /* Staggered reveal for result blocks */
+  .reveal { opacity: 0; transform: translateY(14px); }
+  .reveal.in { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.5s ease; }
+
+  /* Promo block */
+  .audit-promo { background: linear-gradient(135deg, rgba(3,105,161,0.08) 0%, rgba(3,105,161,0.04) 100%); border: 1.5px solid var(--accent); border-radius: 14px; padding: 28px 24px; margin: 32px 0; text-align: center; }
+  .audit-promo h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; margin-bottom: 10px; }
+  .audit-promo p { color: var(--muted); font-size: 15px; line-height: 1.6; margin-bottom: 16px; }
+  .score-card { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; justify-content: center; text-align: center; padding: 24px 0 14px; }
+  .score-gauge {
+    --val: 0; --col: var(--accent);
+    width: 168px; height: 168px; border-radius: 50%; flex: 0 0 auto;
+    background: conic-gradient(var(--col) calc(var(--val) * 1%), var(--rule) 0);
+    display: grid; place-items: center; position: relative;
+  }
+  .score-gauge::before { content: ''; position: absolute; inset: 14px; border-radius: 50%; background: var(--paper); }
+  .score-gauge .score-num { position: relative; font-family: 'Fraunces', serif; font-weight: 600; font-size: 52px; line-height: 1; }
+  .score-gauge .score-den { position: relative; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .score-meta { text-align: left; max-width: 380px; }
+  .score-band { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 500; margin-bottom: 6px; }
+  .score-band.pass { color: #15803d; }
+  .score-band.partial { color: #b45309; }
+  .score-band.fail { color: #b91c1c; }
+  .score-sub { color: var(--muted); font-size: 15px; }
+
+  /* Reactive verdict + mascot */
+  .score-verdict {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 14px; padding: 12px 14px; border-radius: 12px;
+    background: var(--paper-dim); border: 1px solid var(--rule);
+  }
+  .score-verdict img { width: 40px; height: 40px; flex: 0 0 auto; object-fit: contain; }
+  .score-verdict.pass img { animation: mascotCheer 1.4s ease-in-out infinite; }
+  .score-verdict.partial img { animation: pelican-bob 2s ease-in-out infinite; }
+  .score-verdict.fail img { animation: mascotSquint 2.4s ease-in-out infinite; }
+  .score-verdict p { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 15.5px; line-height: 1.4; color: var(--ink); }
+  @keyframes mascotCheer { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-6px) rotate(4deg); } }
+  @keyframes mascotSquint { 0%,100% { transform: rotate(0) scale(1); } 50% { transform: rotate(-6deg) scale(0.96); } }
+
+  /* Category breakdown */
+  .cat-list { margin: 28px 0 8px; border-top: 1px solid var(--rule); }
+  .cat-row { display: grid; grid-template-columns: 26px 1fr auto auto; gap: 14px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .cat-icon { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; }
+  .cat-icon.pass { background: #15803d; } .cat-icon.partial { background: #b45309; } .cat-icon.fail { background: #b91c1c; }
+  .cat-main { min-width: 0; }
+  .cat-label { font-weight: 600; display: inline-flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .cat-weight { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .cat-score { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--ink); white-space: nowrap; }
+
+  /* Per-category score bar */
+  .cat-bar { height: 5px; border-radius: 3px; background: var(--rule); overflow: hidden; margin-top: 8px; }
+  .cat-bar span { display: block; height: 100%; width: 0; border-radius: 3px; transition: width 0.9s cubic-bezier(0.25,0.46,0.45,0.94); }
+  .cat-bar span.pass { background: #15803d; }
+  .cat-bar span.partial { background: #b45309; }
+  .cat-bar span.fail { background: #b91c1c; }
+  .cat-row.tick-in { animation: catTickIn 0.5s ease both; }
+  @keyframes catTickIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* Info icon + hover/focus tooltip */
+  .info-icon {
+    flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%;
+    border: 1px solid var(--muted); color: var(--muted);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; font-style: normal;
+    display: inline-grid; place-items: center; cursor: help; position: relative; background: transparent;
+  }
+  .info-icon:hover, .info-icon:focus { border-color: var(--accent); color: var(--accent); outline: none; }
+  .info-icon .tooltip {
+    position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+    width: min(320px, 78vw); z-index: 20; text-align: left;
+    background: var(--ink); color: var(--paper); border-radius: 10px; padding: 12px 14px;
+    font-family: 'Inter Tight', sans-serif; font-weight: 400; font-size: 13px; line-height: 1.5;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22); opacity: 0; visibility: hidden; transition: opacity .14s ease, transform .14s ease; pointer-events: none;
+  }
+  .info-icon .tooltip strong { display: block; font-weight: 600; margin-bottom: 2px; }
+  .info-icon .tooltip .tt-how { display: block; margin-top: 8px; color: rgba(255,255,255,0.72); }
+  .info-icon:hover .tooltip, .info-icon:focus .tooltip, .info-icon.open .tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+  /* Expand (+) toggle + per-URL detail panel */
+  .cat-toggle {
+    flex: 0 0 auto; width: 26px; height: 26px; border-radius: 7px; cursor: pointer;
+    border: 1px solid var(--rule); background: rgba(255,255,255,0.55); color: var(--ink);
+    font-family: 'JetBrains Mono', monospace; font-size: 15px; line-height: 1; display: grid; place-items: center;
+  }
+  .cat-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .cat-toggle[aria-expanded="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .cat-detail { grid-column: 1 / -1; display: none; padding: 4px 0 8px; }
+  .cat-detail.show { display: block; }
+  .detail-list { list-style: none; margin: 4px 0 0; padding: 0; border-top: 1px dashed var(--rule); }
+  .detail-list li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; padding: 9px 0; border-bottom: 1px dashed var(--rule); font-size: 13.5px; }
+  .detail-list li:last-child { border-bottom: none; }
+  .detail-mark { font-weight: 700; text-align: center; line-height: 1.35; }
+  .detail-mark.pass { color: #15803d; } .detail-mark.partial { color: #b45309; } .detail-mark.fail { color: #b91c1c; } .detail-mark.skip { color: var(--muted); }
+  .detail-url { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--ink); word-break: break-all; }
+  .detail-url a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .detail-url a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .detail-note { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .detail-empty { color: var(--muted); font-size: 13.5px; padding: 10px 0; }
+
+  /* Fix cards */
+  .fixes { margin-top: 28px; }
+  .fixes h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; margin-bottom: 4px; }
+  .fixes-intro { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .fix-card {
+    display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start;
+    border: 1px solid var(--ink); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px;
+    background: rgba(255,255,255,0.55);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .fix-card:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); }
+  .fix-rank {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1;
+    color: var(--accent); flex: 0 0 auto; padding-top: 1px; min-width: 26px;
+  }
+  .fix-card p { font-size: 15px; }
+  .fix-tag { display: inline-flex; align-items: center; gap: 7px; margin-top: 9px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--highlight); color: var(--ink); padding: 4px 9px; border-radius: 999px; }
+  .fix-tag img { width: 13px; height: 13px; }
+  .fix-card.reveal { opacity: 0; transform: translateY(12px); }
+  .fix-card.reveal.in { opacity: 1; transform: none; transition: opacity 0.45s ease, transform 0.45s ease; }
+  .pelican-tag { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--highlight); color: var(--ink); padding: 5px 10px; border-radius: 999px; }
+  .pelican-tag img { width: 15px; height: 15px; }
+
+  /* Live example card (animated before/after from one real product) */
+  .live-example { margin-top: 40px; }
+  .le-head { text-align: center; margin-bottom: 16px; }
+  .le-head h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 24px; margin-bottom: 4px; }
+  .le-head p { color: var(--muted); font-size: 14px; }
+  .le-browser { border: 1px solid var(--ink); border-radius: 14px; overflow: hidden; background: var(--paper); box-shadow: 0 18px 44px -20px rgba(10,25,41,0.4); }
+  .le-bar { background: #0f1b28; padding: 11px 14px; display: flex; align-items: center; gap: 12px; }
+  .le-dots { display: flex; gap: 6px; flex: 0 0 auto; }
+  .le-dots span { width: 10px; height: 10px; border-radius: 50%; display: block; }
+  .le-dots span:nth-child(1) { background: #ec6a5e; } .le-dots span:nth-child(2) { background: #f4bf50; } .le-dots span:nth-child(3) { background: #61c454; }
+  .le-crumb { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9aa0ab; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .le-crumb b { color: #e6e8ec; font-weight: 600; }
+  .le-body { padding: 20px 18px; }
+  .le-field { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; transition: border-color .5s ease, background .5s ease; }
+  .le-field:last-child { margin-bottom: 0; }
+  .le-field.active { border-color: var(--accent-soft); background: var(--paper-dim); }
+  .le-field-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+  .le-label { font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .le-sub { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: inline-flex; align-items: center; gap: 5px; }
+  .le-tag { display: inline-flex; align-items: center; gap: 5px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; color: var(--accent); background: var(--paper-deep); border: 1px solid var(--accent-soft); padding: 3px 9px; border-radius: 999px; white-space: nowrap; opacity: 0; transform: translateY(3px) scale(.92); transition: opacity .35s ease, transform .35s ease; }
+  .le-tag.show { opacity: 1; transform: none; }
+  .le-tag svg { width: 10px; height: 10px; }
+  .le-field-body { font-size: 15px; line-height: 1.5; display: flex; flex-direction: column; gap: 5px; }
+  /* Before value stays visible, greyed + struck through, next to the new one. */
+  .le-before { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(10,25,41,0.35); }
+  .le-after { color: var(--ink); opacity: 0; transform: translateY(4px); transition: opacity .5s ease, transform .5s ease; }
+  .le-field.active .le-after { opacity: 1; transform: none; }
+  .le-field-static { min-height: 1.5em; font-size: 15px; display: flex; flex-direction: column; gap: 8px; }
+  .le-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .le-chip { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; background: var(--paper-dim); border: 1px solid var(--rule); color: var(--muted); padding: 5px 10px; border-radius: 999px; opacity: 0; transform: translateY(4px); transition: opacity .35s ease, transform .35s ease; }
+  .le-chip.show { opacity: 1; transform: none; background: var(--paper-deep); border-color: var(--accent-soft); color: var(--ink); }
+  .le-faqs { display: flex; flex-direction: column; gap: 8px; }
+  .le-faq { border: 1px solid var(--rule); border-radius: 9px; padding: 10px 12px; opacity: 0; transform: translateY(6px); transition: opacity .4s ease, transform .4s ease, border-color .4s ease, background .4s ease; }
+  .le-faq.show { opacity: 1; transform: none; border-color: var(--accent-soft); background: var(--paper-dim); }
+  .le-faq-q { font-weight: 600; font-size: 13.5px; margin-bottom: 4px; }
+  .le-faq-a { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .le-faq.show .le-faq-a { color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) {
+    .le-before, .le-after, .le-tag, .le-chip, .le-faq, .le-field { transition: none; }
+    .audit-eyebrow .spark { animation: none; }
+    .audit-checks .chk { opacity: 1; transform: none; transition: none; }
+    .audit-checklist li.active .tick { animation: none; }
+    .audit-tip { transition: none; }
+    .reveal, .fix-card.reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .cat-bar span { transition: none; }
+    .cat-row.tick-in { animation: none; }
+    .score-verdict img { animation: none; }
+    .audit-form .btn-primary:hover .arrow { transform: none; }
+  }
+
+  /* Graceful failure */
+  .audit-failed { display: none; max-width: 620px; margin: 0 auto; padding: 48px 32px; text-align: center; }
+  .audit-failed.show { display: block; }
+  .audit-failed h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; margin-bottom: 16px; }
+  .audit-failed p { color: var(--muted); font-size: 16px; margin-bottom: 24px; }
+  .audit-failed .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 560px) {
+    .score-meta { text-align: center; }
+    .cat-row { grid-template-columns: 22px 1fr auto auto; column-gap: 10px; }
+    .info-icon .tooltip { left: 0; transform: translateX(0) translateY(4px); }
+    .info-icon:hover .tooltip, .info-icon:focus .tooltip, .info-icon.open .tooltip { transform: translateX(0) translateY(0); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<main class="audit-main" id="top">
+
+  <section class="audit-hero" id="audit-intro">
+    <div class="pelican-flock" aria-hidden="true">
+      <div class="bird"></div>
+      <div class="bird word">GEO</div>
+      <div class="bird"></div>
+      <div class="bird word">Schema</div>
+      <div class="bird"></div>
+      <div class="bird word">Meta</div>
+      <div class="bird"></div>
+      <div class="bird word">Alt text</div>
+      <div class="bird"></div>
+      <div class="bird word">AI-ready</div>
+      <div class="bird"></div>
+      <div class="bird word">Crawlability</div>
+      <div class="bird"></div>
+      <div class="bird word">Content</div>
+    </div>
+    <div class="audit-hero-content">
+      <span class="audit-eyebrow"><span class="spark">◆</span> Free · No login · No card · ~90 seconds</span>
+      <h1>Is your catalogue <span class="italic">ready</span> for<br /><span class="rotating-terms underline"><span class="term">AI shopping agents?</span><span class="term">Traditional Search Engines?</span><span class="term">Customers?</span><span class="term">ChatGPT?</span><span class="term">The future?</span></span></h1>
+      <p class="subtitle">Run a free audit of your Shopify store's <strong>Product and Collection data</strong>. We check the same signals AI engines and shopping agents use to read your products — schema, meta, alt text, content and crawlability — and show you what to fix. No login, no card, ~90 seconds.</p>
+
+      <form class="audit-form" id="audit-form" autocomplete="off">
+        <input class="audit-input" id="domain-input" type="text" inputmode="url" placeholder="your-store.myshopify.com" aria-label="Your myshopify.com domain" required>
+        <input class="audit-input" id="email-input" type="email" inputmode="email" placeholder="you@yourstore.com" aria-label="Your email address" required>
+        <button class="btn-primary" type="submit" id="run-btn">Run Audit <span class="arrow">→</span></button>
+      </form>
+      <p class="audit-hint">Enter your <strong>.myshopify.com</strong> domain and email — we only read public data</p>
+      <div class="audit-checks" id="audit-checks" aria-hidden="true">
+        <span class="chk">Schema</span>
+        <span class="chk">Meta</span>
+        <span class="chk">Alt text</span>
+        <span class="chk">Content</span>
+        <span class="chk">Crawlability</span>
+        <span class="chk more">+7 more checks</span>
+      </div>
+      <div class="audit-error" id="form-error" role="alert"></div>
+
+      <!-- Hidden static form so Netlify detects & captures the lead (submitted via JS below). -->
+      <form name="audit-lead" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+        <input type="text" name="store">
+        <input type="email" name="email">
+        <input type="text" name="bot-field">
+      </form>
+    </div>
+  </section>
+
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Catalogue Health Dashboard<span class="m-dot">◆</span></span>
+      <span class="marquee-item">AI Alt Text Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Shopify Taxonomy Categorisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Bulk Title &amp; Description Rewrites<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Category Metafields in Bulk<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Product Stitching<span class="m-dot">◆</span></span>
+      <span class="marquee-item">GEO Score &amp; Agent Readiness<span class="m-dot">◆</span></span>
+      <span class="marquee-item">FAQ Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Gap Fixes — SKUs, Barcodes, Images<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Custom AI Prompts<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Native to Shopify<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Colour Group Detection<span class="m-dot">◆</span></span>
+      <span class="marquee-item">12 Audit Checks<span class="m-dot">◆</span></span>
+      <span class="marquee-item">No Spreadsheets Required<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Catalogue Health Dashboard<span class="m-dot">◆</span></span>
+      <span class="marquee-item">AI Alt Text Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Shopify Taxonomy Categorisation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Bulk Title &amp; Description Rewrites<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Category Metafields in Bulk<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Product Stitching<span class="m-dot">◆</span></span>
+      <span class="marquee-item">GEO Score &amp; Agent Readiness<span class="m-dot">◆</span></span>
+      <span class="marquee-item">FAQ Generation<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Gap Fixes — SKUs, Barcodes, Images<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Custom AI Prompts<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Native to Shopify<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Colour Group Detection<span class="m-dot">◆</span></span>
+      <span class="marquee-item">No Spreadsheets Required<span class="m-dot">◆</span></span>
+    </div>
+  </div>
+
+  <section class="audit-loading" id="audit-loading" aria-live="polite">
+    <img src="pelican-200.png" alt="">
+    <div class="audit-status" id="audit-status">Warming up the pelican…</div>
+    <ul class="audit-checklist" id="audit-checklist">
+      <li data-step="0"><span class="tick"></span>Fetching your catalogue</li>
+      <li data-step="1"><span class="tick"></span>Reading schema.org markup</li>
+      <li data-step="2"><span class="tick"></span>Checking meta descriptions</li>
+      <li data-step="3"><span class="tick"></span>Scanning image alt text</li>
+      <li data-step="4"><span class="tick"></span>Weighing content quality</li>
+      <li data-step="5"><span class="tick"></span>Robots, sitemap &amp; llms.txt</li>
+      <li data-step="6"><span class="tick"></span>Scoring AI-readiness</li>
+    </ul>
+    <p class="audit-tip" id="audit-tip"></p>
+  </section>
+
+  <section class="audit-results" id="audit-results" aria-live="polite">
+    <div class="score-card reveal">
+      <div class="score-gauge" id="score-gauge">
+        <div class="score-num" id="score-num">0</div>
+        <div class="score-den">/ 100</div>
+      </div>
+      <div class="score-meta">
+        <div class="score-band" id="score-band">—</div>
+        <div class="score-sub" id="score-sub"></div>
+        <div class="score-verdict" id="score-verdict" hidden>
+          <img src="pelican-200.png" alt="" id="score-verdict-img">
+          <p id="score-verdict-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="audit-promo reveal">
+      <h3>Nice. Now here's the fun part.</h3>
+      <p>Anyone can hand you a score. Product Pelican actually <strong>fixes</strong> every gap below — enriching your Product &amp; Collection data automatically, right inside Shopify. No spreadsheets, no copy-paste.</p>
+    </div>
+
+    <div class="cat-list reveal" id="cat-list"></div>
+
+    <div class="fixes reveal" id="fixes">
+      <h3>Top fixes for <span id="fixes-store"></span></h3>
+      <p class="fixes-intro">Everything below is something Product Pelican fixes automatically.</p>
+      <div id="fix-cards"></div>
+    </div>
+
+    <!-- Live example card — populated + revealed by JS once /api/audit-enrich returns. Hidden (and silent) on any failure. -->
+    <div class="live-example" id="live-example" hidden>
+      <div class="le-head">
+        <h3>Live example, from your own catalogue</h3>
+        <p>What Pelican generates for one real product from your audit — nothing saved yet.</p>
+      </div>
+      <div class="le-browser">
+        <div class="le-bar">
+          <div class="le-dots"><span></span><span></span><span></span></div>
+          <div class="le-crumb">admin &middot; <b>products / edit</b> &middot; <span id="le-crumb-handle">…</span></div>
+        </div>
+        <div class="le-body">
+          <div class="le-field" id="le-field-title">
+            <div class="le-field-head">
+              <span class="le-label">Title</span>
+              <span class="le-tag" id="le-tag-title"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>PELICAN</span>
+            </div>
+            <div class="le-field-body">
+              <div class="le-before" id="le-title-before"></div>
+              <div class="le-after" id="le-title-after"></div>
+            </div>
+          </div>
+
+          <div class="le-field" id="le-field-desc">
+            <div class="le-field-head">
+              <span class="le-label">Description</span>
+              <span class="le-tag" id="le-tag-desc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>PELICAN</span>
+            </div>
+            <div class="le-field-body">
+              <div class="le-before" id="le-desc-before"></div>
+              <div class="le-after" id="le-desc-after"></div>
+            </div>
+          </div>
+
+          <div class="le-field" id="le-field-cat">
+            <div class="le-field-head">
+              <span class="le-label">Category
+                <span class="le-sub">Shopify taxonomy
+                  <span class="info-icon" tabindex="0" role="button" aria-label="What the Shopify taxonomy is">i<span class="tooltip" role="tooltip"><strong>Shopify's standard product taxonomy</strong>A fixed list of categories and attributes Shopify, Google and AI agents use to understand what a product is. Assigning one unlocks category metafields and helps agents place your product correctly.<a class="tt-how" href="https://shopify.github.io/product-taxonomy/" target="_blank" rel="noopener" style="color:var(--accent-soft)">Browse the taxonomy explorer →</a></span></span>
+                </span>
+              </span>
+              <span class="le-tag" id="le-tag-cat"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>PELICAN</span>
+            </div>
+            <div class="le-field-static">
+              <div class="le-before" id="le-cat-before" style="position:static;">Uncategorised</div>
+              <div class="le-chips" id="le-cat-chips" hidden></div>
+            </div>
+          </div>
+
+          <div class="le-field" id="le-field-faq">
+            <div class="le-field-head">
+              <span class="le-label">Product FAQs</span>
+              <span class="le-tag" id="le-tag-faq"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>PELICAN</span>
+            </div>
+            <div class="le-faqs" id="le-faqs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="final-cta" style="margin-top:28px;">
+      <h2>Fix all of this <em>automatically.</em></h2>
+      <p>Product Pelican fixes every issue above inside Shopify. No spreadsheets.</p>
+      <div class="cta-row" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">Install Product Pelican <span class="arrow">→</span></a>
+        <a class="btn-secondary" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Demo</a>
+      </div>
+    </section>
+  </section>
+
+  <section class="audit-failed" id="audit-failed">
+    <h2>We couldn't run a public audit on this store</h2>
+    <p>We couldn't run a public audit on this store. Install Pelican to get a full audit of 50 products for free, no cost, uninstall straight away if you want. Or book a demo and we'll walk you through it live.</p>
+    <div class="cta-row">
+      <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">Install Product Pelican <span class="arrow">→</span></a>
+      <a class="btn-secondary" href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/nativeappco-support/30min'});return false;">Book a Demo</a>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<div class="footer-mascots">
+  <img src="footer-mascots.jpg" alt="Native App Co — Apps that don't feel like apps">
+</div>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script>
+(function () {
+  const form = document.getElementById('audit-form');
+  const input = document.getElementById('domain-input');
+  const emailInput = document.getElementById('email-input');
+  const runBtn = document.getElementById('run-btn');
+  const formError = document.getElementById('form-error');
+  const intro = document.getElementById('audit-intro');
+  const loading = document.getElementById('audit-loading');
+  const results = document.getElementById('audit-results');
+  const failed = document.getElementById('audit-failed');
+  const statusEl = document.getElementById('audit-status');
+
+  const STATUSES = [
+    'Sending the pelican in for your catalogue…',
+    'Teaching the pelican to read schema.org…',
+    'Squinting at your meta descriptions…',
+    'Judging your alt text (gently)…',
+    'Weighing your content on the good scales…',
+    'Sniffing out robots, sitemap & llms.txt…',
+    'Counting what ChatGPT can’t see yet…'
+  ];
+
+  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const TIPS = [
+    '<b>Did you know?</b> AI shopping agents skip products with no structured data — they simply can’t read them.',
+    '<b>Fun fact:</b> A good product description isn’t written for people any more. It’s written for the robot reading to the people.',
+    '<b>Heads up:</b> Missing alt text means image search and agents are flying blind on your best photos.',
+    '<b>Tip:</b> The Shopify taxonomy is how Google & AI agents know a “tee” is a t-shirt. Uncategorised = invisible.'
+  ];
+
+  function show(el) { [intro, loading, results, failed].forEach(x => x.classList.remove('show')); if (el) el.classList.add('show'); }
+  // intro is visible by default (not display:none), so hide it explicitly when needed
+  function hideIntro() { intro.style.display = 'none'; }
+  function showIntro() { intro.style.display = ''; }
+
+  function normalise(v) {
+    v = (v || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+    if (!v) return null;
+    if (!v.includes('.')) v = v + '.myshopify.com';
+    return /^[a-z0-9][a-z0-9-]*\.myshopify\.com$/.test(v) ? v : null;
+  }
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Fire the lead to Netlify Forms (form "audit-lead"). Fire-and-forget — never
+  // blocks or fails the audit; Netlify emails support@ from the dashboard notification.
+  function submitLead(store, email) {
+    try {
+      const body = new URLSearchParams({ 'form-name': 'audit-lead', store: store, email: email, 'bot-field': '' });
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() }).catch(function () {});
+    } catch (e) { /* never let lead capture break the audit */ }
+  }
+
+  let statusTimer = null;
+  function startStatus() {
+    let i = 0;
+    statusEl.textContent = STATUSES[0];
+    statusTimer = setInterval(() => { i = (i + 1) % STATUSES.length; statusEl.textContent = STATUSES[i]; }, 1400);
+    startChecklist();
+    startTips();
+  }
+  function stopStatus() {
+    if (statusTimer) clearInterval(statusTimer); statusTimer = null;
+    stopChecklist();
+    stopTips();
+  }
+
+  // Live ticking checklist — cosmetic progress that runs while /api/audit works.
+  // Steps light up in turn, then complete; the last one holds on a pulse until
+  // the real request resolves (which drives the actual show/hide state).
+  const checklist = document.getElementById('audit-checklist');
+  let checkTimers = [];
+  function startChecklist() {
+    const items = checklist ? Array.from(checklist.querySelectorAll('li')) : [];
+    items.forEach(li => li.classList.remove('active', 'done'));
+    if (!items.length) return;
+    const step = prefersReduce ? 0 : 1500;
+    items.forEach((li, idx) => {
+      checkTimers.push(setTimeout(() => {
+        li.classList.add('active');
+        // Complete every step except the last, which keeps spinning until done.
+        if (idx < items.length - 1) {
+          checkTimers.push(setTimeout(() => { li.classList.remove('active'); li.classList.add('done'); }, prefersReduce ? 0 : step * 0.7));
+        }
+      }, idx * step));
+    });
+    if (prefersReduce) items.forEach((li, idx) => { if (idx < items.length - 1) { li.classList.add('done'); } else { li.classList.add('active'); } });
+  }
+  function stopChecklist() {
+    checkTimers.forEach(clearTimeout); checkTimers = [];
+    if (checklist) checklist.querySelectorAll('li').forEach(li => li.classList.remove('active', 'done'));
+  }
+
+  // Rotating did-you-know tip during the wait.
+  const tipEl = document.getElementById('audit-tip');
+  let tipTimer = null;
+  function startTips() {
+    if (!tipEl) return;
+    let i = 0;
+    tipEl.innerHTML = TIPS[0]; tipEl.classList.add('show');
+    if (prefersReduce) return;
+    tipTimer = setInterval(() => {
+      tipEl.classList.remove('show');
+      setTimeout(() => { i = (i + 1) % TIPS.length; tipEl.innerHTML = TIPS[i]; tipEl.classList.add('show'); }, 400);
+    }, 4200);
+  }
+  function stopTips() { if (tipTimer) clearInterval(tipTimer); tipTimer = null; if (tipEl) tipEl.classList.remove('show'); }
+
+  let lastStore = '', lastScore = null;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    formError.textContent = '';
+    const store = normalise(input.value);
+    if (!store) { formError.textContent = 'Please enter a valid myshopify.com domain, e.g. your-store.myshopify.com'; return; }
+    const email = (emailInput.value || '').trim();
+    if (!EMAIL_RE.test(email)) { formError.textContent = 'Please enter a valid email address so we can send you the full report.'; return; }
+    runAudit(store, email);
+  });
+
+  // Runs the audit. `email` is optional — when a valid one is supplied (manual
+  // form, or a deep-link with &email=) we also capture the lead. Deep-links can
+  // pass just a domain to generate a report without an email.
+  async function runAudit(store, email) {
+    formError.textContent = '';
+    if (email && EMAIL_RE.test(email)) submitLead(store, email);
+
+    runBtn.disabled = true;
+    hideIntro();
+    loading.classList.add('show');
+    results.classList.remove('show');
+    failed.classList.remove('show');
+    startStatus();
+
+    try {
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ domain: store })
+      });
+      const data = await res.json();
+      stopStatus();
+      loading.classList.remove('show');
+
+      if (res.status === 429) {
+        showIntro(); intro.classList.add('show');
+        formError.textContent = data.message || 'Too many audits for now — try again later.';
+        return;
+      }
+      if (!res.ok || data.error) {
+        showIntro(); intro.classList.add('show');
+        formError.textContent = data.error || 'Something went wrong. Please try again.';
+        return;
+      }
+      if (data.status === 'unavailable') {
+        failed.classList.add('show');
+        return;
+      }
+      lastStore = data.store; lastScore = data.score;
+      renderResults(data);
+      results.classList.add('show');
+      revealResults();
+      // Bonus: enrich one product into a live before/after example. Runs after
+      // the score is on screen and can never block or fail the audit.
+      loadLiveExample(data.store, data.exampleProduct);
+    } catch (err) {
+      stopStatus();
+      loading.classList.remove('show');
+      showIntro(); intro.classList.add('show');
+      formError.textContent = 'Network error. Please try again.';
+    } finally {
+      runBtn.disabled = false;
+    }
+  }
+
+  function bandColor(band) {
+    return band === 'Agent-ready' ? 'pass' : band === 'Needs work' ? 'partial' : 'fail';
+  }
+  function catColor(status) { return status; } // pass | partial | fail
+  function catIcon(status) { return status === 'pass' ? '✓' : status === 'partial' ? '!' : '✕'; }
+  function detailMark(state) { return state === 'pass' ? '✓' : state === 'partial' ? '!' : state === 'fail' ? '✕' : '–'; }
+  function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+  // Build one category row: status icon, label + info tooltip + weight, score, expand toggle, detail panel.
+  function buildCatRow(c) {
+    const row = document.createElement('div');
+    row.className = 'cat-row';
+
+    const details = Array.isArray(c.details) ? c.details : [];
+    const hasDetail = details.length > 0;
+
+    const tooltip = (c.what || c.how)
+      ? '<span class="info-icon" tabindex="0" role="button" aria-label="What this checks and how it\'s calculated">i' +
+          '<span class="tooltip" role="tooltip"><strong>' + esc(c.label) + '</strong>' +
+          (c.what ? esc(c.what) : '') +
+          (c.how ? '<span class="tt-how">How we measure it: ' + esc(c.how) + '</span>' : '') +
+        '</span></span>'
+      : '';
+
+    const scorePct = Math.max(0, Math.min(100, Number(c.score) || 0));
+    row.innerHTML =
+      '<div class="cat-icon ' + catColor(c.status) + '">' + catIcon(c.status) + '</div>' +
+      '<div class="cat-main">' +
+        '<div class="cat-label">' + esc(c.label) + tooltip + '</div>' +
+        '<div class="cat-weight">Weight: ' + c.weight + '%</div>' +
+        '<div class="cat-bar"><span class="' + catColor(c.status) + '" data-w="' + scorePct + '"></span></div>' +
+      '</div>' +
+      '<div class="cat-score">' + c.score + '<span style="color:var(--muted)">/100</span></div>' +
+      (hasDetail
+        ? '<button class="cat-toggle" type="button" aria-expanded="false" aria-label="Show the URLs we checked">+</button>'
+        : '<span></span>') +
+      '<div class="cat-detail"></div>';
+
+    if (hasDetail) {
+      const panel = row.querySelector('.cat-detail');
+      const ul = document.createElement('ul');
+      ul.className = 'detail-list';
+      details.forEach(d => {
+        const li = document.createElement('li');
+        const link = d.url
+          ? '<a href="' + esc(d.url) + '" target="_blank" rel="noopener">' + esc(d.path) + '</a>'
+          : esc(d.path);
+        li.innerHTML =
+          '<span class="detail-mark ' + esc(d.state) + '">' + detailMark(d.state) + '</span>' +
+          '<span><span class="detail-url">' + link + '</span>' +
+          (d.note ? '<span class="detail-note">' + esc(d.note) + '</span>' : '') + '</span>';
+        ul.appendChild(li);
+      });
+      panel.appendChild(ul);
+
+      const toggle = row.querySelector('.cat-toggle');
+      toggle.addEventListener('click', () => {
+        const open = panel.classList.toggle('show');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.textContent = open ? '–' : '+';
+      });
+    }
+    return row;
+  }
+
+  function renderResults(data) {
+    const cls = bandColor(data.band);
+    const gauge = document.getElementById('score-gauge');
+    const col = cls === 'pass' ? '#15803d' : cls === 'partial' ? '#b45309' : '#b91c1c';
+    gauge.style.setProperty('--val', data.score);
+    gauge.style.setProperty('--col', col);
+    countUp(document.getElementById('score-num'), data.score);
+    const bandEl = document.getElementById('score-band');
+    bandEl.textContent = data.band;
+    bandEl.className = 'score-band ' + cls;
+
+    // Reactive verdict + mascot, keyed to the band.
+    const VERDICTS = {
+      pass: 'Your catalogue speaks fluent robot. The agents are going to love this. 🐦',
+      partial: 'Good bones — but there are a few gaps the shopping agents will trip over.',
+      fail: 'The agents are squinting hard right now. Nothing here we can’t fix, though.'
+    };
+    const verdict = document.getElementById('score-verdict');
+    document.getElementById('score-verdict-text').textContent = VERDICTS[cls];
+    verdict.className = 'score-verdict ' + cls;
+    verdict.hidden = false;
+
+    document.getElementById('score-sub').textContent =
+      'Based on your ' + data.sampled + (data.sampledBy === 'best-selling' ? ' best-selling products' : ' products') +
+      (data.pagesAnalysed ? ', ' + data.pagesAnalysed + ' product pages' : '') +
+      (data.collectionsSampled ? ' and ' + data.collectionsSampled + ' collections' : '') +
+      ' from ' + data.store + '.';
+
+    const catList = document.getElementById('cat-list');
+    catList.innerHTML = '';
+    data.categories.forEach(c => catList.appendChild(buildCatRow(c)));
+
+    // Add Product Taxonomy row (static, not scored)
+    const taxRow = document.createElement('div');
+    taxRow.className = 'cat-row';
+    taxRow.innerHTML =
+      '<div class="cat-icon" style="background: var(--rule); color: var(--muted);">?</div>' +
+      '<div class="cat-main">' +
+        '<div class="cat-label">Product Taxonomy</div>' +
+        '<div class="cat-weight">Our free audit can\'t check your product taxonomy completion. But install Product Pelican and you can check it instantly.</div>' +
+      '</div>' +
+      '<span></span>' +
+      '<span></span>' +
+      '<div class="cat-detail"></div>';
+    catList.appendChild(taxRow);
+
+    // Touch devices: tap the info icon to toggle its tooltip (no hover).
+    catList.querySelectorAll('.info-icon').forEach(icon => {
+      icon.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        const wasOpen = icon.classList.contains('open');
+        catList.querySelectorAll('.info-icon.open').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) icon.classList.add('open');
+      });
+    });
+
+    document.getElementById('fixes-store').textContent = data.store;
+    const fixCards = document.getElementById('fix-cards');
+    fixCards.innerHTML = '';
+    const scored = (data.topFixes && data.topFixes.length)
+      ? data.topFixes
+      : [{ fix: 'Your catalogue is in great shape. Pelican keeps it that way as you add products.' }];
+    const advisories = Array.isArray(data.advisories) ? data.advisories : [];
+    [].concat(scored, advisories).forEach((f, idx) => {
+      const card = document.createElement('div');
+      card.className = 'fix-card reveal';
+      const rank = document.createElement('div');
+      rank.className = 'fix-rank';
+      rank.textContent = String(idx + 1).padStart(2, '0');
+      const body = document.createElement('div');
+      const p = document.createElement('p');
+      p.textContent = f.fix;
+      const tag = document.createElement('span');
+      tag.className = 'fix-tag';
+      tag.innerHTML = '<img src="pelican-200.png" alt="">Pelican fixes this';
+      body.appendChild(p);
+      body.appendChild(tag);
+      card.appendChild(rank);
+      card.appendChild(body);
+      fixCards.appendChild(card);
+    });
+  }
+
+  // Count a number element up from 0 to `target` (~0.8s), respecting reduced motion.
+  function countUp(el, target) {
+    if (!el) return;
+    target = Number(target) || 0;
+    if (prefersReduce) { el.textContent = target; return; }
+    const dur = 800, start = performance.now();
+    function frame(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(target * eased);
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // Staggered reveal of the result blocks + tick-in of category rows + bar fills.
+  function revealResults() {
+    const blocks = Array.from(results.querySelectorAll('.reveal'));
+    const rows = Array.from(results.querySelectorAll('.cat-row'));
+    const bars = Array.from(results.querySelectorAll('.cat-bar span[data-w]'));
+    if (prefersReduce) {
+      blocks.forEach(b => b.classList.add('in'));
+      rows.forEach(r => r.classList.add('tick-in'));
+      bars.forEach(s => { s.style.width = s.dataset.w + '%'; });
+      return;
+    }
+    blocks.forEach((b, i) => setTimeout(() => b.classList.add('in'), i * 130));
+    rows.forEach((r, i) => setTimeout(() => r.classList.add('tick-in'), 260 + i * 90));
+    // Fill bars once their rows have started ticking in.
+    setTimeout(() => bars.forEach(s => { s.style.width = s.dataset.w + '%'; }), 500);
+  }
+
+  // ---- Live example card (bonus; fired after the score, fails silently) ----
+  function stripTags(html) {
+    const d = document.createElement('div');
+    d.innerHTML = html || '';
+    return (d.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  function clip(s, n) { s = s || ''; return s.length > n ? s.slice(0, n - 1).trim() + '…' : s; }
+
+  function populateLiveExample(ep, enr) {
+    document.getElementById('le-crumb-handle').textContent = clip(ep.title || 'product', 24);
+
+    document.getElementById('le-title-before').textContent = ep.title || '—';
+    document.getElementById('le-title-after').textContent = enr.title || ep.title || '';
+
+    const beforeDesc = stripTags(ep.description);
+    document.getElementById('le-desc-before').textContent = beforeDesc ? clip(beforeDesc, 150) : 'No description.';
+    document.getElementById('le-desc-after').textContent = enr.description || '';
+
+    const chips = document.getElementById('le-cat-chips');
+    chips.innerHTML = '';
+    if (enr.category) {
+      const c = document.createElement('span'); c.className = 'le-chip'; c.textContent = enr.category; chips.appendChild(c);
+    }
+    (Array.isArray(enr.metafields) ? enr.metafields : []).slice(0, 4).forEach(m => {
+      if (!m || (!m.label && !m.value)) return;
+      const c = document.createElement('span'); c.className = 'le-chip';
+      c.textContent = (m.label ? m.label + ': ' : '') + (m.value || '');
+      chips.appendChild(c);
+    });
+
+    const faqWrap = document.getElementById('le-faqs');
+    faqWrap.innerHTML = '';
+    (Array.isArray(enr.faqs) ? enr.faqs : []).slice(0, 3).forEach(fq => {
+      if (!fq || !fq.q) return;
+      const item = document.createElement('div'); item.className = 'le-faq';
+      const q = document.createElement('div'); q.className = 'le-faq-q'; q.textContent = fq.q;
+      const a = document.createElement('div'); a.className = 'le-faq-a'; a.textContent = fq.a || '';
+      item.appendChild(q); item.appendChild(a);
+      faqWrap.appendChild(item);
+    });
+  }
+
+  function runLiveExample() {
+    const fields = ['title', 'desc', 'cat', 'faq'];
+    const chips = document.getElementById('le-cat-chips');
+    // reset
+    fields.forEach(f => document.getElementById('le-field-' + f).classList.remove('active'));
+    document.querySelectorAll('.le-tag').forEach(t => t.classList.remove('show'));
+    chips.hidden = true;
+    chips.querySelectorAll('.le-chip').forEach(c => c.classList.remove('show'));
+    document.querySelectorAll('#le-faqs .le-faq').forEach(c => c.classList.remove('show'));
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stagger = reduce ? 0 : 900;
+    fields.forEach((f, i) => {
+      setTimeout(() => {
+        document.getElementById('le-field-' + f).classList.add('active');
+        document.getElementById('le-tag-' + f).classList.add('show');
+        if (f === 'cat') {
+          chips.hidden = false;
+          chips.querySelectorAll('.le-chip').forEach((c, ci) => setTimeout(() => c.classList.add('show'), reduce ? 0 : ci * 120));
+        }
+        if (f === 'faq') {
+          document.querySelectorAll('#le-faqs .le-faq').forEach((c, ci) => setTimeout(() => c.classList.add('show'), reduce ? 0 : ci * 160));
+        }
+      }, i * stagger + (reduce ? 0 : 300));
+    });
+  }
+
+  function loadLiveExample(store, ep) {
+    if (!ep || !ep.title) return; // nothing to show
+    const card = document.getElementById('live-example');
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 20000);
+    fetch('/api/audit-enrich', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ domain: store, exampleProduct: ep }),
+      signal: ctrl.signal
+    })
+      .then(r => (r.ok ? r.json() : Promise.reject()))
+      .then(d => {
+        clearTimeout(timer);
+        if (!d || d.status !== 'ok' || !d.enrichment) return; // stay hidden
+        populateLiveExample(ep, d.enrichment);
+        card.hidden = false;
+        // touch: tap the taxonomy info icon to toggle its tooltip
+        card.querySelectorAll('.info-icon').forEach(icon => {
+          icon.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const wasOpen = icon.classList.contains('open');
+            document.querySelectorAll('.info-icon.open').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) icon.classList.add('open');
+          });
+        });
+        runLiveExample();
+      })
+      .catch(() => { clearTimeout(timer); /* silent — card stays hidden */ });
+  }
+
+  // Lead capture
+  const leadForm = document.getElementById('lead-form');
+  const leadMsg = document.getElementById('lead-msg');
+  if (leadForm && leadMsg) {
+    leadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      leadMsg.textContent = '';
+      leadMsg.style.color = 'var(--muted)';
+      const email = document.getElementById('lead-email').value.trim();
+      try {
+        const res = await fetch('/api/audit-lead', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email, domain: lastStore, score: lastScore })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          leadMsg.style.color = '#15803d';
+          leadMsg.textContent = "Got it — we'll be in touch with your full report.";
+          leadForm.reset();
+        } else {
+          leadMsg.style.color = '#b91c1c';
+          leadMsg.textContent = data.error || 'Could not save your email. Please try again.';
+        }
+      } catch {
+        leadMsg.style.color = '#b91c1c';
+        leadMsg.textContent = 'Network error. Please try again.';
+      }
+    });
+  }
+
+  // Tap anywhere else closes any open info tooltip (touch devices).
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.info-icon.open').forEach(i => i.classList.remove('open'));
+  });
+
+  // Hero: reveal the "what we check" chips in a quick stagger on load.
+  (function revealChecks() {
+    const chips = Array.from(document.querySelectorAll('#audit-checks .chk'));
+    if (!chips.length) return;
+    if (prefersReduce) { chips.forEach(c => c.classList.add('show')); return; }
+    chips.forEach((c, i) => setTimeout(() => c.classList.add('show'), 300 + i * 110));
+  })();
+
+  // Hero: cycle the domain placeholder through real-looking stores so the field
+  // feels alive and shows the format. Pauses on focus / once the user types.
+  (function cyclePlaceholder() {
+    if (prefersReduce) return;
+    const examples = ['your-store.myshopify.com', 'kettle-and-co.myshopify.com', 'north-shore-surf.myshopify.com', 'wildflower-ceramics.myshopify.com'];
+    let i = 0, stopped = false;
+    const stop = () => { stopped = true; };
+    input.addEventListener('focus', stop);
+    input.addEventListener('input', stop);
+    const timer = setInterval(() => {
+      if (stopped || input.value) { clearInterval(timer); return; }
+      i = (i + 1) % examples.length;
+      input.setAttribute('placeholder', examples[i]);
+    }, 2500);
+  })();
+
+  // Deep-link: auto-run a report from the URL. Accepts ?site= / ?store= / ?domain=
+  // (e.g. /free-audit?site=yu-mei-bags.myshopify.com). Email is optional here:
+  // add &email=you@store.com to also capture the lead. Just the domain is enough
+  // to generate the report.
+  const params = new URLSearchParams(location.search);
+  const preRaw = params.get('site') || params.get('store') || params.get('domain');
+  const preEmail = (params.get('email') || '').trim();
+  if (preRaw) input.value = preRaw;
+  if (preEmail) emailInput.value = preEmail;
+  const preStore = normalise(preRaw);
+  if (preStore) { runAudit(preStore, preEmail); }
+})();
+</script>
+
+<script>
+(function () {
+  const flock = document.querySelector('.pelican-flock');
+  if (!flock) return;
+  const els = Array.from(flock.querySelectorAll('.bird'));
+  if (!els.length) return;
+
+  const REPEL_R   = 160;   // px — cursor influence radius
+  const REPEL_STR = 26000; // force magnitude
+
+  let mouseX = -9999, mouseY = -9999;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  const birds = els.map(el => {
+    const w       = rnd(28, 72);
+    const baseVx  = rnd(36, 80);
+    const opacity = rnd(0.07, 0.15);
+    // Kill CSS animation; reset to top-left origin for transform-based positioning
+    el.style.cssText = `width:${w}px;height:${w}px;opacity:${opacity};top:0;left:0;animation:none;`;
+    return {
+      el, w, baseVx,
+      x:    rnd(-w * 2, window.innerWidth * 1.2),
+      y:    rnd(0, window.innerHeight),
+      baseY: rnd(0, window.innerHeight),
+      vx: baseVx, vy: 0,
+      // size pulse — unique phase + speed per bird
+      pulsePhase: rnd(0, Math.PI * 2),
+      pulseSpeed: rnd(0.28, 1.4),
+      pulseMin:   rnd(0.70, 0.82),
+      pulseMax:   rnd(1.14, 1.30),
+      // vertical bob — separate from repulsion
+      bobPhase: rnd(0, Math.PI * 2),
+      bobSpeed: rnd(0.32, 0.85),
+      bobAmp:   rnd(10, 30),
+    };
+  });
+
+  let prev = null;
+  function tick(ts) {
+    if (!prev) { prev = ts; requestAnimationFrame(tick); return; }
+    const dt = Math.min((ts - prev) / 1000, 0.05); // cap at 50 ms
+    prev = ts;
+    const t = ts / 1000;
+
+    for (const b of birds) {
+      // ── Vertical: gentle sinusoidal bob ──────────────────────────────────
+      const targetY = b.baseY + Math.sin(t * b.bobSpeed + b.bobPhase) * b.bobAmp;
+      b.vy += (targetY - b.y) * 4 * dt;  // spring toward target
+      b.vy *= (1 - dt * 4.5);             // damp
+
+      // ── Mouse repulsion (squared falloff) ────────────────────────────────
+      const cx = b.x + b.w / 2, cy = b.y + b.w / 2;
+      const dx = cx - mouseX,    dy = cy - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < REPEL_R && dist > 1) {
+        const ratio = 1 - dist / REPEL_R;
+        const f = REPEL_STR * ratio * ratio * dt;
+        b.vx += (dx / dist) * f;
+        b.vy += (dy / dist) * f;
+      }
+
+      // ── Horizontal: ease back to cruise speed ────────────────────────────
+      b.vx += (b.baseVx - b.vx) * dt * 1.8;
+      b.vx  = Math.max(b.baseVx * 0.12, Math.min(b.baseVx * 5, b.vx));
+
+      // ── Integrate ────────────────────────────────────────────────────────
+      b.x += b.vx * dt;
+      b.y  = Math.max(-b.w, Math.min(window.innerHeight + b.w, b.y + b.vy * dt));
+
+      // ── Wrap: re-enter from left with fresh random altitude ──────────────
+      if (b.x > window.innerWidth + b.w * 2) {
+        b.x    = -b.w * 2;
+        b.baseY = rnd(0.05, 0.92) * window.innerHeight;
+        b.y    = b.baseY;
+        b.vy   = 0;
+      }
+
+      // ── Scale pulse ──────────────────────────────────────────────────────
+      const scale = b.pulseMin + (b.pulseMax - b.pulseMin) *
+        (0.5 + 0.5 * Math.sin(t * b.pulseSpeed + b.pulsePhase));
+
+      b.el.style.transform = `translate(${b.x}px,${b.y}px) scale(${scale})`;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+})();
+</script>
+
+{% endblock %}

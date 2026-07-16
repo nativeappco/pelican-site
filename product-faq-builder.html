@@ -1,0 +1,925 @@
+---
+title: "Product FAQs | Product Pelican — AI-generated FAQs for Shopify, built for GEO"
+description: "Bulk generate, manage and reuse product FAQs in Shopify. Native metaobjects, automatic FAQPage schema, and full control over how the widget looks."
+ogDesc: "Generate, manage and reuse product FAQs in bulk, right inside Shopify. Native metaobjects, automatic FAQPage schema, built for AI shopping agents."
+permalink: /product-faq-builder/
+---
+{% extends "base.njk" %}
+
+{% block extrahead %}
+<meta name="keywords" content="Shopify product FAQ app, AI product FAQs Shopify, FAQPage schema, Shopify metaobjects, GEO, Product Pelican">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I import FAQs I've already written?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use Import FAQs and upload a CSV with product_id, question and answer, one FAQ per row."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do FAQs actually get stored?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As native Shopify metaobjects, assigned to products with a metafield. It's your store's own data, reusable across products and not tied to one theme."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to write these myself?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Pelican drafts suggestions from your actual product data. You approve, edit, or discard each one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the same FAQ across lots of products?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Connect Existing assigns an FAQ you've already written to any other product."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will adding FAQs slow my product pages down?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No extra database calls. It's native Shopify data, so it loads the way the rest of your product page does."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I already have an FAQ app, or an SEO app that adds FAQ schema?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Turn off the structured data toggle in the block settings to avoid duplicate FAQ schema on the same page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this work with my theme?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use Raw HTML output for full theme control, or Custom Styles to set your own fonts and colours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will AI assistants actually read this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, through the FAQPage JSON-LD added automatically to every FAQ block."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Product FAQs page-specific styles -->
+<style>
+  /* ── Hero ── */
+  .faqp-hero { padding: 72px 100px 60px; max-width: 1800px; margin: 24px auto 0; position: relative; }
+  .faqp-hero-inner {
+    display: grid; grid-template-columns: 1fr 1.15fr; gap: 72px; align-items: center; text-align: left;
+  }
+  .faqp-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
+    margin-bottom: 22px; padding: 6px 12px;
+    background: rgba(194, 65, 12, 0.08); border: 1px solid var(--accent);
+  }
+  .faqp-eyebrow .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 1.6s ease-in-out infinite; }
+  .faqp-hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(34px, 5vw, 60px); line-height: 0.98; letter-spacing: -0.03em;
+    font-variation-settings: "SOFT" 50; margin-bottom: 24px;
+  }
+  .faqp-hero h1 .italic { font-style: italic; font-weight: 300; color: var(--accent); }
+  .faqp-hero h1 .underline { position: relative; display: inline-block; }
+  .faqp-hero h1 .underline::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0.08em;
+    height: 0.28em; background: var(--highlight); z-index: -1; transform: skew(-3deg);
+  }
+  .faqp-hero .subtitle {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(18px, 2.1vw, 23px); line-height: 1.4; color: var(--muted);
+    max-width: 560px; margin: 0 0 30px;
+  }
+  .faqp-hero .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+  /* ── Hero "Suggest FAQs" demo (restyled from prototype into brand system) ── */
+  .faqp-demo {
+    background: #FFFFFF; border: 1.5px solid var(--ink);
+    box-shadow: 12px 12px 0 var(--ink);
+    overflow: hidden; font-family: 'Inter Tight', sans-serif; color: var(--ink);
+  }
+  .faqp-demo-bar { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: #1A1A1A; }
+  .faqp-demo-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: #444; }
+  .faqp-demo-bar .dot.r { background: #FF5F57; } .faqp-demo-bar .dot.y { background: #FEBC2E; } .faqp-demo-bar .dot.g { background: #28C840; }
+  .faqp-demo-bar .url {
+    margin-left: 12px; flex: 1; background: #2A2A2A; color: #AAA;
+    padding: 5px 12px; border-radius: 7px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  .faqp-demo-bar .url b { color: #fff; font-weight: 600; }
+
+  .faqp-product { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid #E1E3E5; flex-wrap: wrap; }
+  .faqp-thumb { width: 46px; height: 46px; border-radius: 9px; background: linear-gradient(135deg,#D9C7A3,#8A6F4E); flex-shrink: 0; }
+  .faqp-product-meta { margin-right: auto; min-width: 0; }
+  .faqp-product-title { font-size: 14px; font-weight: 600; line-height: 1.3; color: #1A1A1A; }
+  .faqp-badges { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+  .faqp-pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .faqp-pill.active { background: #E5F6EA; color: #1E8E4A; }
+  .faqp-variants { font-size: 11.5px; color: #6D7175; }
+  .faqp-demo-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .faqp-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Inter Tight', sans-serif; font-size: 12.5px; font-weight: 500;
+    padding: 8px 12px; border-radius: 8px; border: 1px solid #C9CCCF; background: #fff; color: #303030;
+  }
+  .faqp-btn.suggest {
+    background: #1A1A1A; color: #fff; border-color: #1A1A1A;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .faqp-btn.suggest.pressed { transform: scale(0.94); box-shadow: 0 0 0 6px rgba(3,105,161,0.14); }
+  .faqp-btn.suggest .spark { color: var(--accent-soft); }
+
+  .faqp-panel { padding: 18px 20px 22px; }
+  .faqp-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .faqp-panel-head-l { display: flex; align-items: center; gap: 10px; }
+  .faqp-ai-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--paper-dim); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .faqp-panel-title { font-size: 13.5px; font-weight: 700; color: #1A1A1A; }
+  .faqp-panel-sub { font-size: 11.5px; color: #6D7175; margin-top: 1px; }
+  .faqp-pelican-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--accent); background: rgba(224,122,79,0.10); border: 1px solid rgba(194,65,12,0.35);
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .faqp-list { display: flex; flex-direction: column; gap: 10px; }
+  .faqp-card { position: relative; border: 1px solid #E1E3E5; border-radius: 11px; padding: 14px 16px; min-height: 74px; overflow: hidden; }
+  .faqp-sk { position: absolute; inset: 0; padding: 14px 16px; display: flex; flex-direction: column; justify-content: center; transition: opacity .26s ease, transform .26s ease; }
+  .faqp-real { position: absolute; inset: 0; padding: 14px 16px; display: flex; flex-direction: column; justify-content: center; opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity .26s ease, transform .26s ease; }
+  .faqp-card.resolved .faqp-sk { opacity: 0; transform: translateY(-6px); }
+  .faqp-card.resolved .faqp-real { opacity: 1; transform: none; }
+  .faqp-sk-line { height: 9px; border-radius: 5px; background: #E7E7EA; margin-bottom: 8px; position: relative; overflow: hidden; }
+  .faqp-sk-line::after { content: ''; position: absolute; top: 0; left: -150%; width: 150%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent); animation: faqpShimmer 1.4s infinite; }
+  @keyframes faqpShimmer { 100% { left: 150%; } }
+  .faqp-sk-q { width: 55%; } .faqp-sk-a1 { width: 92%; } .faqp-sk-a2 { width: 70%; }
+  .faqp-q { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #1A1A1A; }
+  .faqp-a { font-size: 12.5px; color: #6D7175; line-height: 1.5; }
+  .faqp-status { text-align: center; font-size: 12px; color: #6D7175; height: 16px; margin-top: 12px; opacity: 0; transition: opacity .2s ease; }
+  .faqp-status.show { opacity: 1; }
+  .faqp-status .blink { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-left: 6px; animation: pulse 1s infinite ease-in-out; }
+  .faqp-accept { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .3s ease; }
+  .faqp-accept.show { opacity: 1; transform: none; }
+  .faqp-accept .ghost { font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px; border: 1px solid #C9CCCF; background: #fff; color: #6D7175; }
+  .faqp-accept .accept { font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px; border: 1px solid #1A1A1A; background: #1A1A1A; color: #fff; }
+  .faqp-demo-caption {
+    margin-top: 16px; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted);
+  }
+  .faqp-demo-caption strong { color: var(--accent); font-weight: 700; }
+
+  /* ── Plain "what they are" band ── */
+  .faqp-plain { max-width: 1100px; margin: 0 auto; padding: 90px 32px 40px; }
+  .faqp-plain .lead {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(22px, 3vw, 34px);
+    line-height: 1.35; letter-spacing: -0.01em; max-width: 880px; margin-bottom: 32px;
+  }
+  .faqp-plain .lead em { font-style: italic; color: var(--accent); }
+  .faqp-plain .lead .key { background: var(--highlight); padding: 1px 6px; font-weight: 500; }
+  .faqp-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-left: 1px solid var(--rule); border-top: 1px solid var(--rule); }
+  .faqp-benefit { padding: 26px 24px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .faqp-benefit .b-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent); letter-spacing: 0.14em; }
+  .faqp-benefit h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; line-height: 1.15; margin: 12px 0 8px; }
+  .faqp-benefit p { font-size: 14px; line-height: 1.55; color: #1a1d24; }
+
+  /* ── Why it matters (dark band) ── */
+  .faqp-why { background: var(--ink); color: var(--paper); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 90px 32px; position: relative; overflow: hidden; }
+  .faqp-why-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .faqp-why .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent-soft);
+    margin-bottom: 24px; display: flex; align-items: center; gap: 16px;
+  }
+  .faqp-why .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--accent-soft); opacity: 0.4; }
+  .faqp-why h2 { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(32px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.025em; margin-bottom: 20px; max-width: 900px; }
+  .faqp-why h2 em { font-style: italic; font-weight: 300; color: var(--accent-soft); }
+  .faqp-why-lead { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 21px; line-height: 1.45; opacity: 0.9; max-width: 820px; margin-bottom: 40px; }
+  .faqp-why-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 8px; }
+  .faqp-why-col { border-top: 2px solid var(--accent-soft); padding-top: 20px; }
+  .faqp-why-col .wc-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-soft); margin-bottom: 12px; display: block; }
+  .faqp-why-col h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; line-height: 1.1; margin-bottom: 12px; }
+  .faqp-why-col p { font-size: 16px; line-height: 1.6; opacity: 0.92; }
+  .faqp-why-col p strong { color: var(--accent-soft); font-weight: 600; }
+
+  /* Full-width proof video block */
+  .faqp-video-proof { max-width: 1100px; margin: 56px auto 0; }
+  .faqp-video-proof .vp-cap { text-align: center; margin-bottom: 16px; }
+  .faqp-video-proof .vp-cap .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent-soft); }
+  .faqp-video-proof .vp-cap p { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 19px; opacity: 0.85; margin-top: 8px; }
+  .faqp-video-frame {
+    border: 1.5px solid var(--paper); background: #0b1420;
+    aspect-ratio: 16 / 8; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    box-shadow: 12px 12px 0 var(--accent);
+  }
+  .faqp-video-frame video, .faqp-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+  .faqp-video-placeholder {
+    padding: 32px; position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .faqp-video-placeholder .play {
+    width: 66px; height: 66px; border-radius: 50%; border: 2px solid var(--paper);
+    display: grid; place-items: center; opacity: 0.85;
+  }
+  .faqp-video-placeholder .play .tri { width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent var(--paper); margin-left: 4px; }
+  .faqp-video-placeholder .ph-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; color: var(--paper); }
+  .faqp-video-placeholder .ph-note { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(214,243,255,0.55); max-width: 460px; line-height: 1.7; }
+
+  /* ── How Pelican does it — workflow steps ── */
+  .faqp-flow-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-left: 1px solid var(--rule); border-top: 1px solid var(--rule); }
+  .faqp-flow { padding: 28px 22px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; gap: 12px; min-height: 220px; }
+  .faqp-flow .f-verb { font-family: 'Fraunces', serif; font-weight: 500; font-size: 24px; letter-spacing: -0.01em; }
+  .faqp-flow .f-verb em { font-style: italic; font-weight: 300; color: var(--accent); }
+  .faqp-flow .f-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent); letter-spacing: 0.14em; }
+  .faqp-flow p { font-size: 14px; line-height: 1.55; color: #1a1d24; }
+  .faqp-flow p .code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: var(--paper-deep); padding: 1px 5px; border-radius: 4px; }
+
+  /* ── How easy it is — numbered steps ── */
+  .faqp-steps { max-width: 1100px; margin: 0 auto; padding: 0 32px 90px; }
+  .faqp-steps-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }
+  .faqp-steps ol { list-style: none; counter-reset: step; margin: 0; padding: 0; }
+  .faqp-steps ol li {
+    counter-increment: step; position: relative; padding: 18px 0 18px 64px;
+    border-bottom: 1px solid var(--rule); font-size: 17px; line-height: 1.5;
+  }
+  .faqp-steps ol li:last-child { border-bottom: none; }
+  .faqp-steps ol li::before {
+    content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: 16px;
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px; color: var(--accent);
+  }
+  .faqp-steps ol li strong { font-weight: 600; }
+  .faqp-steps ol li .code { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--paper-deep); padding: 1px 6px; border-radius: 4px; }
+  .faqp-steps-aside {
+    background: var(--ink); color: var(--paper); padding: 36px 32px;
+    border: 1.5px solid var(--ink); box-shadow: 10px 10px 0 var(--accent);
+  }
+  .faqp-steps-aside .big { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(40px, 5vw, 56px); line-height: 1; letter-spacing: -0.02em; }
+  .faqp-steps-aside .big em { font-style: italic; color: var(--accent-soft); font-weight: 300; }
+  .faqp-steps-aside p { margin-top: 16px; font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 18px; line-height: 1.5; opacity: 0.9; }
+  .faqp-steps-aside .assets { margin-top: 24px; display: grid; gap: 12px; }
+  .faqp-steps-aside .assets img, .faqp-steps-aside .assets video { width: 100%; height: auto; display: block; border: 1px solid rgba(214,243,255,0.25); border-radius: 6px; }
+
+  /* ── Widget settings mock panel ── */
+  .faqp-widget { background: var(--paper-deep); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 90px 32px; }
+  .faqp-widget-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.05fr; gap: 60px; align-items: start; }
+  .faqp-widget-text .w-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(194,65,12,0.08); border: 1px solid var(--accent); }
+  .faqp-widget-text h2 { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(32px, 4.5vw, 52px); line-height: 1; letter-spacing: -0.025em; margin-bottom: 22px; }
+  .faqp-widget-text h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
+  .faqp-widget-text p { font-size: 16px; line-height: 1.6; margin-bottom: 14px; }
+  .faqp-widget-text p strong { color: var(--ink); font-weight: 600; }
+  .faqp-widget-text .w-note { margin-top: 20px; padding: 14px 16px; background: var(--paper); border: 1.5px solid var(--ink); font-size: 15px; line-height: 1.55; }
+  .faqp-widget-text .w-note strong { color: var(--accent); }
+
+  /* the theme-editor settings card (Polaris-ish) */
+  .faqp-settings {
+    background: #F1F1F1; border: 1px solid #C9CCCF; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 30px 70px -24px rgba(0,0,0,0.55), 16px 16px 0 -6px rgba(224,122,79,0.18);
+    color: #303030;
+  }
+  .faqp-settings-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #1A1A1A; color: #fff; }
+  .faqp-settings-head .ic { width: 22px; height: 22px; border-radius: 6px; background: var(--accent); display: grid; place-items: center; font-size: 12px; }
+  .faqp-settings-head .t { font-size: 13px; font-weight: 600; }
+  .faqp-settings-head .t span { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.12em; color: #9aa0ab; margin-top: 2px; }
+  .faqp-settings-body { background: #fff; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .set-row { border: 1px solid #E1E3E5; border-radius: 10px; padding: 12px 14px; }
+  .set-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; font-weight: 600; color: #1A1A1A; }
+  .set-desc { font-size: 11.5px; color: #6D7175; line-height: 1.5; margin-top: 6px; }
+  .set-input { margin-top: 8px; border: 1px solid #C9CCCF; border-radius: 8px; padding: 8px 10px; font-size: 13px; background: #fff; color: #303030; }
+  .set-input .caret { display: inline-block; width: 1.5px; height: 1em; background: var(--accent); vertical-align: -2px; margin-left: 1px; animation: caretBlink 0.8s steps(2) infinite; }
+  .set-seg { display: inline-flex; border: 1px solid #C9CCCF; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .set-seg button { font-family: 'Inter Tight', sans-serif; font-size: 11.5px; font-weight: 600; padding: 6px 12px; border: none; background: #fff; color: #6D7175; cursor: default; }
+  .set-seg button.on { background: #1A1A1A; color: #fff; }
+  .set-switch { width: 36px; height: 20px; border-radius: 999px; flex-shrink: 0; background: #C9CCCF; position: relative; }
+  .set-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform .2s ease; }
+  .set-switch.on { background: var(--accent); }
+  .set-switch.on::after { transform: translateX(16px); }
+  .set-row.manage { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #FAFBFC; }
+  .set-row.manage .m-link { font-size: 12px; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
+
+  /* ── In the wild — live FAQ screenshot gallery (add more = copy one .faqp-shot) ── */
+  .faqp-wild { max-width: 1200px; margin: 0 auto; padding: 90px 32px; }
+  .faqp-shots {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 28px; margin-top: 8px;
+  }
+  .faqp-shot {
+    border: 1.5px solid var(--ink); background: var(--paper); overflow: hidden;
+    box-shadow: 8px 8px 0 var(--ink); transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex; flex-direction: column;
+  }
+  .faqp-shot:hover { transform: translate(-3px, -3px); box-shadow: 12px 12px 0 var(--ink); }
+  .faqp-shot .shot-bar { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: #1A1A1A; }
+  .faqp-shot .shot-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: #444; flex-shrink: 0; }
+  .faqp-shot .shot-bar .dot.r { background: #FF5F57; } .faqp-shot .shot-bar .dot.y { background: #FEBC2E; } .faqp-shot .shot-bar .dot.g { background: #28C840; }
+  .faqp-shot .shot-bar .u {
+    margin-left: 8px; flex: 1; background: #2A2A2A; color: #AAA;
+    padding: 4px 11px; border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  .faqp-shot .shot-media { position: relative; background: var(--paper-deep); }
+  .faqp-shot .shot-media img { display: block; width: 100%; height: auto; }
+  /* graceful placeholder shown until a real screenshot file is dropped in */
+  .faqp-shot .shot-ph {
+    display: none; aspect-ratio: 16 / 11; align-items: center; justify-content: center; text-align: center;
+    padding: 28px;
+    background: repeating-linear-gradient(45deg, var(--paper-deep) 0 10px, var(--paper-dim) 10px 20px);
+  }
+  .faqp-shot.empty .shot-media img { display: none; }
+  .faqp-shot.empty .shot-ph { display: flex; }
+  .faqp-shot .shot-ph .ph-inner {
+    background: var(--paper); border: 1.5px dashed var(--ink); padding: 16px 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); line-height: 1.9;
+  }
+  .faqp-shot .shot-ph .ph-inner span { display: block; color: var(--accent); font-weight: 700; }
+  .faqp-shot figcaption {
+    padding: 14px 16px; border-top: 1.5px solid var(--ink);
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  }
+  .faqp-shot figcaption .store { font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; }
+  .faqp-shot figcaption .tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); flex-shrink: 0;
+  }
+
+  /* ── FAQs about FAQs — real Pelican accordion (self-demonstrating) ── */
+  .faqp-faqs { max-width: 900px; margin: 0 auto; padding: 90px 32px; }
+  .faqp-faqs-note {
+    text-align: center; margin: -24px auto 40px; max-width: 620px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--muted); line-height: 1.8;
+  }
+  .faqp-faqs-note strong { color: var(--accent); }
+  .pelican-faq { border-top: 1.5px solid var(--ink); }
+  .pelican-faq-item { border-bottom: 1.5px solid var(--rule); }
+  .pelican-faq-q {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 22px 4px; font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); transition: color 0.15s ease;
+  }
+  .pelican-faq-q:hover { color: var(--accent); }
+  .pelican-faq-q .icon { flex-shrink: 0; width: 26px; height: 26px; position: relative; }
+  .pelican-faq-q .icon::before, .pelican-faq-q .icon::after {
+    content: ''; position: absolute; background: var(--accent); border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .pelican-faq-q .icon::before { top: 12px; left: 4px; right: 4px; height: 2px; }
+  .pelican-faq-q .icon::after { left: 12px; top: 4px; bottom: 4px; width: 2px; }
+  .pelican-faq-item.open .pelican-faq-q .icon::after { transform: scaleY(0); opacity: 0; }
+  .pelican-faq-a { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+  .pelican-faq-a-inner { padding: 0 4px 24px; font-size: 16px; line-height: 1.65; color: var(--muted); max-width: 720px; }
+  .pelican-faq-a-inner .code { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; background: var(--paper-deep); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+
+  /* ── responsive ── */
+  @media (max-width: 980px) {
+    .faqp-hero { padding: 40px 20px 40px; }
+    .faqp-hero-inner { grid-template-columns: 1fr; gap: 36px; }
+    .faqp-hero .subtitle { max-width: none; }
+    .faqp-demo { box-shadow: 6px 6px 0 var(--ink); }
+    .faqp-plain { padding: 60px 20px 30px; }
+    .faqp-benefits { grid-template-columns: 1fr; }
+    .faqp-why { padding: 60px 20px; }
+    .faqp-why-cols { grid-template-columns: 1fr; gap: 28px; }
+    .faqp-flow-grid { grid-template-columns: 1fr 1fr; }
+    .faqp-steps { padding: 0 20px 60px; }
+    .faqp-steps-grid { grid-template-columns: 1fr; gap: 32px; }
+    .faqp-widget { padding: 60px 20px; }
+    .faqp-widget-inner { grid-template-columns: 1fr; gap: 36px; }
+    .faqp-settings { box-shadow: 0 20px 50px -20px rgba(0,0,0,0.5); }
+    .faqp-faqs { padding: 60px 20px; }
+    .faqp-video-frame { aspect-ratio: 16 / 10; }
+  }
+  @media (max-width: 620px) {
+    .faqp-flow-grid { grid-template-columns: 1fr; }
+    .faqp-demo-btns .faqp-btn:not(.suggest) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faqp-eyebrow .pulse, .faqp-status .blink, .set-input .caret { animation: none; }
+    .faqp-card .faqp-sk, .faqp-card .faqp-real, .faqp-accept, .faqp-status { transition: none; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="pelican-flock" aria-hidden="true">
+  <div class="bird" style="--w:54px;--t:8%;--o:0.10;--anim:bp1;--dur:13s;--delay:0s"></div>
+  <div class="bird" style="--w:38px;--t:24%;--o:0.08;--anim:bp2;--dur:17s;--delay:-5s"></div>
+  <div class="bird" style="--w:48px;--t:40%;--o:0.09;--anim:bp3;--dur:14s;--delay:-9s"></div>
+  <div class="bird" style="--w:60px;--t:66%;--o:0.11;--anim:bp1;--dur:11s;--delay:-13s"></div>
+  <div class="bird" style="--w:34px;--t:82%;--o:0.07;--anim:bp4;--dur:19s;--delay:-3s"></div>
+  <div class="bird" style="--w:44px;--t:52%;--o:0.09;--anim:bp5;--dur:15s;--delay:-2s"></div>
+</div>
+
+<main id="top">
+
+  <!-- ── 1. HERO ── -->
+  <header class="faqp-hero">
+    <div class="faqp-hero-inner">
+      <div class="faqp-hero-text">
+        <span class="faqp-eyebrow"><span class="pulse"></span> FAQ Automation — Gold for LLMs</span>
+        <h1>The answers your customers <span class="italic">(and their AI assistants)</span> are <span class="underline">asking for.</span></h1>
+        <p class="subtitle">Generate, manage and reuse product FAQs in bulk, right inside Shopify. <br>No separate CMS or database<br>No spreadsheets<br>No RSI for your Ctrl + C / Ctrl + V buttons.</p>
+        <div class="cta-row">
+          <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">Install Product Pelican <span class="arrow">→</span></a>
+          <a class="btn-secondary" href="#see-it">See it in action</a>
+        </div>
+      </div>
+
+      <div class="faqp-hero-media" id="see-it">
+        <div class="faqp-demo" id="faqp-demo" aria-label="Demo: Pelican suggesting product FAQs">
+          <div class="faqp-demo-bar">
+            <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            <span class="url">admin · <b>product-pelican / faqs</b> · daisy-dress</span>
+          </div>
+          <div class="faqp-product">
+            <div class="faqp-thumb"></div>
+            <div class="faqp-product-meta">
+              <div class="faqp-product-title">Daisy Midi Dress — Yellow / White</div>
+              <div class="faqp-badges">
+                <span class="faqp-pill active">Active</span>
+                <span class="faqp-variants">6 variants</span>
+              </div>
+            </div>
+            <div class="faqp-demo-btns">
+              <span class="faqp-btn">+ Add FAQ</span>
+              <span class="faqp-btn">Connect existing</span>
+              <span class="faqp-btn suggest" id="faqp-suggest"><span class="spark">✦</span> Suggest FAQs</span>
+            </div>
+          </div>
+          <div class="faqp-panel">
+            <div class="faqp-panel-head">
+              <div class="faqp-panel-head-l">
+                <div class="faqp-ai-icon">✦</div>
+                <div>
+                  <div class="faqp-panel-title">AI Suggestions</div>
+                  <div class="faqp-panel-sub">Drafted from the product details</div>
+                </div>
+              </div>
+              <span class="faqp-pelican-tag">PELICAN</span>
+            </div>
+            <div class="faqp-list" id="faqp-list">
+              <div class="faqp-card" data-card="0">
+                <div class="faqp-sk"><div class="faqp-sk-line faqp-sk-q"></div><div class="faqp-sk-line faqp-sk-a1"></div><div class="faqp-sk-line faqp-sk-a2"></div></div>
+                <div class="faqp-real"><div class="faqp-q">What fabric is the Roberta Daisy Dress made from?</div><div class="faqp-a">A lightweight woven blend with a wide cuff detail, designed for a relaxed, breathable fit.</div></div>
+              </div>
+              <div class="faqp-card" data-card="1">
+                <div class="faqp-sk"><div class="faqp-sk-line faqp-sk-q"></div><div class="faqp-sk-line faqp-sk-a1"></div></div>
+                <div class="faqp-real"><div class="faqp-q">Is the dress true to size?</div><div class="faqp-a">Yes — it runs true to size across all 6 available variants.</div></div>
+              </div>
+              <div class="faqp-card" data-card="2">
+                <div class="faqp-sk"><div class="faqp-sk-line faqp-sk-q"></div><div class="faqp-sk-line faqp-sk-a1"></div><div class="faqp-sk-line faqp-sk-a2"></div></div>
+                <div class="faqp-real"><div class="faqp-q">How should I care for this dress?</div><div class="faqp-a">Machine wash cold on a gentle cycle and hang dry to protect the print and fabric.</div></div>
+              </div>
+            </div>
+            <div class="faqp-status" id="faqp-status">Drafting FAQ suggestions<span class="blink"></span></div>
+            <div class="faqp-accept" id="faqp-accept">
+              <span class="ghost">Discard</span>
+              <span class="accept">Accept all</span>
+            </div>
+          </div>
+        </div>
+        <p class="faqp-demo-caption">↑ <strong>Suggest → review → Accept all.</strong> ~10 seconds per product.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- marquee -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Native Shopify Metaobjects<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Automatic FAQPage Schema<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Suggest FAQs in Bulk<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Reuse Across Products<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Import from CSV<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Gold for LLMs<span class="m-dot">◆</span></span>
+      <span class="marquee-item">No External Database<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Survives Theme Changes<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Native Shopify Metaobjects<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Automatic FAQPage Schema<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Suggest FAQs in Bulk<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Reuse Across Products<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Import from CSV<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Gold for LLMs<span class="m-dot">◆</span></span>
+      <span class="marquee-item">No External Database<span class="m-dot">◆</span></span>
+      <span class="marquee-item">Survives Theme Changes<span class="m-dot">◆</span></span>
+    </div>
+  </div>
+
+  <!-- ── 2. WHAT THEY ARE ── -->
+  <section class="faqp-plain">
+    <p class="lead"><em>What do product FAQs achieve?</em><br />
+      A Product FAQ block on your product page lets shoppers get quick answers to the stuff that normally lives in a support ticket: <span class="key">sizing, materials, care, shipping, compatibility.</span></p>
+    <div class="faqp-benefits">
+      <div class="faqp-benefit">
+        <h3>No external database</h3>
+        <p>Every FAQ is stored as a native Shopify metaobject entry, assigned to products with a metafield. You own the data, Pelican just helps you generate and optimize it.</p>
+      </div>
+      <div class="faqp-benefit">
+        <h3>Write once, reuse everywhere</h3>
+        <p>One FAQ can be reused across as many products as you like — no copy-pasting, no drift between products.</p>
+      </div>
+      <div class="faqp-benefit">
+        <h3>Survives theme changes</h3>
+        <p>Because it's not tied to one theme's code, your FAQs stay put when you re-theme or redesign.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. WHY THEY MATTER (+ video proof) ── -->
+  <section class="faqp-why">
+    <div class="faqp-why-inner">
+      <div class="eyebrow"><span>Why it matters more than ever</span></div>
+      <h2>Two audiences read your FAQs now: <em>people, and their AI assistants.</em></h2>
+      <p class="faqp-why-lead">Good FAQs aren't just customer service anymore — they're how your products get recommended by ChatGPT, Gemini, Claude & Google's AI Overviews.</p>
+
+      <div class="faqp-why-cols">
+        <div class="faqp-why-col">
+          <span class="wc-tag">For customers</span>
+          <h3>Fewer tickets, less friction.</h3>
+          <p>Answering the obvious questions upfront reduces support tickets and removes friction right before checkout — where it counts most.</p>
+        </div>
+        <div class="faqp-why-col">
+          <span class="wc-tag">For AI</span>
+          <h3>The format LLMs are built to read.</h3>
+          <p>ChatGPT, Claude, Gemini and Google's AI Overviews are increasingly the first place shoppers ask "does this run small" or "is this machine washable." Product Pelican automatically outputs <strong>FAQPage structured data (JSON-LD)</strong> alongside every FAQ block — exactly the format AI crawlers and LLMs are built to read.</p>
+        </div>
+      </div>
+
+      <div class="faqp-video-proof">
+        <div class="vp-cap">
+          <span class="lbl">The proof</span>
+          <p>FAQ rich results, appearing in real Google search.</p>
+        </div>
+        <div class="faqp-video-frame">
+          <!-- VIDEO PLACEHOLDER: Martin to drop in the Google search rich-results video here.
+               Full-width block by design. Swap this .faqp-video-placeholder for:
+               <video autoplay muted loop playsinline poster="..."><source src="faq-google-results.mp4" type="video/mp4"></video>
+               (or a click-to-play <iframe> for a longer clip). -->
+          <div class="faqp-video-placeholder">
+            <div class="play" aria-hidden="true"><span class="tri"></span></div>
+            <div class="ph-title">Google rich results — coming soon</div>
+            <div class="ph-note">Video placeholder · full-width proof block · Martin supplying the actual footage of FAQ rich results in Google search</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4. HOW PELICAN DOES IT ── -->
+  <section class="section" id="how">
+    <div class="section-head">
+      <div class="lhs">
+        <span class="label"><span class="num">01</span> · Workflow</span>
+        <h2>How Pelican <em>does it.</em></h2>
+      </div>
+      <div class="kicker">Suggest, reuse, edit, import — all in bulk.</div>
+    </div>
+    <div class="faqp-flow-grid">
+      <div class="faqp-flow">
+        <span class="f-num">STEP 01</span>
+        <div class="f-verb"><em>Suggest.</em></div>
+        <p>Select a product, hit Suggest FAQs, and Pelican drafts a set of questions and answers straight from that product's actual details. Accept the ones you want, discard the rest, or hit Accept All to take the whole batch.</p>
+      </div>
+      <div class="faqp-flow">
+        <span class="f-num">STEP 02</span>
+        <div class="f-verb"><em>Reuse.</em></div>
+        <p>Selling the same product in ten colours? Write the sizing FAQ once and use Connect Existing to assign it everywhere. No copy-pasting, no drift.</p>
+      </div>
+      <div class="faqp-flow">
+        <span class="f-num">STEP 03</span>
+        <div class="f-verb"><em>Edit.</em></div>
+        <p>Click any FAQ to tweak the wording. Drag to reorder. Delete what you don't need. Full control over every question.</p>
+      </div>
+      <div class="faqp-flow">
+        <span class="f-num">STEP 04</span>
+        <div class="f-verb"><em>Import.</em></div>
+        <p>Already have FAQ content in a spreadsheet? Import FAQs from CSV in one go — <span class="code">product_id, question, answer</span>.</p>
+      </div>
+      <div class="faqp-flow">
+        <span class="f-num">STEP 05</span>
+        <div class="f-verb">Find <em>gaps.</em></div>
+        <p>Filter your catalogue by "No FAQs" to see exactly which products still need attention, or by Active / Draft / Archived to focus your effort.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5. HOW EASY IT IS ── -->
+  <section class="faqp-steps">
+    <div class="faqp-steps-grid">
+      <div class="faqp-steps-text">
+        <ol>
+          <li>Filter the sidebar to <span class="code">No FAQs</span></li>
+          <li>Select a product, click <strong>Suggest FAQs</strong></li>
+          <li>Click <strong>Accept All</strong> (or pick your favourites)</li>
+          <li>Done — FAQs are live on that product</li>
+        </ol>
+      </div>
+      <aside class="faqp-steps-aside">
+        <div class="big">Under a <em>minute</em> per product.</div>
+        <div class="assets">
+          <img src="faq-demo.gif" alt="Product Pelican generating and managing FAQs in bulk" loading="lazy">
+          <video autoplay loop muted playsinline>
+            <source src="tshirt.mp4" type="video/mp4">
+          </video>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── 6. HOW THE WIDGET WORKS ── -->
+  <section class="faqp-widget" id="widget">
+    <div class="faqp-widget-inner">
+      <div class="faqp-widget-text">
+        <span class="w-eyebrow"><span class="pulse" style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></span> Simple Theme Block</span>
+        <h2>Control <em>how it looks.</em></h2>
+        <p>Add the Product FAQs app block to your product template in the Shopify theme editor. It pulls in whatever FAQs are assigned to that product and displays them as an accordion or text.</p>
+        <p>Use it <strong>out of the box</strong> for a clean, on-brand accordion that's already doing the AI/SEO heavy lifting in the background — or take <strong>full control</strong> of the markup and styling if your theme needs something specific.</p>
+        <div class="w-note"><strong>Raw HTML output</strong> hands your theme plain <span style="font-family:'JetBrains Mono',monospace;font-size:13px;">h3</span>/<span style="font-family:'JetBrains Mono',monospace;font-size:13px;">p</span> tags with no styling of Pelican's own — your theme's CSS takes over completely.</div>
+      </div>
+
+      <div class="faqp-settings" aria-label="Product FAQs block settings">
+        <div class="faqp-settings-head">
+          <div class="ic">✦</div>
+          <div class="t">Product FAQs<span>Theme editor · block settings</span></div>
+        </div>
+        <div class="faqp-settings-body">
+          <div class="set-row">
+            <div class="set-label"><span>Heading</span></div>
+            <div class="set-input">Frequently asked questions<span class="caret"></span></div>
+            <div class="set-desc">Set your own heading text for the block.</div>
+          </div>
+          <div class="set-row">
+            <div class="set-label"><span>Output style</span>
+              <span class="set-seg"><button class="on">Styled</button><button>Raw HTML</button></span>
+            </div>
+            <div class="set-desc">Styled uses Pelican's accordion look. Raw HTML outputs plain h3/p tags so your theme's CSS takes over.</div>
+          </div>
+          <div class="set-row">
+            <div class="set-label"><span>Collapsible accordion layout</span><span class="set-switch on" data-toggle></span></div>
+            <div class="set-desc">Turn off to show every answer expanded at once — useful if your theme already wraps the block in its own accordion.</div>
+          </div>
+          <div class="set-row">
+            <div class="set-label"><span>Expand the first FAQ by default</span><span class="set-switch on" data-toggle></span></div>
+            <div class="set-desc">Only applies when the accordion layout is switched on.</div>
+          </div>
+          <div class="set-row">
+            <div class="set-label"><span>Custom styles</span><span class="set-switch" data-toggle></span></div>
+            <div class="set-desc">Override the theme-matched look with your own fonts, sizes and colours — without going all the way to Raw HTML.</div>
+          </div>
+          <div class="set-row">
+            <div class="set-label"><span>Output FAQPage structured data (JSON-LD)</span><span class="set-switch on" data-toggle></span></div>
+            <div class="set-desc">On by default. Turn off if another SEO app already adds FAQ schema, to avoid duplicate structured data.</div>
+          </div>
+          <div class="set-row manage">
+            <div class="set-label" style="font-weight:600;">Manage app</div>
+            <span class="m-link">Open Product FAQ screen <span>→</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6b. IN THE WILD — live FAQ screenshots ── -->
+  <!--
+    HOW TO ADD A SCREENSHOT:
+    1. Drop the image file into this folder (e.g. faq-live-3.png).
+    2. Copy ONE <figure class="faqp-shot"> block below and paste it into .faqp-shots.
+    3. Update: the <img src> + alt, the URL in .u, the .store name, and the .tag.
+    Slots with a missing image file auto-show a tidy "drop screenshot here" placeholder,
+    so it's safe to pre-wire a slot before the image exists. Grid auto-fills — no layout maths.
+  <section class="faqp-wild" id="in-the-wild">
+    <div class="section-head">
+      <div class="lhs">
+        <span class="label">Proof · In the wild</span>
+        <h2>Live on real <em>product pages.</em></h2>
+      </div>
+      <div class="kicker">Pelican FAQs, doing their job on real storefronts.</div>
+    </div>
+
+    <div class="faqp-shots">
+
+      <figure class="faqp-shot">
+        <div class="shot-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="u">store-one.com / products / …</span></div>
+        <div class="shot-media">
+          <img src="faq-live-1.png" alt="Product FAQs live on a real storefront" loading="lazy"
+               onerror="this.closest('.faqp-shot').classList.add('empty')">
+          <div class="shot-ph"><div class="ph-inner">Drop screenshot here<span>faq-live-1.png</span></div></div>
+        </div>
+        <figcaption><span class="store">Store One</span><span class="tag">Styled accordion</span></figcaption>
+      </figure>
+
+      <figure class="faqp-shot">
+        <div class="shot-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="u">store-two.com / products / …</span></div>
+        <div class="shot-media">
+          <img src="faq-live-2.png" alt="Product FAQs live on a real storefront" loading="lazy"
+               onerror="this.closest('.faqp-shot').classList.add('empty')">
+          <div class="shot-ph"><div class="ph-inner">Drop screenshot here<span>faq-live-2.png</span></div></div>
+        </div>
+        <figcaption><span class="store">Store Two</span><span class="tag">Styled accordion</span></figcaption>
+      </figure>
+
+
+    </div>
+  </section>
+  -->      <!-- Add more slots by copying one <figure class="faqp-shot"> block above. -->
+
+
+  <!-- ── 7. MORE WAYS PELICAN IMPROVES DISCOVERABILITY ── -->
+  <section class="section" id="more">
+    <div class="section-head">
+      <div class="lhs">
+        <span class="label"><span class="num">02</span> · The whole toolkit</span>
+        <h2>One piece of a <em>bigger toolkit.</em></h2>
+      </div>
+      <div class="kicker">FAQs plug into the same system — not a bolt-on.</div>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar"><span class="p-num">01</span><h3>Category <em>population</em></h3><p>Assigns Shopify's standard product taxonomy so agents and Shop/Google can place your products correctly.</p></div>
+      <div class="pillar"><span class="p-num">02</span><h3>Category <em>metafields</em></h3><p>Fills in the structured fields underneath the taxonomy, in bulk, aligned to the official spec.</p></div>
+      <div class="pillar"><span class="p-num">03</span><h3>Titles &amp; <em>descriptions</em></h3><p>Bulk AI rewrites, using prompts you write and control.</p></div>
+      <div class="pillar"><span class="p-num">04</span><h3>Image <em>alt text</em></h3><p>Generated and applied in bulk across your whole catalogue.</p></div>
+      <div class="pillar"><span class="p-num">05</span><h3>Product <em>stitching</em></h3><p>Automatically links colour variants, "pair it with" and "complete the set" relationships.</p></div>
+      <div class="pillar"><span class="p-num">06</span><h3>Gap <em>fixes</em></h3><p>Finds and fixes missing SKUs, barcodes and images across the catalogue.</p></div>
+      <div class="pillar"><span class="p-num">07</span><h3>GEO <em>score</em></h3><p>Agent-readiness signals built into every audit, so you know where your catalogue stands.</p></div>
+      <div class="pillar"><span class="p-num">08</span><h3>Custom <em>prompts</em></h3><p>Every generation — titles, descriptions, alt text, categories — uses a prompt you can edit yourself.</p></div>
+    </div>
+    <div style="margin-top:40px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+      <a class="btn-secondary" href="/">See everything Pelican does <span class="arrow">→</span></a>
+      <a class="btn-secondary" href="https://apps.nativeappco.com/product-pelican-docs/set-up-product-faqs" target="_blank" rel="noopener">Docs: Set up Product FAQs</a>
+      <a class="btn-secondary" href="https://apps.nativeappco.com/product-pelican-docs/add-faq" target="_blank" rel="noopener">Docs: Add an FAQ block</a>
+    </div>
+  </section>
+
+  <!-- ── 8. FAQs ABOUT FAQs (self-demonstrating accordion) ── -->
+  <section class="faqp-faqs">
+    <div class="section-head">
+      <div class="lhs">
+        <span class="label"><span class="num">03</span> · FAQs about FAQs</span>
+        <h2>The obvious <em>questions.</em></h2>
+      </div>
+      <div class="kicker">This section is a live Pelican accordion.</div>
+    </div>
+    <p class="faqp-faqs-note">Built with Pelican's own Product FAQs accordion — carrying its own <strong>FAQPage JSON-LD</strong>, exactly like the widget it describes.</p>
+
+    <div class="pelican-faq" id="pelican-faq">
+      <div class="pelican-faq-item open">
+        <button class="pelican-faq-q" aria-expanded="true"><span>Can I import FAQs I've already written?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">Yes. Use Import FAQs and upload a CSV with <span class="code">product_id, question, answer</span> — one FAQ per row.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>Where do FAQs actually get stored?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">As native Shopify metaobjects, assigned to products with a metafield. It's your store's own data — not a record in some other app's database — so it's reusable across products and survives theme changes.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>Do I have to write these myself?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">No. Pelican drafts suggestions from your actual product data. You approve, edit, or discard each one — or accept the whole batch.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>Can I use the same FAQ across lots of products?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">Yes. Connect Existing assigns an FAQ you've already written to any other product, instead of writing it again. Handy for sizing, care, or shipping questions that apply store-wide.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>Will adding FAQs slow my product pages down?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">No extra database calls. It's native Shopify data, so it loads the way the rest of your product page does.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>What if I already have an FAQ app, or an SEO app that adds FAQ schema?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">Turn off the structured data toggle in the block settings so you don't end up with duplicate FAQ schema on the same page.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>Does this work with my theme?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">Yes. Use Raw HTML output if you want your theme's CSS to fully control the look, or Custom Styles if you want your own fonts and colours without leaving Pelican's markup behind.</div></div>
+      </div>
+      <div class="pelican-faq-item">
+        <button class="pelican-faq-q" aria-expanded="false"><span>Will AI assistants actually read this?</span><span class="icon" aria-hidden="true"></span></button>
+        <div class="pelican-faq-a"><div class="pelican-faq-a-inner">That's the point of the FAQPage JSON-LD added automatically to every FAQ block. It's the same structured data format AI search tools and LLMs are built to parse for question-and-answer content.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 9. CLOSING CTA ── -->
+  <section class="final-cta">
+    <h2>Build a product page <em>worth asking questions about.</em></h2>
+    <p>Native to Shopify. Automatic FAQPage schema. Built for the era where AI does the recommending.</p>
+    <a class="btn-primary" href="https://apps.shopify.com/product-pelican" target="_blank" rel="noopener">
+      Install Product Pelican <span class="arrow">→</span>
+    </a>
+  </section>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<div class="footer-mascots">
+  <img src="footer-mascots.jpg" alt="Native App Co — Apps that don't feel like apps">
+</div>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+<!-- Hero "Suggest FAQs" demo loop -->
+<script>
+(function () {
+  const demo = document.getElementById('faqp-demo');
+  if (!demo) return;
+  const suggestBtn = document.getElementById('faqp-suggest');
+  const statusLine = document.getElementById('faqp-status');
+  const acceptRow = document.getElementById('faqp-accept');
+  const cards = Array.from(demo.querySelectorAll('.faqp-card'));
+  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let timers = [];
+  let running = false;
+
+  function clear() { timers.forEach(clearTimeout); timers = []; }
+  function reset() {
+    suggestBtn.classList.remove('pressed');
+    statusLine.classList.remove('show');
+    acceptRow.classList.remove('show');
+    cards.forEach(c => c.classList.remove('resolved'));
+  }
+  function t(fn, ms) { timers.push(setTimeout(fn, ms)); }
+
+  function loop() {
+    reset();
+    if (prefersReduce) {
+      cards.forEach(c => c.classList.add('resolved'));
+      acceptRow.classList.add('show');
+      return; // static end state, no looping
+    }
+    t(() => suggestBtn.classList.add('pressed'), 900);
+    t(() => { suggestBtn.classList.remove('pressed'); statusLine.classList.add('show'); }, 1150);
+    cards.forEach((card, i) => t(() => card.classList.add('resolved'), 2200 + i * 350));
+    t(() => { statusLine.classList.remove('show'); acceptRow.classList.add('show'); }, 2200 + cards.length * 350 + 200);
+    t(loop, 7200);
+  }
+
+  // Only run while the demo is on-screen, to save cycles.
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !running) { running = true; loop(); }
+      else if (!e.isIntersecting && running) { running = false; clear(); reset(); }
+    });
+  }, { threshold: 0.25 });
+  io.observe(demo);
+})();
+</script>
+
+<!-- Self-demonstrating FAQ accordion (Pelican's own component behaviour) -->
+<script>
+(function () {
+  const root = document.getElementById('pelican-faq');
+  if (!root) return;
+  const items = Array.from(root.querySelectorAll('.pelican-faq-item'));
+
+  function setOpen(item, open) {
+    const btn = item.querySelector('.pelican-faq-q');
+    const panel = item.querySelector('.pelican-faq-a');
+    item.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+  }
+
+  // Initialise: first item open by default (matches "expand first FAQ" setting).
+  items.forEach((item, i) => setOpen(item, i === 0));
+
+  items.forEach(item => {
+    item.querySelector('.pelican-faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      // Accordion behaviour: close others, toggle this one.
+      items.forEach(other => { if (other !== item) setOpen(other, false); });
+      setOpen(item, !isOpen);
+    });
+  });
+
+  // Keep the open panel sized correctly on resize (text reflow).
+  window.addEventListener('resize', () => {
+    const open = root.querySelector('.pelican-faq-item.open .pelican-faq-a');
+    if (open) open.style.maxHeight = open.scrollHeight + 'px';
+  });
+})();
+</script>
+
+{% endblock %}
